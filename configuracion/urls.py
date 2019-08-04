@@ -16,9 +16,29 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from django.urls import include
+from django.urls import path, include
+
+from django.contrib.auth.views import LoginView, LogoutView
+
+from ckeditor_uploader import views as vistas_ckeditor
 
 urlpatterns = [
     url(r'^jet/', include('jet.urls', 'jet')),
     url(r'^admin/', admin.site.urls),
+    url(r'^domicilio/', include('domicilio.urls')),
+    url(r'^', include('guia.urls')),
+    url(r'^web/', include('web.urls')),
+    url(r'^blog/', include('blog.urls')),
+    url(r'^usuarios/', include('usuarios.urls')),
+    url(r'^administracion/', include('administracion.urls')),
+
+
+
+    path('login/', LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/', LogoutView.as_view(next_page='index_8'), name='logout'),
+
+    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
+    #url(r'^upload/', include(vistas_ckeditor.upload), name='ckeditor_upload'),
+    #url(r'^browse/', include(vistas_ckeditor.browse), name='ckeditor_browse'),
+
 ]

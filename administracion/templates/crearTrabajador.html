@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load static bootstrap %}
+{% block title %}
+    Crear Trabajador
+{% endblock %}
+
+{% block content %}
+    {#<h1><a href={% url "cliente_list" %}>Cliente</a></h1>#}
+    {#<h2>Create Cliente</h2>#}
+    {##}
+    {#<form action="" method="post">{% csrf_token %}#}
+    {#    {{ form.as_p }}#}
+    {#    <input type="submit" value="Create" />#}
+    {#</form>#}
+    {#<a href={% url "cliente_list" %}>Cancel</a>#}
+    <div id="wrapper">
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row bg-title">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                        <h4 class="page-title">Crear Empresa</h4></div>
+                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                        <ol class="breadcrumb">
+                            <li><a href="{% url 'inicio' %}">Inicio</a></li>
+                        </ol>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- .row -->
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="panel">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <form class="form-signin" action="" method="get"
+                                          enctype="multipart/form-data">
+
+                                        {{ form | bootstrap }}
+                                        <button type="submit" name="submit" value="buscar" class="btn btn-primary"><i
+                                                class="fa fa-search fa-fw"></i> Buscar
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                                <!-- /.col-lg-8 (nested) -->
+                            </div>
+                            <!-- /.row -->
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="panel">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <form class="form-signin" action="{% url 'crearTrabajadores' empresa.pk %}"
+                                          method="post"
+                                          enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        {% if usuario %}
+                                            {{ usuario.username }}
+                                            <input type="hidden" name="user" value="{{ usuario.pk }}">
+                                            <button type="submit" name="submit" value="existe" class="btn btn-primary">
+                                                <i class="fa fa-plus fa-fw"></i>Agregar
+                                            </button>
+                                        {% elif formulario2 %}
+                                            {{ formulario2 | bootstrap }}
+                                            <button type="submit" name="submit" value="anadir" class="btn btn-primary">
+                                                <i class="fa fa-plus fa-fw"></i>Añadir
+                                            </button>
+                                        {% endif %}
+
+
+                                    </form>
+
+                                </div>
+
+                                <!-- /.col-lg-8 (nested) -->
+                            </div>
+                            <!-- /.row -->
+                        </div>
+                    </div>
+                    {% if mensaje %}
+                        <div class="col-md-8 col-md-offset-2">
+                            <div class="alert alert-danger">
+                                <strong>{{ mensaje }}</strong>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <!-- /row -->
+        </div>
+    </div>
+{% endblock %}

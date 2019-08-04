@@ -1,8 +1,6 @@
-
 django==2.2.3
 django-mathfilters
 django-jet
-
 Pillow
 argparse
 django-annoying
@@ -12,27 +10,21 @@ django-dajaxice
 django-floppyforms
 dj-static
 django-datetime-widget
-
 django-multiple-domains
 django-slugify-processor
 django-robots
-
-
 pytz
 six
 requests
 sqlparse
 static
-
-
 html5lib
 xhtml2pdf
-
-
-
-
-
 django-colorfield
+django-sslserver
+django-ckeditor
+django-bootstrap-form
+
 
 google
 

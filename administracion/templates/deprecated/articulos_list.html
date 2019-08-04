@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}- Articulos{% endblock %}
+
+{% block content %}
+    <div id="wrapper">
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row bg-title">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                        <h4 class="page-title">Listado Articulos</h4></div>
+                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                        <ol class="breadcrumb">
+                            <li><a href="{% url 'inicio' %}">Inicio</a></li>
+                            <li><a href="{% url 'tipos_iva_list' %}">Articulos</a></li>
+                        </ol>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- .row -->
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="panel">
+                            <div class="panel-heading">Articulos
+                                <a href="{% url 'articulo_create' %}" style="float: right">
+                                    <button type="button"
+                                            class="btn btn-success btn-outline btn-circle btn-lg m-r-5"><i
+                                            class="ti-plus"></i></button>
+                                </a>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover manage-u-table text-center">
+                                    <thead>
+                                    <tr>
+                                        <th>Codigo</th>
+                                        <th>Nombre</th>
+                                        <th>Familia</th>
+                                        <th>Descripción</th>
+                                        <th>Activo</th>
+                                        <th width="200">Opciones</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for f in articulos %}
+                                        <tr>
+                                            <td>{{ f.codigo }}</td>
+                                            <td>{{ f.nombre }}</td>
+                                            <td>{{ f.familia }}</td>
+                                            <td>{{ f.descripcion }}</td>
+                                            <td>{% if f.activo %} Sí {% else %} No {% endif %}</td>
+                                            <td>
+                                                <a data-toggle="modal" data-target="#info_{{ f.pk }}">
+                                                    <button type="button"
+                                                            class="btn btn-primary btn-outline btn-circle btn-lg m-r-5">
+                                                        <i class="ti-eye"></i></button>
+                                                </a>
+                                                <a href="{% url 'articulo_edit' f.pk %}">
+                                                    <button type="button"
+                                                            class="btn btn-warning btn-outline btn-circle btn-lg m-r-5">
+                                                        <i
+                                                                class="ti-pencil-alt"></i></button>
+                                                </a>
+                                                <a href="{% url 'articulo_delete' f.pk %}">
+                                                    <button type="button"
+                                                            class="btn btn-danger btn-outline btn-circle btn-lg m-r-5">
+                                                        <i
+                                                                class="ti-trash"></i></button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <div id="info_{{ f.pk }}" class="modal fade in" tabindex="-1" role="dialog"
+                                             aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" style="width: 1000px;">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-hidden="true">×
+                                                        </button>
+                                                        <h4 class="modal-title" id="myModalLabel">
+                                                            Información de {{ f.codigo }}</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <h4>Código:</h4>
+                                                                <p style="margin-left: 20px">{{ f.codigo }}</p>
+                                                                <h4>Nombre:</h4>
+                                                                <p style="margin-left: 20px">{{ f.nombre }}</p>
+                                                                <h4>Familia:</h4>
+                                                                <p style="margin-left: 20px">{{ f.familia }}</p>
+                                                                <h4>Piezas por caja:</h4>
+                                                                <p style="margin-left: 20px">{{ f.piezas_caja }}</p>
+                                                                <h4>Unidades por pieza:</h4>
+                                                                <p style="margin-left: 20px">{{ f.unidades_pieza }}</p>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <h4>Precio compra unidad:</h4>
+                                                                <p style="margin-left: 20px">{{ f.precio_compra_unidad }}</p>
+                                                                <h4>PVP unidad:</h4>
+                                                                <p style="margin-left: 20px">{{ f.pvp_unidad }}</p>
+                                                                <h4>Tipo IVA Compra:</h4>
+                                                                <p style="margin-left: 20px">{{ f.tipo_iva_compra }}</p>
+                                                                <h4>Tipo IVA Venta:</h4>
+                                                                <p style="margin-left: 20px">{{ f.tipo_iva_venta }}</p>
+                                                                <h4>Activo:</h4>
+                                                                <p style="margin-left: 20px">
+                                                                    {% if f.activo %} Sí {% else %} No {% endif %}
+                                                                </p>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <h4>Imagen:</h4>
+                                                                <img src="{% static 'media/' %}{{ f.imagen }}">
+                                                                <h4>Ficha técnica:</h4>
+                                                                <a href="{% static 'media/' %}{{ f.ficha_tecnica }}"
+                                                                   target="_blank" style="margin-left: 20px">Ver</a>
+                                                            </div>
+                                                        </div>
+                                                        <h4>Descripción:</h4>
+                                                        <p style="margin-left: 20px">{{ f.descripcion }}</p>
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-info waves-effect"
+                                                                data-dismiss="modal">Cerrar
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <!-- /.modal-content -->
+                                            </div>
+                                            <!-- /.modal-dialog -->
+                                        </div>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /row -->
+            </div>
+        </div>
+    </div>
+{% endblock %}

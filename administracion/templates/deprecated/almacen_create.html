@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static bootstrap %}
+
+{% block title %}- Crear Almacen{% endblock %}
+
+{% block content %}
+    <div id="wrapper">
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row bg-title">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                        <h4 class="page-title">Crear Almacen</h4></div>
+                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                        <ol class="breadcrumb">
+                            <li><a href="{% url 'inicio' %}">Inicio</a></li>
+                            <li><a href="{% url 'familias_list' %}">Almacen</a></li>
+                            <li><a>Crear Almacen</a></li>
+                        </ol>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- .row -->
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="panel">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <form class="form-signin" action="{% url 'almacen_create' %}" method="post"
+                                          enctype="multipart/form-data">{% csrf_token %}
+
+                                        {{ form | bootstrap }}
+                                        <a href="{% url 'almacenes_list' %}" class="btn btn-warning"><i
+                                                class="fa fa-arrow-left fa-fw"></i> Atrás</a>
+                                        <button id="submit" name="submit" class="btn btn-primary" type="submit"
+                                                value="Añadir"><i class="fa fa-save fa-fw"></i> Guardar
+                                        </button>
+                                    </form>
+
+                                </div>
+
+                                <!-- /.col-lg-8 (nested) -->
+                            </div>
+                            <!-- /.row -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /row -->
+        </div>
+    </div>
+{% endblock %}

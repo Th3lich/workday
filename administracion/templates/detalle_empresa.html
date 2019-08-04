@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load static tags_admincliente %}
+
+{% block title %}- Inicio{% endblock %}
+
+{% block content %}
+    <div id="wrapper">
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row bg-title">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                        <h4 class="page-title">Detalles de empresa</h4></div>
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                        <p><a href="{% url 'empresa_detail' empresa.pk %}">Empresa</a></p>
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                        <p><a href="{% url 'centros' empresa.pk %}">Centros</a></p>
+                    </div>
+                    {%  if user|is_admin:empresa or user.is_staff %}
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                        <p><a href="{% url 'trabajadores' empresa.pk %}">Trabajadores</a></p>
+                    </div>
+                    {% endif %}
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                        <p><a href="{% url 'documentos' empresa.pk %}"> Mis Documentos</a></p>
+                    </div>
+{#                    <div class="col-lg-7 col-sm-4 col-md-4 col-xs-12">#}
+{#                        <ol class="breadcrumb">#}
+{#                            <li><a href="{% url 'inicio' %}">Inicio</a></li>#}
+{#                        </ol>#}
+{#                    </div>#}
+{#                    <div class="col-lg-7 col-sm-4 col-md-4 col-xs-12">#}
+{#                        <ol class="breadcrumb">#}
+{#                            <li><a href="{% url 'inicio' %}">Inicio</a></li>#}
+{#                        </ol>#}
+{#                    </div>#}
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- .row -->
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="panel">
+                        <div class="panel-heading">Editar empresa
+
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover manage-u-table">
+                                    <thead>
+                                    <tr>
+                                        <th width="70" class="text-center">#</th>
+                                        <th>Nombre</th>
+                                        <th>Cif</th>
+                                        <th>Cp</th>
+                                        <th>Provincia</th>
+                                        <th>Localidad</th>
+                                        <th width="200">Ajustes</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr>
+                                            <td class="text-center">{{ f.pk }}</td>
+                                            <td>{{ empresa.nombre }}</td>
+                                            <td>{{ empresa.cif }}</td>
+                                            <td>{{ empresa.cp }}</td>
+                                            <td>{{ empresa.provincia }}</td>
+                                            <td>{{ empresa.localidad }}</td>
+                                            <td>
+                                                {%  if user|is_admin:empresa or user.is_staff %}
+                                                <a href="">
+                                                    <button type="button"
+                                                            class="btn btn-warning btn-lg m-r-5">
+                                                        <i
+                                                                class="ti-settings"></i></button>
+                                                </a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /row -->
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

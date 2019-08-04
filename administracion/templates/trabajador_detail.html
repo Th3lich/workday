@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}- Inicio{% endblock %}
+
+{% block content %}
+    <div id="wrapper">
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row bg-title">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                        <h4 class="page-title">Detalles del perfil de {{ trabajador.user }}</h4>
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                        <p><a href="{% url 'empresa_detail' empresa.pk %}">Empresa</a></p>
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                        <p><a href="{% url 'centros' empresa.pk %}">Centros</a></p>
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                        <p><a href="{% url 'trabajadores' empresa.pk %}">Trabajadores</a></p>
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                        <p><a href="{% url 'documentos' empresa.pk %}"> Mis Documentos</a></p>
+                    </div>
+                    {#                    <div class="col-lg-9 col-sm-4 col-md-4 col-xs-12">#}
+                    {#                        <ol class="breadcrumb">#}
+                    {#                            <li><a href="{% url 'inicio' %}">Inicio</a></li>#}
+                    {#                        </ol>#}
+                    {#                    </div>#}
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- .row -->
+                <div class="row">
+                    <div class="col-md-12 ">
+                        <div class="panel">
+                            <div class="panel-heading">Detalles del trabajador
+                                <a href="{% url 'otro_documento_upload' trabajador.pk %}" style="float: right">
+                                    <button type="button"
+                                            class="btn btn-warning btn-outline btn-circle btn-lg m-r-5"><i
+                                            class="ti-pencil"></i></button>
+                                </a>
+                            </div>
+
+                            <div class="panel-dialog" style="width: 100%;">
+                                <div class="panel-content">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <h4>NIF:</h4>
+                                                <p style="margin-left: 20px">{{ trabajador.user.username }}</p>
+                                                <h4>Nombre:</h4>
+                                                <p style="margin-left: 20px">{{ trabajador.user.first_name }}</p>
+                                                <h4>Apellidos:</h4>
+                                                <p style="margin-left: 20px">{{ trabajador.user.last_name }}</p>
+                                                <h4>Población:</h4>
+                                                <p style="margin-left: 20px">{{ trabajador.user.datosextrauser.poblacion }}</p>
+                                                <h4>Provincia:</h4>
+                                                <p style="margin-left: 20px">{{ trabajador.user.datosextrauser.provincia }}</p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <h4>Código postal:</h4>
+                                                <p style="margin-left: 20px">{{ trabajador.user.datosextrauser.cp }}</p>
+                                                <h4>Dirección:</h4>
+                                                <p style="margin-left: 20px">{{ trabajador.user.datosextrauser.direccion }}</p>
+                                                <h4>Telefono fijo:</h4>
+                                                <p style="margin-left: 20px">{{ trabajador.user.datosextrauser.telf_fijo }}</p>
+                                                <h4>Teléfono móvil:</h4>
+                                                <p style="margin-left: 20px">{{ trabajador.user.datosextrauser.telf_movil }}</p>
+                                                <h4>Estado Actual:</h4>
+                                                <p style="margin-left: 20px">
+                                                    {{ ultimoEstado.get_estado_display }}
+                                                </p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <h4>Seguridad Social:</h4>
+                                                <p style="margin-left: 20px">{{ trabajador.user.datosextrauser.ss }}</p>
+                                                <h4>Empresa:</h4>
+                                                <p style="margin-left: 20px">
+                                                    {{ empresa.nombre }}
+                                                </p>
+                                                {#                                                                <h4>Imagen:</h4>#}
+                                                {#                                                                <img src="{% static 'media/' %}{{ f.imagen }}">#}
+                                                <h4>Ver documentos:</h4>
+                                                <a href="{% url 'documentosOtroUser' trabajador.pk %}"
+                                                   target="_blank" style="margin-left: 20px">Ver</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                                <!-- /.modal-dialog -->
+                            </div>
+                            {% if jornadas %}
+                                <div class="panel-heading">Historial de jornadas
+                                    <div class="table-responsive">
+                                        <table class="table table-hover manage-u-table">
+                                            {#                                            <thead>#}
+                                            {#                                            <tr>#}
+                                            {#                                                <th width="300" class="text-center">Tiempo</th>#}
+                                            {#                                                <th>Inicio</th>#}
+                                            {#                                                <th>Fin</th>#}
+                                            {#                                                <th></th>#}
+                                            {#                                            </tr>#}
+                                            {#                                            </thead>#}
+                                            <tbody>
+                                            {% for j in jornadas %}
+                                                <tr class="col-md-offset-3">
+                                                    <td class="text-center">{{ j.total_horas }}</td>
+                                                    <td>{{ j.fecha_inicio | date:"d-m-y h:m" }}</td>
+                                                    <td>{{ j.fecha_fin | date:"d-m-y h:m" }}</td>
+                                                    <td>
+                                                        {% if j.fecha_fin %}
+                                                            <i class="fa fa-stop"></i>
+                                                        {% else %}
+                                                            {% if j.pausada %}
+                                                                <i class="fa fa-pause"></i>
+                                                            {% else %}
+                                                                <i class="fa fa-play"></i>
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        <a class="text-right">
+                                            <form action="{% url 'exportar_jornada' trabajador.pk %}" method="get"
+                                                  id="makexls" name="makexls">
+                                                <button type="submit" id="makexslSubmit"
+                                                        href="{% url 'exportar_jornada' trabajador.pk %}"
+                                                        class="btn btn-success btn-lg m-r-5" name="exportar"
+                                                        value="e">
+                                                    EXPORTAR
+                                                </button>
+                                            </form>
+                                        </a>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="col-md-3">
+
+                                    <form method="post"
+                                          enctype="multipart/form-data">{% csrf_token %}
+                                        <div class="col-sm-11 col-xs-12">
+
+                                            <label for="estado">Actualizar estado</label>
+
+                                            <select class="form-control" id="estado">
+                                                <option value="-" selected="selected">------------</option>
+                                                <option value="Alta">Alta</option>
+                                                <option value="Baja_accidente">Baja: Accidente</option>
+                                                <option value="Baja_enfermedad">Baja: Enfermedad</option>
+                                                <option value="Baja_maternal">Baja: Maternal</option>
+                                                <option value="Baja_paternal">Baja: Paternal</option>
+                                                <option value="Baja_vacaciones">Baja: Vacaciones</option>
+                                                <option value="Baja_empresa">Baja en la empresa</option>
+                                            </select>
+
+                                            <div id="selector"></div>
+
+                                        </div>
+                                    </form>
+
+                                </div>
+                                <div class="panel-heading">Historial de estados
+                                    <div class="table-responsive">
+                                        <table class="table table-hover manage-u-table">
+                                            <thead>
+                                            <tr>
+                                                <th width="300" class="text-center">Fecha</th>
+                                                <th>Estado</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for f in estados %}
+                                                <tr>
+                                                    <td class="text-center">{{ f.fecha | date }}<br>{{ f.fecha | time }}
+                                                    </td>
+                                                    <td>{{ f.get_estado_display }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <!-- /row -->
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $("select").change(function cambiarEstado() {
+                var valorEstado = $('#estado').val();
+                if (valorEstado != '-') {
+
+                    var datos = {
+                        "csrfmiddlewaretoken": "{{csrf_token}}",
+                        "valorEstado": valorEstado,
+                        "trabajador_pk": {{ trabajador.pk }}
+                    };
+                    $.post("{% url 'cambio_estado_trabajador' %}", datos, function (data, status) {
+                        if (data.status == 'ok') {
+                            $('#selector').html('<li class="list-group-item list-group-item-success">Actualizado con éxito</li>');
+                            location.reload();
+                        } else {
+                            $('#selector').html('<li class="list-group-item list-group-item-danger">Error en la actualización</li>');
+                        }
+                    });
+                }
+
+            });
+
+        });
+    </script>
+
+{% endblock %}
