@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'bootstrapform',
     'usuarios',
     'administracion',
+    'comercios',
 ]
 
 MIDDLEWARE = [
