@@ -16,6 +16,8 @@ static/media/documentos/*
 !static/media/documentos/__init__.py
 
 
+
+
 static/media/galeria/*
 !static/media/galeria/__init__.py
 
