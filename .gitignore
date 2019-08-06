@@ -2,6 +2,7 @@
 configuracion/local_settings.py
 dbsqlite
 bd.sqlite3
+
 */migrations/0*
 descargas/*
 *.pyc
