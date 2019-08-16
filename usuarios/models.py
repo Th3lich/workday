@@ -9,6 +9,8 @@ from django.db.models.signals import post_save
 import os
 from django.template.defaultfilters import slugify
 
+from comercios.models import Restaurante
+
 PROJECT_PATH = os.path.dirname("__file__")
 
 
@@ -23,7 +25,7 @@ class Direccion(models.Model):
     favorita = models.BooleanField(default=False)
     fecha = models.DateTimeField(auto_now_add=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return u"%s_%s" % (self.usuario.username, self.nombre)
 
     def save(self, *args, **kwargs):
@@ -57,4 +59,13 @@ class Tokenregister(models.Model):
 
     def __unicode__(self):
         return u"%s" % self.user.username
+
+
+class AdminRestaurante(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    restaurante = models.ForeignKey(Restaurante, on_delete=models.CASCADE)
+    admin = models.BooleanField(default=False)
+
+    def __str__(self):
+        return u"%s" % self.user
 

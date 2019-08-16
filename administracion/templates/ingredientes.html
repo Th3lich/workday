@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}- Inicio{% endblock %}
+
+{% block content %}
+    <div id="wrapper">
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row bg-title">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                        <h4 class="page-title">Ingredientes</h4>
+                    </div>
+
+
+                    <div class="col-lg-9 col-sm-4 col-md-4 col-xs-12">
+
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- .row -->
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="panel">
+                        <div class="panel-heading">Añadir ingrediente
+                                <a href="{% url 'ingrediente_create' producto.pk %}" style="float: right">
+                                    <button type="button"
+                                            class="btn btn-success btn-lg m-r-5"><i
+                                            class="ti-plus"></i></button>
+                                </a>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table table-hover manage-u-table">
+                                    <thead>
+                                    <tr>
+                                        <th width="70" class="text-center">#</th>
+                                        <th>Nombre</th>
+                                        <th width="1%">Editar</th>
+                                        <th width="1%">Eliminar</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for i in ingredientes %}
+                                        <tr>
+                                            <td class="text-center">{{ i.pk }}</td>
+                                            <td>{{ i.nombre }}</td>
+
+                                            <td>
+                                                <a href="{% url 'ingrediente_edit' i.pk %}">
+                                                    <button type="button"
+                                                            class="btn btn-warning btn-lg m-r-5">
+                                                        <i
+                                                                class="ti-settings"></i></button>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="{% url 'ingrediente_delete' i.pk %}">
+                                                    <button type="button"
+                                                            class="btn btn-danger btn-lg m-r-5">
+                                                        <i
+                                                                class="ti-trash"></i></button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /row -->
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

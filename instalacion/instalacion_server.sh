@@ -57,7 +57,7 @@ do
 
         # creamos el entornovirtual
         echo "Creando entorno virtual"
-        virtualenv $RUTA_ENTORNO$NOMBRE_ENTORNO
+        virtualenv --python=python3.6 $RUTA_ENTORNO$NOMBRE_ENTORNO
         echo "------------------------------------------"
         ;;
 
@@ -77,7 +77,7 @@ do
         echo "------------------------------------------"
         if [ $VIRTUAL_ENV ]
         then
-            pip install -r ${DIRECTORIO_PROYECTO}requirements
+            pip3 install -r ${DIRECTORIO_PROYECTO}requirements
         else
 
             echo "Debe iniciar el entorno virtual (opcion 2)"
@@ -92,7 +92,7 @@ do
         echo "------------------------------------------"
         if [ $VIRTUAL_ENV ]
         then
-            pip freeze
+            pip3 freeze
         else
             echo "Debe iniciar el entorno virtual (opcion 2)"
 

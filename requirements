@@ -25,7 +25,6 @@ django-sslserver
 django-ckeditor
 django-bootstrap-form
 
-
 google
 
-
+psycopg2-binary

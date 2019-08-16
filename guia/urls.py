@@ -28,6 +28,7 @@ urlpatterns = [
     path('', views.Index.as_view(), name='index'),
     path('mapa', login_required(views.Guia.as_view()), name='mapa'),
     path('detalle', views.Detail.as_view(), name='detalle_mapa'),
+    path('prueba', views.prueba.as_view(), name='prueba'),
 
 
     #url(r'^$', views.Index.as_view(), name='index'),

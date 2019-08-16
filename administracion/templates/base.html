@@ -321,7 +321,7 @@
         <div class="sidebar-nav slimscrollsidebar">
             <div class="sidebar-head">
                 <h3><span class="fa-fw open-close"><i class="ti-menu hidden-xs"></i><i class="ti-close visible-xs"></i></span>
-                    <span class="hide-menu" id="demo">Horarios</span></h3></div>
+                    <span class="hide-menu" id="demo">Admin</span></h3></div>
             <ul class="nav" id="side-menu">
                 {#                <li class="user-pro">#}
                 {#                    <a href="#" class="waves-effect"><img#}
@@ -365,6 +365,8 @@
                 <li class="devider"></li>
                 <li><a href="" class="waves-effect"><i class="ti-home fa-fw"></i><span
                         class="hide-menu">Inicio</span></a></li>
+                <li><a href="{% url 'categoria_productos' %}" class="waves-effect"><i class="ti-home fa-fw"></i><span
+                        class="hide-menu">Carta</span></a></li>
 
                 {% if user.is_staff %}
                     <li><a href="" class="waves-effect "><i class=" ti-briefcase fa-fw"></i><span
@@ -375,7 +377,7 @@
                 {% endif %}
                 <li><a href="" class="waves-effect"><i class="ti-key fa-fw"></i><span
                         class="hide-menu">Cambiar Pass</span></a></li>
-                <li><a href="" class="waves-effect"><i class="ti-close fa-fw"></i><span
+                <li><a href="{% url 'logout' %}" class="waves-effect"><i class="ti-close fa-fw"></i><span
                         class="hide-menu">Cerrar sesión</span></a></li>
             </ul>
         </div>
@@ -392,7 +394,7 @@
 <!-- ============================================================== -->
 <!-- All Jquery -->
 <!-- ============================================================== -->
-<script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
+{#<script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>#}
 <!-- Bootstrap Core JavaScript -->
 <script src="{% static 'administracion/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 <!-- Menu Plugin JavaScript -->

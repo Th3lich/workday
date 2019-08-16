@@ -33,3 +33,10 @@ class Detail(CreateView):
 
 
         return render(request, self.template_name,{})
+
+
+class prueba(CreateView):
+    template_name = 'guia/index.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, {})
