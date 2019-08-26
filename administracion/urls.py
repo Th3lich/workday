@@ -31,6 +31,7 @@ urlpatterns = [
     path('editar-categoria/<pk>', views.CategoriaEdit.as_view(), name='categoria_edit'),
     path('eliminar-categoria-productos/<pk>', views.CategoriaDelete.as_view(), name='categoria_delete'),
 
+
     path('platos/<pk>', login_required(views.ProductosList.as_view()), name='productos'),
     path('crear-plato/<pk>', login_required(views.ProductoCreate.as_view()), name='producto_create'),
     path('editar-plato/<pk>', views.ProductoEdit.as_view(), name='producto_edit'),
@@ -41,6 +42,31 @@ urlpatterns = [
     path('crear-ingrediente/<pk>', login_required(views.IngredienteCreate.as_view()), name='ingrediente_create'),
     path('editar-ingrediente/<pk>', views.IngredienteEdit.as_view(), name='ingrediente_edit'),
     path('eliminar-ingrediente/<pk>', views.IngredienteDelete.as_view(), name='ingrediente_delete'),
+
+
+    path('horarios', login_required(views.HorariosList.as_view()), name='horarios'),
+    path('crear-horario', login_required(views.HorarioCreate.as_view()), name='horario_create'),
+    path('editar-horario/<pk>', views.HorarioEdit.as_view(), name='horario_edit'),
+    path('eliminar-horario/<pk>', views.HorarioDelete.as_view(), name='horario_delete'),
+
+
+    path('horario-reparto', login_required(views.HorariosRepartoList.as_view()), name='horarios_reparto'),
+    path('crear-horario-reparto', login_required(views.HorarioRepartoCreate.as_view()), name='horario_reparto_create'),
+    path('editar-horario-reparto/<pk>', views.HorarioRepartoEdit.as_view(), name='horario_reparto_edit'),
+    path('eliminar-horario-reparto/<pk>', views.HorarioRepartoDelete.as_view(), name='horario_reparto_delete'),
+
+
+    path('cp', login_required(views.CpList.as_view()), name='cp'),
+    path('crear-cp', login_required(views.CpCreate.as_view()), name='cp_create'),
+    path('editar-cp/<pk>', views.CpEdit.as_view(), name='cp_edit'),
+    path('eliminar-cp/<pk>', views.CpDelete.as_view(), name='cp_delete'),
+
+
+    path('dia-festivo', login_required(views.FestivoList.as_view()), name='festivos'),
+    path('crear-dia-festivo', login_required(views.FestivoCreate.as_view()), name='festivo_create'),
+    path('editar-dia-festivo/<pk>', views.FestivoEdit.as_view(), name='festivo_edit'),
+    path('eliminar-dia-festivo/<pk>', views.FestivoDelete.as_view(), name='festivo_delete'),
+
 
     # url(r'^editar-categoria/(?P<pk>\d+)$', login_required(views.CategoriaEdit.as_view()), name='categoria_edit'),
     # url(r'^eliminar-categoria/(?P<pk>\d+)$', login_required(views.CategoriaDelete.as_view()), name='categoria_delete'),

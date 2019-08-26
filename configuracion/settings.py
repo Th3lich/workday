@@ -49,6 +49,10 @@ INSTALLED_APPS = [
     'usuarios',
     'administracion',
     'comercios',
+    'datetimewidget',
+    'bootstrap3_datetime'
+
+
 ]
 
 MIDDLEWARE = [

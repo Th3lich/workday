@@ -26,5 +26,6 @@ django-ckeditor
 django-bootstrap-form
 
 google
+django-datetime-widget
 
 psycopg2-binary

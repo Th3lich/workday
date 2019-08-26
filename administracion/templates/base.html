@@ -367,7 +367,14 @@
                         class="hide-menu">Inicio</span></a></li>
                 <li><a href="{% url 'categoria_productos' %}" class="waves-effect"><i class="ti-home fa-fw"></i><span
                         class="hide-menu">Carta</span></a></li>
-
+                <li><a href="{% url 'horarios' %}" class="waves-effect"><i class="ti-home fa-fw"></i><span
+                        class="hide-menu">Horario</span></a></li>
+                <li><a href="{% url 'horarios_reparto' %}" class="waves-effect"><i class="ti-home fa-fw"></i><span
+                        class="hide-menu">Horario Reparto</span></a></li>
+                <li><a href="{% url 'cp' %}" class="waves-effect"><i class="ti-home fa-fw"></i><span
+                        class="hide-menu">Codigos Postales</span></a></li>
+                <li><a href="{% url 'festivos' %}" class="waves-effect"><i class="ti-home fa-fw"></i><span
+                        class="hide-menu">Días Festivos</span></a></li>
                 {% if user.is_staff %}
                     <li><a href="" class="waves-effect "><i class=" ti-briefcase fa-fw"></i><span
                             class="hide-menu">Empresas</span></a></li>

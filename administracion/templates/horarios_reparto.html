@@ -34,8 +34,8 @@
                 <div class="row">
                     <div class="col-md-12 ">
                         <div class="panel">
-                        <div class="panel-heading">Horario semanal
-                                <a href="{% url 'horario_create' %}" style="float: right">
+                        <div class="panel-heading">Horario Reparto Semanal
+                                <a href="{% url 'horario_reparto_create' %}" style="float: right">
                                     <button type="button"
                                             class="btn btn-success btn-lg m-r-5"><i
                                             class="ti-plus"></i></button>
@@ -54,25 +54,23 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% for f in horario %}
+                                    {% for f in horario_reparto %}
                                         <tr>
                                             <td>{{ f.dia_semana }}</td>
                                             <td>{{ f.inicio }}</td>
                                             <td>{{ f.fin}}</td>
                                             <td>
-                                                <a href="{% url 'horario_edit' f.pk %}">
+                                                <a href="{% url 'horario_reparto_edit' f.pk %}">
                                                     <button type="button"
                                                             class="btn btn-warning btn-lg m-r-5">
-                                                        <i
-                                                                class="ti-settings"></i></button>
+                                                        <i class="ti-settings"></i></button>
                                                 </a>
                                             </td>
                                             <td>
-                                                <a href="{% url 'horario_delete' f.pk %}">
+                                                <a href="{% url 'horario_reparto_delete' f.pk %}">
                                                     <button type="button"
                                                             class="btn btn-danger btn-lg m-r-5">
-                                                        <i
-                                                                class="ti-trash"></i></button>
+                                                        <i class="ti-trash"></i></button>
                                                 </a>
                                             </td>
                                         </tr>
