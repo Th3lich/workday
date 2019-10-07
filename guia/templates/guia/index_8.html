@@ -184,7 +184,9 @@
     <div class="white_bg">
     <div class="container margin_60">
 
+        <!-- Inicio primer slider -->
 
+        {% if restaurantes %}
 
         <div class="row">
              <div class="col-md-12">
@@ -246,74 +248,30 @@
                 <div class="carousel-inner">
 
                     <div class="item active">
-
                         <div class="row">
-                            <div class="col-md-3">
-                                <div class="product-block">
-                                    <img class="d-block w-100" src="https://fakeimg.pl/800x400/?retina=1&text=Product 1&font=noto" alt="Product">
-                                    <h4>Product 1</h4>
-                                    <small>Variant</small>
-                                    <p>$200</p>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <a class="btn btn-sm btn-success" href="#">Add To cart</a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a class="btn btn-sm btn-danger" href="#">More Details</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="product-block">
-                                    <img class="d-block w-100" src="https://fakeimg.pl/800x400/?retina=1&text=Product 2&font=noto" alt="Product">
-                                    <h4>Product 2</h4>
-                                    <small>Variant</small>
-                                    <p>$200</p>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <a class="btn btn-sm btn-success" href="#">Add To cart</a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a class="btn btn-sm btn-danger" href="#">More Details</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="product-block">
-                                    <img class="d-block w-100" src="https://fakeimg.pl/800x400/?retina=1&text=Product 3&font=noto" alt="Product">
-                                    <h4>Product 3</h4>
-                                    <small>Variant</small>
-                                    <p>$200</p>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <a class="btn btn-sm btn-success" href="#">Add To cart</a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a class="btn btn-sm btn-danger" href="#">More Details</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="product-block">
-                                    <img class="d-block w-100" src="https://fakeimg.pl/800x400/?retina=1&text=Product 4&font=noto" alt="Product">
-                                    <h4>Product 4</h4>
-                                    <small>Variant</small>
-                                    <p>$200</p>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <a class="btn btn-sm btn-success" href="#">Add To cart</a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a class="btn btn-sm btn-danger" href="#">More Details</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            {% for r in restaurantes %}
 
+                            <div class="col-md-3">
+                                <div class="product-block">
+                                    <img class="d-block w-100" src="/static/media/{{ r.foto_perfil }}" alt="Product">
+                                    <h4>{{ r.nombre_slug }}</h4>
+                                    <small>Variant</small>
+                                    <p>$200</p>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <a class="btn btn-sm btn-success" href="#">Add To cart</a>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a class="btn btn-sm btn-danger" href="#">More Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+
+
+
+                        </div>
                     </div>
                     <!-- Carousel Item 1 -->
 
@@ -756,10 +714,12 @@
         </div><!-- End container -->
         </div><!-- End white_bg -->
 
+        {% endif %}
+
     <div class="white_bg">
     <div class="container margin_60">
 
-
+        <!-- segundo slider -->
 
         <div class="row">
              <div class="col-md-12">
@@ -1381,6 +1341,8 @@
     </div><!-- End container -->
 
     {% endblock %}
+
+
     {% block footer %}
     <!-- Footer ================================================== -->
     <footer>

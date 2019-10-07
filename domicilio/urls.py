@@ -25,13 +25,23 @@ from domicilio import views
 urlpatterns = [
 
     #url(r'^$', views.Index.as_view(), name='index'),
-    url(r'^$', views.IndexDomicilio.as_view(), name='index_domicilio'),
-    url(r'^domicilio/', views.Domicilio.as_view(), name='domicilio'),
-    url(r'^menu/', views.Menu.as_view(), name='menu'),
-    url(r'^carro/', views.Cart.as_view(), name='carro'),
-    url(r'^pago/', views.Pago.as_view(), name='pago'),
-    url(r'^confirmacion/', views.Confirmacion.as_view(), name='confirmacion'),
+    #url(r'^$', views.Domicilio.as_view(), name='index_domicilio'),
+    #url(r'^domicilio/', views.DomicilioList.as_view(), name='domicilio'),
+    #url(r'^menu/', views.Menu.as_view(), name='menu'),
+    #url(r'^carro/', views.Cart.as_view(), name='carro'),
+    #url(r'^pago/', views.Pago.as_view(), name='pago'),
+    #url(r'^confirmacion/', views.Confirmacion.as_view(), name='confirmacion'),
+
+
+    path('', views.Domicilio.as_view(), name='index_domicilio'),
+    path('restaurantes/', views.DomicilioList.as_view(), name='domicilio'),
+    path('menu/<nombre_slug>', views.Menu.as_view(), name='menu'),
+    path('carro/', views.Cart.as_view(), name='carro'),
+    path('pago/', views.Pago.as_view(), name='pago'),
+    path('confirmacion/', views.Confirmacion.as_view(), name='confirmacion'),
 
     #path('hola', views.Index.as_view),
+
+
 
 ]

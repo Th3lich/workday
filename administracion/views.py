@@ -93,16 +93,15 @@ class CategoriaDelete(CreateView):
     form_class = ContrasenaForm
 
     def get(self, request, *args, **kwargs):
+
         categoria = get_object_or_None(CategoriaProducto, pk=self.kwargs['pk'])
-        print(categoria)
         form = self.form_class(initial=self.initial)
-        print('hola hola')
+
         return render(request, self.template_name, {'form': form, 'categoria': categoria})
 
     def post(self, request, *args, **kwargs):
-        print('holahola')
+
         categoria = get_object_or_None(CategoriaProducto, pk=self.kwargs['pk'])
-        print(categoria)
         form = self.form_class(request.POST)
         password = form['contrasena'].value()
         correcto = request.user.check_password(password)

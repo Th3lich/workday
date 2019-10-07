@@ -3,15 +3,21 @@ from django.shortcuts import render
 # Create your views here.
 from django.views.generic import CreateView
 
+from comercios.models import Restaurante
+
 
 class Index(CreateView):
 
-    template_name = 'guia/index_8.html'
+    template_name = 'guia/index.html'
 
     def get(self, request, *args, **kwargs):
 
+        restaurantes = Restaurante.objects.all()
 
-        return render(request, self.template_name,{})
+        for r in restaurantes:
+            print(r.foto_perfil)
+
+        return render(request, self.template_name,{'restaurantes':restaurantes})
 
 
 class Guia(CreateView):
@@ -36,7 +42,12 @@ class Detail(CreateView):
 
 
 class prueba(CreateView):
-    template_name = 'guia/index.html'
+    template_name = 'guia/index_8.html'
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, {})
+        restaurantes = Restaurante.objects.all()
+
+        for r in restaurantes:
+            print(r.foto_perfil)
+
+        return render(request, self.template_name, {'restaurantes': restaurantes})
