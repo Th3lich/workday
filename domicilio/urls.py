@@ -40,6 +40,8 @@ urlpatterns = [
     path('pago/', views.Pago.as_view(), name='pago'),
     path('confirmacion/', views.Confirmacion.as_view(), name='confirmacion'),
 
+    url(r'^filtro_categorias_comida/$', views.filtro_categorias_comida, name='filtro_categorias_comida'),
+
     #path('hola', views.Index.as_view),
 
 

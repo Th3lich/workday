@@ -107,3 +107,5 @@ class BusquedaForm(forms.Form):
                                  widget=forms.TextInput(attrs={'class': "search-query",'placeholder': 'Introduzca su codigo postal'}))
 
 
+
+

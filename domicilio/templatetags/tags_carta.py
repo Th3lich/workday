@@ -31,14 +31,14 @@ def get_ingrediente(producto):
 @register.simple_tag(name='get_tipo_cocina')
 def get_tipo_cocina(restaurantes_cp):
 
-    tipos_cocina = TipoCocina.objects.all()
+    tipos_cocina = TipoCocina.objects.all().order_by('nombre_slug')
 
     categorias = []
 
     for tipo in tipos_cocina:
         restaurantes = restaurantes_cp.filter(Q(tipo_cocina=tipo))
 
-        categorias.append((tipo.nombre,restaurantes.count()))
+        categorias.append((tipo,restaurantes.count()))
 
 
     return categorias

@@ -4,9 +4,10 @@
     {% block extracss %}
     <!-- Radio and check inputs -->
     <link href="{% static 'web/css/skins/square/grey.css' %}" rel="stylesheet">
-    <link href="{% static 'web/css/ion.rangeSlider.css' %}" rel="stylesheet">
-    <link href="{% static 'web/css/ion.rangeSlider.skinFlat.css' %}" rel="stylesheet" >
+
     {% endblock %}
+{% block extrajs_header %}
+{% endblock %}
 
     {% block content %}
 
@@ -31,7 +32,7 @@
             <a href="#0" class="search-overlay-menu-btn"><i class="icon-search-6"></i> Search</a>
         </div>
     </div><!-- Position -->
-    
+
     <div class="collapse" id="collapseMap">
 		<div id="map" class="map"></div>
 	</div><!-- End Map -->
@@ -39,7 +40,7 @@
 <!-- Content ================================================== -->
 <div class="container margin_60_35">
 	<div class="row">
-    
+
 		<div class="col-md-3">
 			<!--<p>
 				<a class="btn_map" data-toggle="collapse" href="#collapseMap" aria-expanded="false" aria-controls="collapseMap">View on map</a>
@@ -53,11 +54,17 @@
 						<h6>Todas las cocinas</h6>
 						<ul>
 
+
                             {% get_tipo_cocina restaurantes_cp as tipo_cocina %}
 
                             {% for t in tipo_cocina %}
 
-                                <li><label><input type="checkbox" value="{{ t.0.pk }}" name="categorias" class="icheck">{{ t.0 }}<small>({{ t.1 }})</small></label><i class="color_1"></i></li>
+                                {% if t.1 != 0 %}
+
+                                    <li><label><input onclick="categoriaSeleccionada({{ t.0.pk }})" class="" type="checkbox" id="categoria{{ t.0.pk }}" value="{{ t.0.pk }}" name="categoria_check" /> {{ t.0.nombre }}<small>({{ t.1 }})</small><i class="color_1"></i></label></li>
+
+
+                                {% endif %}
 
                              {% endfor %}
 						</ul>
@@ -94,9 +101,9 @@
 				</div><!--End collapse -->
 			</div><!--End filters col-->
 		</div><!--End col-md -->
-        
+
 		<div class="col-md-9">
-        
+
         <div id="tools">
 				<div class="row">
 					<div class="col-md-3 col-sm-3 col-xs-6">
@@ -113,8 +120,8 @@
 					</div>
 				</div>
 			</div><!--End tools -->
-        
-        	<div class="row">
+
+        	<div class="row" id="filtro_categoria_comida">
                 {% for r in restaurantes_cp %}
             	<div class="col-md-6 col-sm-6 wow zoomIn" data-wow-delay="0.1s">
                 	<a class="strip_list grid" href="{% url 'menu' r.nombre_slug %}">
@@ -142,9 +149,9 @@
                 </div><!-- End col-md-6-->
                 {% endfor %}
             </div><!-- End row-->
-            <a href="#0" class="load_more_bt wow fadeIn" data-wow-delay="0.2s">Load more...</a>           
+            <a href="#0" class="load_more_bt wow fadeIn" data-wow-delay="0.2s">Load more...</a>
 		</div><!-- End col-md-9-->
-        
+
 	</div><!-- End row -->
 </div><!-- End container -->
 <!-- End Content =============================================== -->
@@ -155,25 +162,40 @@
 <!-- SPECIFIC SCRIPTS -->
 <script  src="{% static 'web/js/cat_nav_mobile.js' %}"></script>
 <script>$('#cat_nav').mobileMenu();</script>
-<script src="http://maps.googleapis.com/maps/api/js"></script>
-<script src="{% static 'web/js/map.js' %}"></script>
-<script src="{% static 'web/js/infobox.js' %}"></script>
-<script src="{% static 'web/js/ion.rangeSlider.js' %}"></script>
-<script>
-    $(function () {
-		 'use strict';
-        $("#range").ionRangeSlider({
-            hide_min_max: true,
-            keyboard: true,
-            min: 0,
-            max: 15,
-            from: 0,
-            to:5,
-            type: 'double',
-            step: 1,
-            prefix: "Km ",
-            grid: true
-        });
-    });
-</script>
+
+
+        <script>
+
+
+        function categoriaSeleccionada(pk) {
+
+            var categorias = [];
+
+            //Recorre todos los input
+            $("input").each(function() {
+              //Si está seleccionado muestra su value
+              if($(this).prop('checked')) {
+                alert("El input " + $(this).prop('value') + " está seleccionado");
+                categorias.push($(this).prop('value'));
+              }
+            });
+
+
+             $.get("{% url 'filtro_categorias_comida' %}",
+               {
+                 'csrfmiddlewaretoken': '{{csrf_token}}',
+                 'categorias':categorias
+               },
+                function (data, status) {
+                 if (data.result=='ok'){
+                      $('#filtro_categoria_comida').html(data.html);
+                 }
+                }
+            )
+        }
+
+        </script>
+
+
+
 {% endblock %}
