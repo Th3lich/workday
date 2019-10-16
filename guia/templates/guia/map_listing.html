@@ -17,6 +17,12 @@
         }
     </style>
     {% endblock %}
+    {% block extrajs_header %}
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCe6CLfgCR0bvMX7oxLYqYh2IbBCaASmXU&libraries=geometry"
+  type="text/javascript"></script>
+
+    {% endblock %}
+
 
     {% block content %}
 
@@ -317,7 +323,7 @@
 
 {% block extrajs %}
 <!-- SPECIFIC SCRIPTS -->
-<script src="http://maps.googleapis.com/maps/api/js"></script>
+
 <script src="{% static 'web/js/map_listing.js' %}"></script>
 <script src="{% static 'web/js/infobox.js' %}"></script>
 <script src="{% static 'web/js/ion.rangeSlider.js' %}"></script>

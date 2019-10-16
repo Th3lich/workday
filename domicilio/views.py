@@ -37,7 +37,7 @@ class DomicilioList(CreateView):
 
     def get(self, request, *args, **kwargs):
 
-        restaurantes_cp = Restaurante.objects.all()
+        restaurantes_cp = Restaurante.objects.filter(domicilio=True)
         categoria_comida = TipoCocina.objects.all()
         form = BusquedaForm()
 
@@ -48,7 +48,7 @@ class DomicilioList(CreateView):
             restaurantes_cp = restaurantes_cp.filter(Q(codigo_postal__icontains=q))
 
         except:
-            pass
+            q = []
 
         try:
 
@@ -60,37 +60,61 @@ class DomicilioList(CreateView):
             pass
 
 
-
-
         return render(request, self.template_name,{'restaurantes_cp': restaurantes_cp,
                                                     'form': form,
                                                    'categoria_comida':categoria_comida,
+                                                   'q':q,
                                                    })
 
 
 @csrf_exempt
 def filtro_categorias_comida(request):
+
     categorias = request.GET.getlist('categorias[]')
-    print(categorias)
-
-    restaurantes_cp = Restaurante.objects.all()
-
+    restaurantes_cp = Restaurante.objects.filter(domicilio=True)
 
     try:
 
+        q = request.GET['cp']
+        restaurantes_cp = restaurantes_cp.filter(Q(codigo_postal__icontains=q))
 
-        for c in categorias:
-            print('esto es c')
-            print(c)
-            restaurantes_cp = restaurantes_cp.filter(tipo_cocina__pk = 4 and 6 )
-            print(restaurantes_cp)
+    except:
+        pass
 
 
-        html = render_to_string('domicilio/grid_list_filtro_categorias.html', {'restaurantes_cp': restaurantes_cp})
+    if not categorias:
 
+        restaurantes_cp = restaurantes_cp
+        try:
+            recoger = request.GET['recoger']
+            if recoger == 'True':
+                restaurantes_cp = restaurantes_cp.filter(recoger=True)
+            else:
+                pass
+        except:
+            pass
+
+    else:
+
+        try:
+            recoger = request.GET['recoger']
+            if recoger == 'True':
+                restaurantes_cp = restaurantes_cp.filter(tipo_cocina__in=categorias).filter(recoger=True)
+                print('if')
+                print(restaurantes_cp)
+            else:
+                restaurantes_cp = restaurantes_cp.filter(tipo_cocina__in=categorias)
+                print('else')
+                print(restaurantes_cp)
+
+        except:
+            restaurantes_cp = restaurantes_cp.filter(tipo_cocina__in=categorias)
+
+    try:
+
+        html = render_to_string('domicilio/grid_list_filtro_categorias.html', {'restaurantes_cp': restaurantes_cp,
+                                                                               })
         response_data = {'result': 'ok', 'html': html}
-        print(response_data)
-
 
     except Exception as e:
         print(e)

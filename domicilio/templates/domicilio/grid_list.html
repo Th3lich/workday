@@ -92,8 +92,7 @@
 					<div class="filter_type">
 						<h6>Options</h6>
 						<ul class="nomargin">
-							<li><label><input type="checkbox" class="icheck">Delivery</label></li>
-							<li><label><input type="checkbox" class="icheck">Take Away</label></li>
+							<li><label><input onclick="recogerSeleccionado()" id="recoger" type="checkbox" name="recoger" value="recoger" class="">Para recoger</label></li>
 							<!--<li><label><input type="checkbox" class="icheck">Distance 10Km</label></li>
 							<li><label><input type="checkbox" class="icheck">Distance 5Km</label></li>-->
 						</ul>
@@ -170,21 +169,49 @@
         function categoriaSeleccionada(pk) {
 
             var categorias = [];
+            var q = {{ q }};
 
             //Recorre todos los input
             $("input").each(function() {
               //Si está seleccionado muestra su value
               if($(this).prop('checked')) {
-                alert("El input " + $(this).prop('value') + " está seleccionado");
                 categorias.push($(this).prop('value'));
               }
             });
 
-
              $.get("{% url 'filtro_categorias_comida' %}",
                {
                  'csrfmiddlewaretoken': '{{csrf_token}}',
-                 'categorias':categorias
+                 'categorias':categorias,
+                 'cp':q,
+
+               },
+                function (data, status) {
+                 if (data.result=='ok'){
+                      $('#filtro_categoria_comida').html(data.html);
+                 }
+                }
+            )
+        }
+
+
+        function recogerSeleccionado() {
+
+            var recoger = "";
+            var q = {{ q }};
+
+           if( $('#recoger').is(':checked') ) {
+                recoger = 'True';
+
+            }else{
+               recoger = 'False';
+           }
+             $.get("{% url 'filtro_categorias_comida' %}",
+               {
+                 'csrfmiddlewaretoken': '{{csrf_token}}',
+                 'recoger':recoger,
+                 'cp':q,
+
                },
                 function (data, status) {
                  if (data.result=='ok'){
