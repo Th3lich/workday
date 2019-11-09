@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView
 from annoying.functions import get_object_or_None
 
-from comercios.models import Restaurante, Ciudad, CategoriaProducto, TipoCocina
+from comercios.models import Restaurante, Ciudad, CategoriaProducto, TipoCocina, Valoracion
 from domicilio.forms import BusquedaForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -38,81 +38,137 @@ class DomicilioList(CreateView):
     def get(self, request, *args, **kwargs):
 
         restaurantes_cp = Restaurante.objects.filter(domicilio=True)
-        categoria_comida = TipoCocina.objects.all()
+        #categoria_comida = TipoCocina.objects.all()
         form = BusquedaForm()
 
-
         try:
 
-            q = request.GET['cp']
-            restaurantes_cp = restaurantes_cp.filter(Q(codigo_postal__icontains=q))
+            cp = request.GET['cp']
+            restaurantes_cp = restaurantes_cp.filter(Q(codigo_postal__icontains=cp))
 
         except:
-            q = []
 
-        try:
-
-            categoria = request.GET['categorias']
-            restaurantes_cp = restaurantes_cp.filter(Q(tipo__categoriaproducto=categoria))
-
-
-        except:
-            pass
-
+            cp = []
 
         return render(request, self.template_name,{'restaurantes_cp': restaurantes_cp,
                                                     'form': form,
-                                                   'categoria_comida':categoria_comida,
-                                                   'q':q,
+                                                   #'categoria_comida':categoria_comida,
+                                                   'cp':cp,
                                                    })
 
 
 @csrf_exempt
 def filtro_categorias_comida(request):
+    print('filtro_categorias_comida')
 
-    categorias = request.GET.getlist('categorias[]')
-    restaurantes_cp = Restaurante.objects.filter(domicilio=True)
+
+    restaurantes = Restaurante.objects.filter(domicilio=True)
 
     try:
 
-        q = request.GET['cp']
-        restaurantes_cp = restaurantes_cp.filter(Q(codigo_postal__icontains=q))
+        cp = request.GET['cp']
+        restaurantes = restaurantes.filter(Q(codigo_postal__icontains=cp))
+
+    except:
+        restaurantes = Restaurante.objects.filter(domicilio=True)
+
+
+    try:
+
+        tipo_cocina = request.GET.getlist('tipo_cocina[]')
+        if not tipo_cocina:
+            restaurantes = restaurantes
+        else:
+            restaurantes = restaurantes.filter(tipo_cocina__in=tipo_cocina)
+
+
+    except:
+        pass
+
+    try:
+
+        tipo_dieta = request.GET.getlist('tipo_dieta[]')
+        if not tipo_dieta:
+            restaurantes = restaurantes
+        else:
+            restaurantes = restaurantes.filter(tipo_dieta__in=tipo_dieta)
+
 
     except:
         pass
 
 
-    if not categorias:
+    try:
 
-        restaurantes_cp = restaurantes_cp
-        try:
-            recoger = request.GET['recoger']
-            if recoger == 'True':
-                restaurantes_cp = restaurantes_cp.filter(recoger=True)
-            else:
-                pass
-        except:
-            pass
+        recoger = request.GET['recoger']
+        if recoger == 'True':
+            restaurantes = restaurantes.filter(recoger=True)
 
-    else:
-
-        try:
-            recoger = request.GET['recoger']
-            if recoger == 'True':
-                restaurantes_cp = restaurantes_cp.filter(tipo_cocina__in=categorias).filter(recoger=True)
-                print('if')
-                print(restaurantes_cp)
-            else:
-                restaurantes_cp = restaurantes_cp.filter(tipo_cocina__in=categorias)
-                print('else')
-                print(restaurantes_cp)
-
-        except:
-            restaurantes_cp = restaurantes_cp.filter(tipo_cocina__in=categorias)
+    except:
+        pass
 
     try:
 
-        html = render_to_string('domicilio/grid_list_filtro_categorias.html', {'restaurantes_cp': restaurantes_cp,
+        mejor_valorados = request.GET['mejor_valorados']
+        if mejor_valorados == 'True':
+            restaurantes = restaurantes.order_by('-valoracion_total')
+
+
+    except:
+        pass
+
+    try:
+
+        gastos_de_envio = request.GET['gastos_de_envio']
+        if gastos_de_envio == 'True':
+            restaurantes = restaurantes.order_by('coste_resparto_cliente')
+
+
+    except:
+        pass
+
+    try:
+
+        envio_gratis = request.GET['envio_gratis']
+        if envio_gratis == 'True':
+
+            restaurantes_envio_gratis = []
+
+            for r in restaurantes:
+                if r.coste_resparto_cliente <= 0:
+                    restaurantes_envio_gratis.append(r)
+
+
+            restaurantes = restaurantes_envio_gratis
+
+
+    except:
+        pass
+
+    try:
+
+        destacado = request.GET['destacado']
+        if destacado == 'True':
+            restaurantes = restaurantes.order_by('-destacado')
+
+
+    except:
+        pass
+
+    try:
+
+        sin_gluten = request.GET['sin_gluten']
+
+        if sin_gluten == 'True':
+            restaurantes = restaurantes.filter(sin_gluten=True)
+
+    except:
+        pass
+
+
+    try:
+
+        html = render_to_string('domicilio/grid_list_filtro_categorias.html', {'restaurantes': restaurantes,
                                                                                })
         response_data = {'result': 'ok', 'html': html}
 

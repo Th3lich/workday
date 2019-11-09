@@ -61,7 +61,7 @@
 
                                 {% if t.1 != 0 %}
 
-                                    <li><label><input onclick="categoriaSeleccionada({{ t.0.pk }})" class="" type="checkbox" id="categoria{{ t.0.pk }}" value="{{ t.0.pk }}" name="categoria_check" /> {{ t.0.nombre }}<small>({{ t.1 }})</small><i class="color_1"></i></label></li>
+                                    <li><label><input  onclick="categoriaSeleccionada({{ t.0.pk }})" class="categorias_comida" type="checkbox" id="categoria{{ t.0.pk }}" value="{{ t.0.pk }}" name="categoria_check" /> {{ t.0.nombre }}<small>({{ t.1 }})</small><i class="color_1"></i></label></li>
 
 
                                 {% endif %}
@@ -69,41 +69,59 @@
                              {% endfor %}
 						</ul>
 					</div>
-					<div class="filter_type">
-						<h6>Rating</h6>
+                    <div class="filter_type">
+                    	<!--<h6>Distance</h6>
+                        <input type="text" id="range" value="" name="range">-->
+						<h6>Dietas</h6>
 						<ul>
-							<li><label><input type="checkbox" class="icheck"><span class="rating">
-							<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i>
-							</span></label></li>
-							<li><label><input type="checkbox" class="icheck"><span class="rating">
-							<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
-							</span></label></li>
-							<li><label><input type="checkbox" class="icheck"><span class="rating">
-							<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i>
-							</span></label></li>
-							<li><label><input type="checkbox" class="icheck"><span class="rating">
-							<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i>
-							</span></label></li>
-							<li><label><input type="checkbox" class="icheck"><span class="rating">
-							<i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i>
-							</span></label></li>
+
+                            {% get_tipo_dieta restaurantes_cp as tipo_dieta %}
+
+                            {% for t in tipo_dieta %}
+
+                                {% if t.1 != 0 %}
+
+                                    <li><label><input  onclick="categoriaSeleccionada({{ t.0.pk }})" class="categorias_dieta" type="checkbox" id="categoria_dieta{{ t.0.pk }}" value="{{ t.0.pk }}" name="categoria_check" /> {{ t.0.nombre }}<small>({{ t.1 }})</small><i class="color_1"></i></label></li>
+
+
+                                {% endif %}
+
+                             {% endfor %}
+                                                        <li><label><input onclick="categoriaSeleccionada()" id="sin_gluten" type="checkbox" name="sin_gluten" value="sin_gluten" class="">Sin gluten</label></li>
+
 						</ul>
+
 					</div>
 					<div class="filter_type">
-						<h6>Options</h6>
+						<h6>Opciones</h6>
 						<ul class="nomargin">
-							<li><label><input onclick="recogerSeleccionado()" id="recoger" type="checkbox" name="recoger" value="recoger" class="">Para recoger</label></li>
+							<li><label><input onclick="categoriaSeleccionada()" id="recoger" type="checkbox" name="recoger" value="recoger" class="">Para recoger</label></li>
+							<li><label><input onclick="categoriaSeleccionada()" id="envio_gratis" type="checkbox" name="envio_gratis" value="envio_gratis" class="">Envio Gratis</label></li>
 							<!--<li><label><input type="checkbox" class="icheck">Distance 10Km</label></li>
 							<li><label><input type="checkbox" class="icheck">Distance 5Km</label></li>-->
 						</ul>
+
 					</div>
+                    <div class="filter_type">
+                            <h6>Ordenar</h6>
+                            <ul class="nomargin">
+                                <li><label><input onclick="categoriaSeleccionada()" id="mejor_valorados" type="checkbox" name="mejor_valorados" value="mejor_valorados" class="">Mejor Valorados</label></li>
+                                <li><label><input onclick="categoriaSeleccionada()" id="hora_entrega" type="checkbox" name="hora_entrega" value="hora_entrega" class="">Hora entrega</label></li>
+                                <li><label><input onclick="categoriaSeleccionada()" id="destacado" type="checkbox" name="recomendados" value="recomendados" class="">Recomendados</label></li>
+                                <li><label><input onclick="categoriaSeleccionada()" id="gastos_de_envio" type="checkbox" name="gastos_de_envio" value="gastos_de_envio" class="">Gastos de envio</label></li>
+                                <li><label><input onclick="categoriaSeleccionada()" id="pedido_minimo" type="checkbox" name="pedido_minimo" value="pedido_minimo" class="">Pedido minimo</label></li>
+                                <li><label><input onclick="categoriaSeleccionada()" id="distancia" type="checkbox" name="distancia" value="distancia" class="">Distancia</label></li>
+
+                            </ul>
+
+                        </div>
 				</div><!--End collapse -->
 			</div><!--End filters col-->
 		</div><!--End col-md -->
 
 		<div class="col-md-9">
 
-        <div id="tools">
+       <!-- <div id="tools">
 				<div class="row">
 					<div class="col-md-3 col-sm-3 col-xs-6">
 						<div class="styled-select">
@@ -119,7 +137,7 @@
 					</div>
 				</div>
 			</div><!--End tools -->
-
+        <div id="">
         	<div class="row" id="filtro_categoria_comida">
                 {% for r in restaurantes_cp %}
             	<div class="col-md-6 col-sm-6 wow zoomIn" data-wow-delay="0.1s">
@@ -134,7 +152,7 @@
 							</div>
 							<h3>{{ r.nombre }}</h3>
 							<div class="type">
-								Mexican / American
+								{{ r.destacado }} / {{ r.valoracion_total }} {{ r.coste_resparto_cliente }}
 							</div>
 							<div class="location">
 								{{ r.direccion }} <br><span class="opening">Opens at 17:00.</span> Minimum order: $15
@@ -168,49 +186,86 @@
 
         function categoriaSeleccionada(pk) {
 
-            var categorias = [];
-            var q = {{ q }};
+            var tipo_cocina = [];
+            var tipo_dieta = [];
+            var cp = {{ cp }};
+            var recoger = "";
+            var sin_gluten = "";
+            var mejor_valorados = "";
+            var destacado = "";
+            var gastos_de_envio = "";
+            var envio_gratis = "";
 
-            //Recorre todos los input
-            $("input").each(function() {
+             if( $('#recoger').is(':checked') ) {
+                recoger = 'True';
+
+            }else {
+                 recoger = 'None';
+             }
+
+             if( $('#envio_gratis').is(':checked') ) {
+                envio_gratis = 'True';
+
+            }else {
+                 envio_gratis = 'None';
+             }
+
+              if( $('#destacado').is(':checked') ) {
+                destacado = 'True';
+
+            }else {
+                 destacado = 'None';
+             }
+
+              if( $('#mejor_valorados').is(':checked') ) {
+                mejor_valorados = 'True';
+
+            }else {
+                 mejor_valorados = 'None';
+             }
+
+             if( $('#sin_gluten').is(':checked') ) {
+                sin_gluten = 'True';
+
+            }else {
+                 sin_gluten = 'None';
+             }
+
+             if( $('#gastos_de_envio').is(':checked') ) {
+                gastos_de_envio = 'True';
+
+            }else {
+                 gastos_de_envio = 'None';
+             }
+
+            //Recorre todos los input de categorias comida.
+            $(".categorias_comida").each(function() {
               //Si está seleccionado muestra su value
               if($(this).prop('checked')) {
-                categorias.push($(this).prop('value'));
+                tipo_cocina.push($(this).prop('value'));
+              }
+            });
+
+             //Recorre todos los input de categorias dieta.
+            $(".categorias_dieta").each(function() {
+              //Si está seleccionado muestra su value
+              if($(this).prop('checked')) {
+                tipo_dieta.push($(this).prop('value'));
               }
             });
 
              $.get("{% url 'filtro_categorias_comida' %}",
                {
                  'csrfmiddlewaretoken': '{{csrf_token}}',
-                 'categorias':categorias,
-                 'cp':q,
-
-               },
-                function (data, status) {
-                 if (data.result=='ok'){
-                      $('#filtro_categoria_comida').html(data.html);
-                 }
-                }
-            )
-        }
-
-
-        function recogerSeleccionado() {
-
-            var recoger = "";
-            var q = {{ q }};
-
-           if( $('#recoger').is(':checked') ) {
-                recoger = 'True';
-
-            }else{
-               recoger = 'False';
-           }
-             $.get("{% url 'filtro_categorias_comida' %}",
-               {
-                 'csrfmiddlewaretoken': '{{csrf_token}}',
+                 'tipo_cocina':tipo_cocina,
+                 'tipo_dieta':tipo_dieta,
                  'recoger':recoger,
-                 'cp':q,
+                 'mejor_valorados':mejor_valorados,
+                 'sin_gluten':sin_gluten,
+                 'destacado':destacado,
+                 'gastos_de_envio':gastos_de_envio,
+                 'envio_gratis':envio_gratis,
+                 'cp':cp,
 
                },
                 function (data, status) {
