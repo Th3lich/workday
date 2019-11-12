@@ -14,8 +14,6 @@ class Index(CreateView):
 
         restaurantes = Restaurante.objects.all()
 
-        for r in restaurantes:
-            print(r.foto_perfil)
 
         return render(request, self.template_name,{'restaurantes':restaurantes})
 
@@ -26,8 +24,11 @@ class Guia(CreateView):
 
     def get(self, request, *args, **kwargs):
 
+        restaurantes = Restaurante.objects.all()
 
-        return render(request, self.template_name,{})
+
+        return render(request, self.template_name,{'restaurantes':restaurantes,
+                                                   })
 
 
 
@@ -47,7 +48,5 @@ class prueba(CreateView):
     def get(self, request, *args, **kwargs):
         restaurantes = Restaurante.objects.all()
 
-        for r in restaurantes:
-            print(r.foto_perfil)
 
         return render(request, self.template_name, {'restaurantes': restaurantes})

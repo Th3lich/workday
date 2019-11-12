@@ -18,8 +18,8 @@
     </style>
     {% endblock %}
     {% block extrajs_header %}
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCe6CLfgCR0bvMX7oxLYqYh2IbBCaASmXU&libraries=geometry"
-  type="text/javascript"></script>
+        <!--<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCe6CLfgCR0bvMX7oxLYqYh2IbBCaASmXU&libraries=geometry"
+  type="text/javascript"></script>-->
 
     {% endblock %}
 
@@ -78,7 +78,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="strip_list">
+                {% for r in restaurantes %}
+                <div id="lista_restaurantes" class="strip_list">
 				<div class="ribbon_1">
 					Popular
 				</div>
@@ -86,12 +87,12 @@
 					<div class="col-md-9 col-sm-9">
 						<div class="desc">
 							<div class="thumb_strip">
-								<a href="{% url 'detalle_mapa' %}"><img src="{% static 'web/img/thumb_restaurant_2.jpg' %}" alt=""></a>
+								<a href="{% url 'detalle_mapa' %}"><img src="/static/media/{{ r.foto_perfil }}" alt=""></a>
 							</div>
 							<div class="rating">
 								<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i> (<small><a href="#0">98 reviews</a></small>)
 							</div>
-							<h3>Naples Pizza</h3>
+							<h3>{{ r.nombre }}</h3>
 							<div class="type">
 								Italian / Pizza
 							</div>
@@ -108,151 +109,17 @@
 						<div class="go_to">
 							<div>
 								<a href="detail_page.html" class="btn_1">View Menu</a>
-                                <a onclick="onHtmlClick('Pizza', 1)" class="btn_listing">View on Map</a>
+                                <a onclick="onHtmlClick('{{ r.nombre_slug }}', 0)" class="btn_listing">View on Map</a>
 							</div>
 						</div>
 					</div>
 				</div><!-- End row-->
 			</div><!-- End strip_list-->
-            
-			<div class="strip_list">
-				<div class="row">
-					<div class="col-md-9 col-sm-9">
-						<div class="desc">
-							<div class="thumb_strip">
-								<a href="detail_page.html"><img src="{% static 'web/img/thumb_restaurant_3.jpg' %}" alt=""></a>
-							</div>
-							<div class="rating">
-								<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i> (<small><a href="#0">98 reviews</a></small>)
-							</div>
-							<h3>Golden Bowl</h3>
-							<div class="type">
-								Chinese / Japanese
-							</div>
-							<div class="location">
-								135 Newtownards Road, Belfast, BT4. <span class="opening">Opens at 17:00.</span> Minimum order: $15
-							</div>
-							<ul>
-								<li>Take away<i class="icon_check_alt2 ok"></i></li>
-								<li>Delivery<i class="icon_check_alt2 ok"></i></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-md-3 col-sm-3">
-						<div class="go_to">
-							<div>
-								<a href="detail_page.html" class="btn_1">View Menu</a>
-                                <a onclick="onHtmlClick('Chinese', 0)" class="btn_listing">View on Map</a>
-							</div>
-						</div>
-					</div>
-				</div><!-- End row-->
-			</div><!-- End strip_list-->
-            
-			<div class="strip_list">
-				<div class="row">
-					<div class="col-md-9 col-sm-9">
-						<div class="desc">
-							<div class="thumb_strip">
-								<a href="detail_page.html"><img src="{% static 'web/img/thumb_restaurant_4.jpg' %}" alt=""></a>
-							</div>
-							<div class="rating">
-								<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i> (<small><a href="#0">98 reviews</a></small>)
-							</div>
-							<h3>Oriental Chinese</h3>
-							<div class="type">
-								Chinese / Japanese
-							</div>
-							<div class="location">
-								135 Newtownards Road, Belfast, BT4. <span class="opening">Opens at 17:00.</span> Minimum order: $15
-							</div>
-							<ul>
-								<li>Take away<i class="icon_check_alt2 ok"></i></li>
-								<li>Delivery<i class="icon_check_alt2 ok"></i></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-md-3 col-sm-3">
-						<div class="go_to">
-							<div>
-								<a href="detail_page.html" class="btn_1">View Menu</a>
-                                <a onclick="onHtmlClick('Chinese', 1)" class="btn_listing">View on Map</a>
-							</div>
-						</div>
-					</div>
-				</div><!-- End row-->
-			</div><!-- End strip_list-->
-            
-			<div class="strip_list">
-				<div class="row">
-					<div class="col-md-9 col-sm-9">
-						<div class="desc">
-							<div class="thumb_strip">
-								<a href="detail_page.html"><img src="{% static 'web/img/thumb_restaurant_5.jpg' %}" alt=""></a>
-							</div>
-							<div class="rating">
-								<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i> (<small><a href="#0">98 reviews</a></small>)
-							</div>
-							<h3>Dragon Tower</h3>
-							<div class="type">
-								Chinese / Thai
-							</div>
-							<div class="location">
-								135 Newtownards Road, Belfast, BT4. <span class="opening">Opens at 17:00.</span> Minimum order: $15
-							</div>
-							<ul>
-								<li>Take away<i class="icon_check_alt2 ok"></i></li>
-								<li>Delivery<i class="icon_check_alt2 ok"></i></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-md-3 col-sm-3">
-						<div class="go_to">
-							<div>
-								<a href="detail_page.html" class="btn_1">View Menu</a>
-                                <a onclick="onHtmlClick('Chinese', 2)" class="btn_listing">View on Map</a>
-							</div>
-						</div>
-					</div>
-				</div><!-- End row-->
-			</div><!-- End strip_list-->
-            
-			<div class="strip_list last">
-				<div class="row">
-					<div class="col-md-9 col-sm-9">
-						<div class="desc">
-							<div class="thumb_strip">
-								<a href="detail_page.html"><img src="{% static 'web/img/thumb_restaurant_6.jpg' %}" alt=""></a>
-							</div>
-							<div class="rating">
-								<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i> (<small><a href="#0">98 reviews</a></small>)
-							</div>
-							<h3>New Hong Kong</h3>
-							<div class="type">
-								Sushi
-							</div>
-							<div class="location">
-								135 Newtownards Road, Belfast, BT4. <span class="opening">Opens at 17:00.</span> Minimum order: $15
-							</div>
-							<ul>
-								<li>Take away<i class="icon_check_alt2 ok"></i></li>
-								<li>Delivery<i class="icon_check_alt2 ok"></i></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-md-3 col-sm-3">
-						<div class="go_to">
-							<div>
-								<a href="detail_page.html" class="btn_1">View Menu</a>
-                                <a onclick="onHtmlClick('Sushi', 0)" class="btn_listing">View on Map</a>
-							</div>
-						</div>
-					</div>
-				</div><!-- End row-->
-			</div><!-- End strip_list-->
-            <a href="#0" class="load_more_bt_2">Load more...</a>  
+            {% endfor %}
+            <a href="#0" class="load_more_bt_2">Cargar más</a>
             </div>
             <!-- End content-left-->
+
 
             <div class=" col-lg-5 col-md-6 map-right">
                 <div id="map_listing"></div>
@@ -266,7 +133,7 @@
 {% block footer %}{% endblock %}
 <div class="layer"></div><!-- Mobile menu overlay mask -->
 
-<!-- Login modal -->   
+<!-- Login modal -->
 <div class="modal fade" id="login_2" tabindex="-1" role="dialog" aria-labelledby="myLogin" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content modal-popup">
@@ -282,9 +149,9 @@
 				</form>
 			</div>
 		</div>
-	</div><!-- End modal -->   
-    
-<!-- Register modal -->   
+	</div><!-- End modal -->
+
+<!-- Register modal -->
 <div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="myRegister" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content modal-popup">
@@ -308,7 +175,7 @@
 			</div>
 		</div>
 	</div><!-- End Register modal -->
-    
+
      <!-- Search Menu -->
 	<div class="search-overlay-menu">
 		<span class="search-overlay-close"><i class="icon_close"></i></span>
@@ -323,7 +190,7 @@
 
 {% block extrajs %}
 <!-- SPECIFIC SCRIPTS -->
-
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCe6CLfgCR0bvMX7oxLYqYh2IbBCaASmXU&callback=initMap"></script>
 <script src="{% static 'web/js/map_listing.js' %}"></script>
 <script src="{% static 'web/js/infobox.js' %}"></script>
 <script src="{% static 'web/js/ion.rangeSlider.js' %}"></script>
@@ -343,5 +210,132 @@
             grid: true
         });
     });
+
+
+    (function(A) {
+
+	if (!Array.prototype.forEach)
+		A.forEach = A.forEach || function(action, that) {
+			for (var i = 0, l = this.length; i < l; i++)
+				if (i in this)
+					action.call(that, this[i], i, this);
+			};
+
+		})(Array.prototype);
+
+		var
+		mapObject,
+		markers = [],
+		markersData = {
+            {% for r in restaurantes %}
+
+			'{{ r.nombre_slug }}': [
+			{
+				name: '{{ r.nombre }}',
+				location_latitude: {{ r.ubicacion_x }},
+				location_longitude: {{ r.ubicacion_y }},
+				map_image_url: 'img/thumb_restaurant_map.png',
+				name_point: '{{ r.nombre }}',
+				type_point: 'Chinese/Japanese',
+				description_point: '135 Newtownards Road, Belfast, BT4<br><strong>Opening time</strong>: 09am-10pm.',
+				url_point: 'detail_page.html'
+			},
+
+			],
+            {% endfor %}
+
+
+
+		};
+
+			var mapOptions = {
+				zoom: 14,
+				center: new google.maps.LatLng(40.4167754, -3.6999137000000246),
+				mapTypeId: google.maps.MapTypeId.ROADMAP,
+
+				mapTypeControl: false,
+				mapTypeControlOptions: {
+					style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+					position: google.maps.ControlPosition.LEFT_CENTER
+				},
+				panControl: false,
+				panControlOptions: {
+					position: google.maps.ControlPosition.TOP_RIGHT
+				},
+				zoomControl: true,
+				zoomControlOptions: {
+					style: google.maps.ZoomControlStyle.LARGE,
+					position: google.maps.ControlPosition.RIGHT_BOTTOM
+				},
+				scrollwheel: false,
+				scaleControl: false,
+				scaleControlOptions: {
+					position: google.maps.ControlPosition.TOP_LEFT
+				},
+				streetViewControl: true,
+				streetViewControlOptions: {
+					position: google.maps.ControlPosition.RIGHT_BOTTOM
+				},
+				styles:
+				[{"featureType":"landscape","stylers":[{"hue":"#FFBB00"},{"saturation":43.400000000000006},{"lightness":37.599999999999994},{"gamma":1}]},{"featureType":"road.highway","stylers":[{"hue":"#FFC200"},{"saturation":-61.8},{"lightness":45.599999999999994},{"gamma":1}]},{"featureType":"road.arterial","stylers":[{"hue":"#FF0300"},{"saturation":-100},{"lightness":51.19999999999999},{"gamma":1}]},{"featureType":"road.local","stylers":[{"hue":"#FF0300"},{"saturation":-100},{"lightness":52},{"gamma":1}]},{"featureType":"water","stylers":[{"hue":"#0078FF"},{"saturation":-13.200000000000003},{"lightness":2.4000000000000057},{"gamma":1}]},{"featureType":"poi","stylers":[{"hue":"#00FF6A"},{"saturation":-1.0989010989011234},{"lightness":11.200000000000017},{"gamma":1}]}]
+
+			};
+			var
+			marker;
+			mapObject = new google.maps.Map(document.getElementById('map_listing'), mapOptions);
+			for (var key in markersData)
+				markersData[key].forEach(function (item) {
+					marker = new google.maps.Marker({
+						position: new google.maps.LatLng(item.location_latitude, item.location_longitude),
+						map: mapObject,
+						icon: '/static/web/img/pins/' + 'Pizza' + '.png',
+					});
+
+					if ('undefined' === typeof markers[key])
+						markers[key] = [];
+					markers[key].push(marker);
+					google.maps.event.addListener(marker, 'click', (function () {
+      closeInfoBox();
+      getInfoBox(item).open(mapObject, this);
+      mapObject.setCenter(new google.maps.LatLng(item.location_latitude, item.location_longitude));
+     }));
+
+	});
+
+		function hideAllMarkers () {
+			for (var key in markers)
+				markers[key].forEach(function (marker) {
+					marker.setMap(null);
+				});
+		};
+
+		function closeInfoBox() {
+			$('div.infoBox').remove();
+		};
+
+		function getInfoBox(item) {
+			return new InfoBox({
+				content:
+				'<div class="marker_info" id="marker_info">' +
+				'<img src="' + item.map_image_url + '" alt=""/>' +
+				'<h3>'+ item.name_point +'</h3>' +
+				'<em>'+ item.type_point +'</em>' +
+				'<span>'+ item.description_point +'</span>' +
+				'<a href="'+ item.url_point + '" class="btn_1">Details</a>' +
+				'</div>',
+				disableAutoPan: false,
+				maxWidth: 0,
+				pixelOffset: new google.maps.Size(10, 110),
+				closeBoxMargin: '5px -20px 2px 2px',
+				closeBoxURL: "http://www.google.com/intl/en_us/mapfiles/close.gif",
+				isHidden: false,
+				alignBottom: true,
+				pane: 'floatPane',
+				enableEventPropagation: true
+			});
+		};
+		function onHtmlClick(location_type, key){
+     google.maps.event.trigger(markers[location_type][key], "click");
+	 };
 </script>
 {% endblock %}
