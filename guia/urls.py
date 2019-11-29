@@ -30,6 +30,8 @@ urlpatterns = [
     path('detalle', views.Detail.as_view(), name='detalle_mapa'),
     path('prueba', views.prueba.as_view(), name='prueba'),
 
+    url(r'^filtro_categorias_comida_guia/$', views.filtro_categorias_comida_guia, name='filtro_categorias_comida_guia'),
+    url(r'^cargar_mas/$', views.cargarMas, name='cargar_mas'),
 
     #url(r'^$', views.Index.as_view(), name='index'),
     #path('hola', views.Index.as_view),

@@ -1,5 +1,5 @@
 {% extends 'guia/index.html' %}
-{% load static %}
+{% load static tags_guia %}
 
     {% block extracss %}
     <!-- SPECIFIC CSS -->
@@ -46,14 +46,21 @@
                         <div class="filter_type clearfix">
                             <h6>Type</h6>
                             <ul>
-							<li><label><input type="checkbox" checked class="icheck">All <small>(49)</small></label></li>
-							<li><label><input type="checkbox" class="icheck">American <small>(12)</small></label><i class="color_1"></i></li>
-							<li><label><input type="checkbox" class="icheck">Chinese <small>(5)</small></label><i class="color_2"></i></li>
-							<li><label><input type="checkbox" class="icheck">Hamburger <small>(7)</small></label><i class="color_3"></i></li>
-							<li><label><input type="checkbox" class="icheck">Fish <small>(1)</small></label><i class="color_4"></i></li>
-							<li><label><input type="checkbox" class="icheck">Mexican <small>(49)</small></label><i class="color_5"></i></li>
-							<li><label><input type="checkbox" class="icheck">Pizza <small>(22)</small></label><i class="color_6"></i></li>
-							<li><label><input type="checkbox" class="icheck">Sushi <small>(43)</small></label><i class="color_7"></i></li>
+
+                                {#{% get_tipo_cocina restaurantes as tipo_cocina %}#}
+
+                                {% for t in categorias_cocina %}
+
+                                {% if t.1 != 0 %}
+
+                                    <li><label><input  onclick="categoriaSeleccionada({{ t.0.pk }})" class="categorias_comida" type="checkbox" id="categoria{{ t.0.pk }}" value="{{ t.0.pk }}" name="categoria_check" /> {{ t.0.nombre }}<small>({{ t.1 }})</small><i class="color_1"></i></label></li>
+
+                                {% endif %}
+
+
+
+                             {% endfor %}
+
 						</ul>
                         </div>
                      	<div class="filter_type clearfix">
@@ -78,11 +85,12 @@
                         </div>
                     </div>
                 </div>
+            <div id="lista_restaurantes_filtro">
                 {% for r in restaurantes %}
                 <div id="lista_restaurantes" class="strip_list">
-				<div class="ribbon_1">
-					Popular
-				</div>
+                    <div class="ribbon_1">
+                        Popular
+                    </div>
 				<div class="row">
 					<div class="col-md-9 col-sm-9">
 						<div class="desc">
@@ -97,11 +105,11 @@
 								Italian / Pizza
 							</div>
 							<div class="location">
-								135 Newtownards Road, Belfast, BT4. <span class="opening">Opens at 17:00.</span> Minimum order: $15
+								{{ r.direccion }} <span class="opening">Opens at 17:00.</span> Minimum order: $15
 							</div>
 							<ul>
-								<li>Take away<i class="icon_check_alt2 ok"></i></li>
-								<li>Delivery<i class="icon_check_alt2 ok"></i></li>
+								<li><a href="">Take away</a><i class="icon_check_alt2 ok"></i></li>
+								<li>Domicilio<i class="icon_check_alt2 ok"></i></li>
 							</ul>
 						</div>
 					</div>
@@ -116,7 +124,13 @@
 				</div><!-- End row-->
 			</div><!-- End strip_list-->
             {% endfor %}
+            </div>
             <a href="#0" class="load_more_bt_2">Cargar más</a>
+
+                <button type="button" class="btn btn-primary" id="boton_cargar_mas" onclick="cargar();">
+                    Cargar Mas {{ paginator.count }}
+                </button>
+            {{ paginator.count }}
             </div>
             <!-- End content-left-->
 
@@ -194,6 +208,64 @@
 <script src="{% static 'web/js/map_listing.js' %}"></script>
 <script src="{% static 'web/js/infobox.js' %}"></script>
 <script src="{% static 'web/js/ion.rangeSlider.js' %}"></script>
+
+
+<script>
+
+
+        function categoriaSeleccionada(pk) {
+
+            var tipo_cocina = [];
+
+
+            //Recorre todos los input de categorias comida.
+            $(".categorias_comida").each(function() {
+              //Si está seleccionado muestra su value
+              if($(this).prop('checked')) {
+                tipo_cocina.push($(this).prop('value'));
+              }
+            });
+
+             $.get("{% url 'filtro_categorias_comida_guia' %}",
+
+               {
+                 'csrfmiddlewaretoken': '{{csrf_token}}',
+                 'tipo_cocina':tipo_cocina,
+
+               },
+                function (data, status) {
+                 if (data.result=='ok'){
+                      $('#lista_restaurantes_filtro').html(data.html);
+                 }
+                }
+            )
+        }
+
+</script>
+<script>
+    var paginaActual = 1;
+    function cargar() {
+        paginaActual++;
+
+        $.post("{% url  'cargar_mas' %}",
+            {
+                'pg': paginaActual,
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+
+            },
+
+            function (data, status) {
+                console.log(data.message);
+                if (data.result == "ok") {
+                    $("#lista_restaurantes_filtro").append(data.datos);
+
+                    if (!data.has_next) {
+                        $('#boton_cargar_mas').hide();
+                    }
+                }
+            });
+    }
+</script>
 <script>
     $(function () {
 		 'use strict';
@@ -210,6 +282,8 @@
             grid: true
         });
     });
+
+
 
 
     (function(A) {
@@ -234,10 +308,10 @@
 				name: '{{ r.nombre }}',
 				location_latitude: {{ r.ubicacion_x }},
 				location_longitude: {{ r.ubicacion_y }},
-				map_image_url: 'img/thumb_restaurant_map.png',
+				map_image_url: '/static/web/img/thumb_restaurant_map.png',
 				name_point: '{{ r.nombre }}',
 				type_point: 'Chinese/Japanese',
-				description_point: '135 Newtownards Road, Belfast, BT4<br><strong>Opening time</strong>: 09am-10pm.',
+				description_point: '{{ r.direccion }}<br><strong>Opening time</strong>: 09am-10pm.',
 				url_point: 'detail_page.html'
 			},
 
@@ -321,7 +395,7 @@
 				'<h3>'+ item.name_point +'</h3>' +
 				'<em>'+ item.type_point +'</em>' +
 				'<span>'+ item.description_point +'</span>' +
-				'<a href="'+ item.url_point + '" class="btn_1">Details</a>' +
+				'<a href="'+ item.url_point + '" class="btn_1">Detalle</a>' +
 				'</div>',
 				disableAutoPan: false,
 				maxWidth: 0,

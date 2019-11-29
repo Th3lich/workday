@@ -539,14 +539,7 @@
 </div><!-- End Register modal -->
 
 
-{% block extrajs %}
 
-{#    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>#}
-
-<script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js"></script>
-
-{% endblock %}
 
 
 <!-- COMMON SCRIPTS -->
@@ -555,6 +548,16 @@
 <script src="{% static 'web/js/common_scripts_min.js' %}"></script>
 <script src="{% static 'web/js/functions.js' %}"></script>
 {# <script src="{% static 'web/assets/validate.js' %}"></script> #}
+
+
+{% block extrajs %}
+
+{#    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>#}
+
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js"></script>
+
+{% endblock %}
 
 </body>
 </html>
