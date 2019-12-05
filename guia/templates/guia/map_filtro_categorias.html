@@ -8,7 +8,7 @@
         <div class="col-md-9 col-sm-9">
             <div class="desc">
                 <div class="thumb_strip">
-                    <a href="{% url 'detalle_mapa' %}"><img src="/static/media/{{ r.foto_perfil }}" alt=""></a>
+                    <a href="{% url 'detalle_mapa' r.nombre_slug %}"><img src="/static/media/{{ r.foto_perfil }}" alt=""></a>
                 </div>
                 <div class="rating">
                     <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i> (<small><a href="#0">98 reviews</a></small>)
@@ -29,7 +29,7 @@
         <div class="col-md-3 col-sm-3">
             <div class="go_to">
                 <div>
-                    <a href="detail_page.html" class="btn_1">View Menu</a>
+                    <a href="{% url 'detalle_mapa' r.nombre_slug %}" class="btn_1">View Menu</a>
                     <a onclick="onHtmlClick('{{ r.nombre_slug }}', 0)" class="btn_listing">View on Map</a>
                 </div>
             </div>
@@ -66,13 +66,11 @@
 				name_point: '{{ r.nombre }}',
 				type_point: 'Chinese/Japanese',
 				description_point: '{{ r.direccion }}<br><strong>Opening time</strong>: 09am-10pm.',
-				url_point: 'detail_page.html'
+				url_point: '{% url 'detalle_mapa' r.nombre_slug %}'
 			},
 
 			],
             {% endfor %}
-
-
 
 		};
 

@@ -47,7 +47,7 @@
                             <h6>Type</h6>
                             <ul>
 
-                                {#{% get_tipo_cocina restaurantes as tipo_cocina %}#}
+                                {#{% get_tipo_cocina restaurantes tipos_cocina as tipo_cocina %}#}
 
                                 {% for t in categorias_cocina %}
 
@@ -95,7 +95,7 @@
 					<div class="col-md-9 col-sm-9">
 						<div class="desc">
 							<div class="thumb_strip">
-								<a href="{% url 'detalle_mapa' %}"><img src="/static/media/{{ r.foto_perfil }}" alt=""></a>
+								<a href="{% url 'detalle_mapa' r.nombre_slug %}" target="_blank"><img src="/static/media/{{ r.foto_perfil }}" alt=""></a>
 							</div>
 							<div class="rating">
 								<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i> (<small><a href="#0">98 reviews</a></small>)
@@ -116,7 +116,7 @@
 					<div class="col-md-3 col-sm-3">
 						<div class="go_to">
 							<div>
-								<a href="detail_page.html" class="btn_1">View Menu</a>
+								<a href="{% url 'detalle_mapa' r.nombre_slug %}" target="_blank" class="btn_1">View Menu</a>
                                 <a onclick="onHtmlClick('{{ r.nombre_slug }}', 0)" class="btn_listing">View on Map</a>
 							</div>
 						</div>
@@ -126,11 +126,11 @@
             {% endfor %}
             </div>
             <a href="#0" class="load_more_bt_2">Cargar más</a>
-
+            {% if paginator.count >= 1 %}
                 <button type="button" class="btn btn-primary" id="boton_cargar_mas" onclick="cargar();">
                     Cargar Mas {{ paginator.count }}
                 </button>
-            {{ paginator.count }}
+            {% endif %}
             </div>
             <!-- End content-left-->
 
@@ -211,11 +211,10 @@
 
 
 <script>
-
-
         function categoriaSeleccionada(pk) {
 
             var tipo_cocina = [];
+            paginaActual = 1;
 
 
             //Recorre todos los input de categorias comida.
@@ -225,17 +224,20 @@
                 tipo_cocina.push($(this).prop('value'));
               }
             });
+            alert(tipo_cocina);
 
              $.get("{% url 'filtro_categorias_comida_guia' %}",
 
                {
                  'csrfmiddlewaretoken': '{{csrf_token}}',
                  'tipo_cocina':tipo_cocina,
+                 'pg': paginaActual,
 
                },
                 function (data, status) {
                  if (data.result=='ok'){
                       $('#lista_restaurantes_filtro').html(data.html);
+                      $('#boton_cargar_mas').show();
                  }
                 }
             )
@@ -245,11 +247,23 @@
 <script>
     var paginaActual = 1;
     function cargar() {
+
         paginaActual++;
+        var tipo_cocina = [];
+
+
+            //Recorre todos los input de categorias comida.
+            $("input").each(function() {
+              //Si está seleccionado muestra su value
+              if($(this).prop('checked')) {
+                tipo_cocina.push($(this).prop('value'));
+              }
+            });
 
         $.post("{% url  'cargar_mas' %}",
             {
                 'pg': paginaActual,
+                'tipo_cocina':tipo_cocina,
                 'csrfmiddlewaretoken': '{{ csrf_token }}',
 
             },
@@ -260,6 +274,7 @@
                     $("#lista_restaurantes_filtro").append(data.datos);
 
                     if (!data.has_next) {
+
                         $('#boton_cargar_mas').hide();
                     }
                 }
@@ -312,15 +327,14 @@
 				name_point: '{{ r.nombre }}',
 				type_point: 'Chinese/Japanese',
 				description_point: '{{ r.direccion }}<br><strong>Opening time</strong>: 09am-10pm.',
-				url_point: 'detail_page.html'
+				url_point: '{% url 'detalle_mapa' r.nombre_slug %}'
 			},
 
 			],
             {% endfor %}
 
-
-
 		};
+		marker
 
 			var mapOptions = {
 				zoom: 14,
@@ -395,7 +409,7 @@
 				'<h3>'+ item.name_point +'</h3>' +
 				'<em>'+ item.type_point +'</em>' +
 				'<span>'+ item.description_point +'</span>' +
-				'<a href="'+ item.url_point + '" class="btn_1">Detalle</a>' +
+				'<a href="'+ item.url_point + '" class="btn_1" target="_blank">Detalle</a>' +
 				'</div>',
 				disableAutoPan: false,
 				maxWidth: 0,
