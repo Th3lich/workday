@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.views.generic import CreateView, ListView
 from django.views.decorators.csrf import csrf_exempt
 from django.template.loader import render_to_string
-from comercios.models import Restaurante, TipoCocina
+from comercios.models import Restaurante, TipoCocina, Galeria, Horario, Valoracion
 from django.db.models import Q
 from django import http
 import json
@@ -25,6 +25,15 @@ class Index(CreateView):
         return render(request, self.template_name,{'restaurantes':restaurantes})
 
 
+def restaurantes_mapa(restaurantes):
+    print('restaurantes mapa')
+    listado = []
+
+    for r in restaurantes:
+        listado.append(r)
+
+
+    return listado
 
 def filtrar(diccionario):
 
@@ -32,7 +41,6 @@ def filtrar(diccionario):
 
     """filtrado por codigo postal"""
     try:
-        print('filtro en cp')
 
         cp = diccionario['cp']
         restaurantes = restaurantes.filter(Q(codigo_postal__icontains=cp))
@@ -43,8 +51,8 @@ def filtrar(diccionario):
     """ Filtrado por tipo cocina """
 
     try:
-        print('print en tipo de cocina')
         tipo_cocina = diccionario.getlist('tipo_cocina[]')
+
         if not tipo_cocina:
             restaurantes = restaurantes
 
@@ -151,8 +159,9 @@ class Guia(ListView):
 
     def get(self, request, *args, **kwargs):
 
-
         restaurantes = filtrar(request.GET)[:1]
+
+        listado_mapa = restaurantes_mapa(restaurantes)
 
         tipos_cocina = TipoCocina.objects.all().order_by('nombre_slug')
 
@@ -183,14 +192,27 @@ class Guia(ListView):
                                                    'page':page,
                                                    'paginator': paginator,
                                                    'tipos_cocina': tipos_cocina,
+                                                   'listado_mapa':listado_mapa
                                                    })
 
 
 @csrf_exempt
 def cargarMas(request):
     print('CARGAR MAS')
+
     try:
+        restaurantes_list = request.POST.getlist('restaurantes_list[]')
+
+        restaurantes = Restaurante.objects.filter(pk__in=restaurantes_list)
+
+    except:
+        pass
+
+    try:
+
         paginaActual = request.POST['pg']
+
+
 
         restaurantes = filtrar(request.POST)
 
@@ -198,13 +220,13 @@ def cargarMas(request):
         page = paginator.page(paginaActual)
 
 
-        print(restaurantes)
 
+        listado_mapa = restaurantes_mapa(page.object_list)
 
 
         html = render_to_string('guia/map_filtro_categorias.html', {'page': page,
                                                          'paginator': paginator,
-                                                         'restaurantes':restaurantes
+                                                         'restaurantes':restaurantes,
                                                          })
 
         response_data = {'result': 'ok', 'datos': html, 'end_index': page.end_index(),
@@ -227,7 +249,6 @@ def filtro_categorias_comida_guia(request):
     page = paginator.page(paginaActual)
     restaurantes = page.object_list
 
-    print(restaurantes)
 
 
     try:
@@ -253,10 +274,23 @@ class Detail(CreateView):
     def get(self, request, *args, **kwargs):
 
         restaurante = get_object_or_None(Restaurante, nombre_slug=self.kwargs['nombre_slug'])
+        galeria = Galeria.objects.filter(restaurante__nombre_slug=self.kwargs['nombre_slug']).order_by('pk')
+        horario = Horario.objects.filter(restaurante__nombre_slug=self.kwargs['nombre_slug'])
+        valoracion = Valoracion.objects.filter(restaurante__nombre_slug=self.kwargs['nombre_slug'])
 
+        for g in galeria:
+            print(g.nombre_slug)
 
+        for g in horario:
+            print(g)
+
+        for g in valoracion:
+            print(g)
 
         return render(request, self.template_name,{'restaurante':restaurante,
+                                                   'galeria':galeria,
+                                                   'horario':horario,
+                                                   'valoracion':valoracion,
                                                    })
 
 

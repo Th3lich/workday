@@ -1,5 +1,7 @@
 <div id="lista_restaurantes_filtro">
     {% for r in page.object_list %}
+
+    <input class="restaurantes_pk" value="{{ r.pk }}" hidden>
     <div id="lista_restaurantes" class="strip_list">
     <div class="ribbon_1">
         Popular
@@ -39,6 +41,24 @@
 {% endfor %}
 </div>
 
+
+<script>
+
+    $(document).ready(function() {
+
+  var restaurantes_list = [];
+
+
+     //Recorre todos los restaurantes.
+        $(".restaurantes_pk").each(function() {
+          //Si está seleccionado muestra su value
+        restaurantes_list.push($(this).prop('value'));
+
+        });
+
+});
+
+</script>
 <script>
     (function(A) {
 
@@ -72,7 +92,10 @@
 			],
             {% endfor %}
 
+
 		};
+
+
 
 			var mapOptions = {
 				zoom: 14,

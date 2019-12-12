@@ -1,5 +1,5 @@
 {% extends 'guia/index.html' %}
-{% load static tags_guia %}
+{% load static tags_guia tags_domicilio %}
 
     {% block extracss %}
     <!-- SPECIFIC CSS -->
@@ -57,12 +57,33 @@
 
                                 {% endif %}
 
-
-
                              {% endfor %}
 
 						</ul>
                         </div>
+                        <div class="filter_type">
+                    	<!--<h6>Distance</h6>
+                        <input type="text" id="range" value="" name="range">-->
+						<h6>Dietas</h6>
+						<ul>
+
+                            {# {% get_tipo_dieta restaurantes_cp as tipo_dieta %} #}
+
+                            {% for t in tipo_dieta %}
+
+                                {% if t.1 != 0 %}
+
+                                    <li><label><input  onclick="categoriaSeleccionada({{ t.0.pk }})" class="categorias_dieta" type="checkbox" id="categoria_dieta{{ t.0.pk }}" value="{{ t.0.pk }}" name="categoria_check" /> {{ t.0.nombre }}<small>({{ t.1 }})</small><i class="color_1"></i></label></li>
+
+
+                                {% endif %}
+
+                             {% endfor %}
+                            <li><label><input onclick="categoriaSeleccionada()" id="sin_gluten" type="checkbox" name="sin_gluten" value="sin_gluten" class="">Sin gluten</label></li>
+
+						</ul>
+
+					</div>
                      	<div class="filter_type clearfix">
                             <h6>Rating</h6>
                            <ul>
@@ -87,6 +108,7 @@
                 </div>
             <div id="lista_restaurantes_filtro">
                 {% for r in restaurantes %}
+                    <input class="restaurantes_pk" value="{{ r.pk }}" hidden>
                 <div id="lista_restaurantes" class="strip_list">
                     <div class="ribbon_1">
                         Popular
@@ -224,7 +246,6 @@
                 tipo_cocina.push($(this).prop('value'));
               }
             });
-            alert(tipo_cocina);
 
              $.get("{% url 'filtro_categorias_comida_guia' %}",
 
@@ -244,26 +265,54 @@
         }
 
 </script>
+
+<script>
+
+    $(document).ready(function() {
+
+  var restaurantes_list = [];
+
+
+     //Recorre todos los restaurantes.
+        $(".restaurantes_pk").each(function() {
+          //Si está seleccionado muestra su value
+        restaurantes_list.push($(this).prop('value'));
+
+        });
+
+});
+
+</script>
+    
 <script>
     var paginaActual = 1;
     function cargar() {
 
         paginaActual++;
         var tipo_cocina = [];
+        var restaurantes_list = [];
 
 
             //Recorre todos los input de categorias comida.
-            $("input").each(function() {
+            $(".categorias_comida").each(function() {
               //Si está seleccionado muestra su value
               if($(this).prop('checked')) {
                 tipo_cocina.push($(this).prop('value'));
               }
             });
 
+            //Recorre todos los restaurantes.
+            $(".restaurantes_pk").each(function() {
+              //Si está seleccionado muestra su value
+            restaurantes_list.push($(this).prop('value'));
+
+            });
+
         $.post("{% url  'cargar_mas' %}",
             {
                 'pg': paginaActual,
                 'tipo_cocina':tipo_cocina,
+                'restaurantes_list':restaurantes_list,
                 'csrfmiddlewaretoken': '{{ csrf_token }}',
 
             },
@@ -329,12 +378,11 @@
 				description_point: '{{ r.direccion }}<br><strong>Opening time</strong>: 09am-10pm.',
 				url_point: '{% url 'detalle_mapa' r.nombre_slug %}'
 			},
-
 			],
             {% endfor %}
 
 		};
-		marker
+
 
 			var mapOptions = {
 				zoom: 14,
@@ -387,7 +435,6 @@
       getInfoBox(item).open(mapObject, this);
       mapObject.setCenter(new google.maps.LatLng(item.location_latitude, item.location_longitude));
      }));
-
 	});
 
 		function hideAllMarkers () {
