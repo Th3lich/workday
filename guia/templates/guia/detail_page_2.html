@@ -2,28 +2,200 @@
 {% load static %}
 
 
-    {% block extracss %}
+{% block extracss %}
     <!-- Radio and check inputs -->
     <link href="{% static 'web/css/skins/square/grey.css' %}" rel="stylesheet">
-    
+
     <!-- Gallery -->
     <link href="{% static 'web/css/slider-pro.min.css' %}" rel="stylesheet">
-    {% endblock %}
 
-    {% block content %}
-<!-- SubHeader =============================================== -->
-<section class="parallax-window" data-parallax="scroll" data-image-src="img/sub_header_2.jpg" data-natural-width="1400" data-natural-height="470">
-    <div id="subheader">
-	<div id="sub_content">
-    	<div id="thumb"><img src="/static/media/{{ restaurante.foto_perfil }}" alt="logo-{{ restaurante.nombre_slug }}"></div>
-                     <div class="rating"><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i> ( <small><a href="#0">98 reviews</a></small> )</div>
-                    <h1>{{ restaurante.nombre }}</h1>
-                    <div><em>Mexican / American {{ restaurante.tipo_cocina }}</em></div>
-                    <div><i class="icon_pin"></i> 135 Newtownards Road, Belfast, BT4 1AB - <strong>Delivery charge:</strong> $10, free over $15.</div>
-    </div><!-- End sub_content -->
-</div><!-- End subheader -->
-</section><!-- End section -->
-<!-- End SubHeader ============================================ -->
+    <style>
+        .filterDiv {
+
+          display: none;
+        }
+        .page_title {
+            padding: 30px 0px;
+        }
+
+        .page_title h1 {
+            color: #c0392b;
+            font-weight: 700;
+            line-height: 2;
+            margin-bottom: 0;
+            position: relative;
+            text-transform: capitalize;
+        }
+
+        .page_title h1::before {
+        {#background: #c0392b;#} width: 70px;
+            height: 2px;
+            position: absolute;
+            content: '';
+            top: 90%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .page_title h1::after {
+            position: absolute;
+            content: '';
+        {#background: #fbc531;#} width: 30px;
+            height: 2px;
+            top: 90%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /*Menu starts*/
+        .menu_tab {
+            margin: 0 auto;
+            justify-content: center;
+        }
+
+        .nav-item {
+            display: inline-block;
+            text-align: center;
+        }
+
+        .nav-tabs .nav-link {
+            transition: .3s;
+        }
+
+        .nav-tabs .nav-link.active {
+            background: #c0392b;
+            color: #fff;
+            font-weight: 700;
+            border: 1px solid #c0392b;
+            text-transform: capitalize;
+        }
+
+        .nav-link {
+            color: #000;
+        }
+
+        .nav-tabs .nav-link:hover {
+            background: #c0392b;
+            color: #fff;
+            border: 1px solid #c0392b;
+        }
+
+        .single_menu {
+            position: relative;
+            margin-bottom: 75px;
+            transition: .3s;
+        }
+
+        .single_menu:hover img {
+            -webkit-clip-path: polygon(0% 0%, 100% 0, 100% 50%, 100% 100%, 0% 100%);
+            clip-path: polygon(0% 0%, 100% 0, 100% 50%, 100% 100%, 0% 100%);
+
+        }
+
+        .single_menu img {
+            width: 33%;
+            position: absolute;
+            height: 140px;
+            -webkit-clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
+            clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
+            transition: .3s;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .menu_content {
+            padding-left: 200px;
+        }
+
+        .menu_content h4 {
+            font-size: 25px;
+            font-weight: 300;
+            border-bottom: 1px dashed #c0392b;
+            line-height: 2;
+            text-transform: capitalize;
+        }
+
+        .menu_content h4 span {
+            font-size: 25px;
+            font-weight: 800;
+            float: right;
+            font-style: italic;
+            color: #c0392b;
+        }
+
+        .menu_content p {
+            font-weight: 200;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+        .menu_btn.btn.btn-danger {
+            margin: 0 auto;
+            display: block;
+            width: 140px;
+        }
+
+        /*Menu ends*/
+        .menu_btn.btn.btn-danger {
+            margin: 0 auto;
+            display: block;
+            width: 140px;
+        }
+
+        .btn.btn-danger {
+            background: #c0392b;
+            border: 1px solid #c0392b;
+            transition: .3s;
+            position: relative;
+            z-index: 1;
+            text-transform: capitalize;
+            font-weight: 700;
+            overflow: hidden;
+            padding: 15px 25px;
+        }
+
+        .btn.btn-danger::before {
+            position: absolute;
+            content: '';
+            background: #e74c3c;
+            width: 100%;
+            height: 100%;
+            left: -100%;
+            top: 100%;
+            transition: .3s;
+            z-index: -1;
+        }
+
+        .btn.btn-danger:hover:before {
+            top: 0;
+            left: 0;
+        }
+
+    </style>
+{% endblock %}
+
+{% block content %}
+    <!-- SubHeader =============================================== -->
+    <section class="parallax-window" data-parallax="scroll" data-image-src="img/sub_header_2.jpg"
+             data-natural-width="1400" data-natural-height="470">
+        <div id="subheader">
+            <div id="sub_content">
+                <div id="thumb"><img src="/static/media/{{ restaurante.foto_perfil }}"
+                                     alt="logo-{{ restaurante.nombre_slug }}"></div>
+                <div class="rating"><i class="icon_star voted"></i><i class="icon_star voted"></i><i
+                        class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i> (
+                    <small><a href="#0">98 reviews</a></small>
+                    )
+                </div>
+                <h1>{{ restaurante.nombre }}</h1>
+                <div><em>Mexican / American {{ restaurante.tipo_cocina }}</em></div>
+                <div><i class="icon_pin"></i> 135 Newtownards Road, Belfast, BT4 1AB - <strong>Delivery charge:</strong>
+                    $10, free over $15.
+                </div>
+            </div><!-- End sub_content -->
+        </div><!-- End subheader -->
+    </section><!-- End section -->
+    <!-- End SubHeader ============================================ -->
 
     <div id="position">
         <div class="container">
@@ -35,22 +207,22 @@
             <a href="#0" class="search-overlay-menu-btn"><i class="icon-search-6"></i> Search</a>
         </div>
     </div><!-- Position -->
-    
+
     <div class="collapse" id="collapseMap">
-            <div id="map" class="map"></div>
+        <div id="map" class="map"></div>
     </div><!-- End Map -->
 
-<!-- Content ================================================== -->
-<div class="container margin_60_35">
-		<div class="row">
-        
-			<div class="col-md-4">
-				<p>
-					<a class="btn_map" data-toggle="collapse" href="#collapseMap" aria-expanded="false" aria-controls="collapseMap">View on map</a>
-				</p>
-				<div class="box_style_2">
-					<h4 class="nomargin_top"> Horario <i class="icon_clock_alt pull-right"></i></h4>
-					<ul class="opening_list">
+    <!-- Content ================================================== -->
+    <div class="container margin_60_35">
+        <div class="row">
+            <div class="col-md-4">
+                <p>
+                    <a class="btn_map" data-toggle="collapse" href="#collapseMap" aria-expanded="false"
+                       aria-controls="collapseMap">Ubicación en el mapa</a>
+                </p>
+                <div class="box_style_2">
+                    <h4 class="nomargin_top"> Horario <i class="icon_clock_alt pull-right"></i></h4>
+                    <ul class="opening_list">
                         {% for h in horario %}
                             {% if h.cerrado %}
                                 <li>{{ h.dia_semana }} <span class="label label-danger">Cerrado</span></li>
@@ -58,342 +230,445 @@
                                 <li>{{ h.dia_semana }}<span>{{ h.inicio }}-{{ h.fin }}</span></li>
                             {% endif %}
                         {% endfor %}
-					</ul>
+                    </ul>
+                </div>
+                <div class="box_style_2 hidden-xs" id="help">
+                    <i class="icon_lifesaver"></i>
+                    <h4>Need <span>Help?</span></h4>
+                    <a href="tel://004542344599" class="phone">+45 423 445 99</a>
+                    <small>Monday to Friday 9.00am - 7.30pm</small>
+                </div>
+            </div>
 
-				</div>
-				<div class="box_style_2 hidden-xs" id="help">
-					<i class="icon_lifesaver"></i>
-					<h4>Need <span>Help?</span></h4>
-					<a href="tel://004542344599" class="phone">+45 423 445 99</a>
-					<small>Monday to Friday 9.00am - 7.30pm</small>
-				</div>
-			</div>
-            
-			<div class="col-md-8">
-				<div class="box_style_2">
-					<h2 class="inner">Description</h2>
-                    
+            <div class="col-md-8">
+                <div class="box_style_2">
+                    <h2 class="inner">Description</h2>
+
                     <div id="Img_carousel" class="slider-pro">
                         <div class="sp-slides">
                             {% for g in galeria %}
-                            <div class="sp-slide">
-                                <img alt="" class="sp-image" src="../src{% static 'web/css/images/blank.gif' %}"
-                                data-src="/static/media/{{ g.imagen }}"
-                                data-small="/static/media/{{ g.imagen }}"
-                                data-medium="/static/media/{{ g.imagen }}"
-                                data-large="/static/media/{{ g.imagen }}"
-                                data-retina="/static/media/{{ g.imagen }}">
-                            </div>
+                                <div class="sp-slide">
+                                    <img alt="" class="sp-image" src="../src{% static 'web/css/images/blank.gif' %}"
+                                         data-src="/static/media/{{ g.imagen }}"
+                                         data-small="/static/media/{{ g.imagen }}"
+                                         data-medium="/static/media/{{ g.imagen }}"
+                                         data-large="/static/media/{{ g.imagen }}"
+                                         data-retina="/static/media/{{ g.imagen }}">
+                                </div>
                             {% endfor %}
                         </div>
                         <!-- Necesitamos 7 fotos para que quede bien la plantilla la ultima foto -->
                         <div class="sp-thumbnails">
-                        {% for g in galeria %}
+                            {% for g in galeria %}
 
-                            <img alt="" class="sp-thumbnail" src="/static/media/{{ g.imagen }}">
+                                <img alt="" class="sp-thumbnail" src="/static/media/{{ g.imagen }}">
 
-                        {% endfor %}
+                            {% endfor %}
                         </div>
                     </div>
-                    <h3>Mas información</h3>
-					<p>
-                        {{ restaurante.descripcion }}
-					</p>
+                </div><!-- End box_style_1 -->
+            </div>
+        </div><!-- End row -->
+    </div><!-- End container -->
 
-					<div id="summary_review">
-						<div id="general_rating">
-							11 Reviews
-							<div class="rating">
-								<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
-							</div>
-						</div>
-                        
-						<div class="row" id="rating_summary">
-							<div class="col-md-6">
-								<ul>
-									<li>Food Quality
-									<div class="rating">
-										<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i>
-									</div>
-									</li>
-									<li>Price
-									<div class="rating">
-										<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
-									</div>
-									</li>
-								</ul>
-							</div>
-							<div class="col-md-6">
-								<ul>
-									<li>Punctuality
-									<div class="rating">
-										<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i>
-									</div>
-									</li>
-									<li>Courtesy
-									<div class="rating">
-										<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
-									</div>
-									</li>
-								</ul>
-							</div>
-						</div><!-- End row -->
-						<hr class="styled">
-						<a href="#" class="btn_1 add_bottom_15" data-toggle="modal" data-target="#myReview">Leave a review</a>
-					</div><!-- End summary_review -->
-                    
-					<div class="review_strip_single">
-						<img src="{% static 'web/img/avatar1.jpg' %}" alt="" class="img-circle">
-						<small> - 10 March 2015 -</small>
-						<h4>Jhon Doe</h4>
-						<p>
-							 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a lorem quis neque interdum consequat ut sed sem. Duis quis tempor nunc. Interdum et malesuada fames ac ante ipsum primis in faucibus."
-						</p>
-						<div class="row">
-							<div class="col-md-3">
-								<div class="rating">
-									<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i>
-								</div>
-								 Food Quality
-							</div>
-							<div class="col-md-3">
-								<div class="rating">
-									<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i>
-								</div>
-								 Price
-							</div>
-							<div class="col-md-3">
-								<div class="rating">
-									<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
-								</div>
-								 Punctuality
-							</div>
-							<div class="col-md-3">
-								<div class="rating">
-									<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
-								</div>
-								 Courtesy
-							</div>
-						</div><!-- End row -->
-					</div><!-- End review strip -->
-                    
-					<div class="review_strip_single">
-						<img src="{% static 'web/img/avatar3.jpg' %}" alt="" class="img-circle">
-						<small> - 25 March 2015 -</small>
-						<h4>Markus Schulz</h4>
-						<p>
-							 "At sed dico invenire facilisis, sed option sapientem iudicabit ad, sea idque doming vituperatoribus at. Duo ut inani tantas scaevola. Commodo oblique at cum. Duo id vide delectus. Vel et doctus laoreet minimum, ei feugait pertinacia usu.
-						</p>
-						<div class="row">
-							<div class="col-md-3">
-								<div class="rating">
-									<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i>
-								</div>
-								 Food Quality
-							</div>
-							<div class="col-md-3">
-								<div class="rating">
-									<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i>
-								</div>
-								 Price
-							</div>
-							<div class="col-md-3">
-								<div class="rating">
-									<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i>
-								</div>
-								 Punctuality
-							</div>
-							<div class="col-md-3">
-								<div class="rating">
-									<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
-								</div>
-								 Courtesy
-							</div>
-						</div><!-- End row -->
-					</div><!-- End review strip -->
-                    
-					<div class="review_strip_single last">
-						<img src="{% static 'web/img/avatar2.jpg' %}" alt="" class="img-circle">
-						<small> - 10 April 2015 -</small>
-						<h4>Frank Cooper</h4>
-						<p>
-							 "Ne mea congue facilis eligendi, possit utamur sensibus id qui, mel tollit euismod alienum eu. Ad tollit lucilius praesent per, ex probo utroque placerat eos. Tale verear efficiendi et cum, meis timeam vix et, et duis debet nostro mel. Aeterno labitur per no, id nec tantas nemore. An minim molestie per, mei sumo vulputate cu."
-						</p>
-						<div class="row">
-							<div class="col-md-3">
-								<div class="rating">
-									<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i>
-								</div>
-								 Food Quality
-							</div>
-							<div class="col-md-3">
-								<div class="rating">
-									<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i>
-								</div>
-								 Price
-							</div>
-							<div class="col-md-3">
-								<div class="rating">
-									<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i>
-								</div>
-								 Punctuality
-							</div>
-							<div class="col-md-3">
-								<div class="rating">
-									<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i>
-								</div>
-								 Courtesy
-							</div>
-						</div><!-- End row -->
-					</div><!-- End review strip -->
-                    
-				</div><!-- End box_style_1 -->
-			</div>
-		</div><!-- End row -->
-</div><!-- End container -->
-<!-- End Content =============================================== -->
+    <!-- End Content =============================================== -->
+    <div class="container">
+        <div class="row box_style_2">
+            <h3 class="text-center">Mas información sobre {{ restaurante.nombre }}</h3><br>
+            <p>
+                {{ restaurante.descripcion }}
+            </p>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page_title text-center">
+                    <h2>Menu</h2>
+                    <div class="single_line"></div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <ul style="display: flex;" class="nav nav-tabs menu_tab" id="myTab" role="tablist">
+              <li><a class="nav-link active"  onclick="filterSelection('all')" data-toggle="tab" href="" role="tab">Todos</a></li>
+
+                {% for c in categorias_producto %}
+                    <li class="nav-item">
+                    <a class="nav-link active"  onclick="filterSelection('{{ c.nombre_slug }}')"  data-toggle="tab" href="" role="tab">{{ c.nombre }}</a>
+
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="row">
+            <div class="tab-content col-lg-12" id="myTabContent">
+                <div class="row">
+                    {% for p in productos %}
+                        <div class="single_menu col-md-6 filterDiv {{ p.categoria.nombre_slug }}" id="pizza" role="tabpanel" aria-labelledby="pizza-tab">
+                            <img src="/static/media/{{ p.imagen }}" alt="{{ p.nombre }}">
+                            <div class="menu_content">
+                                <h4>{{ p.nombre }} <span>{{ p.precio_base }}€</span></h4>
+                                <p>{{ p.descripcion|slice:":30" }}</p>
+                                {#                                para poner palabras y puntos suspensivos#}
+                                {#                                {{ value|truncatewords:2 }}#}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Content ================================================== -->
+    <div class="container margin_60_35">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="col-md-12 box_style_2">
+                    <div>
+                        <h3 class="text-center">Opiniones</h3>
+                    </div>
+                    <div class="col-md-4"></div>
+                    <div id="summary_review">
+                        <div id="general_rating">
+                            11 Reviews
+                            <div class="rating">
+                                <i class="icon_star voted"></i><i class="icon_star voted"></i><i
+                                    class="icon_star voted"></i><i
+                                    class="icon_star voted"></i><i class="icon_star"></i>
+                            </div>
+                        </div>
+
+                        <div class="row" id="rating_summary">
+                            <div class="col-md-6">
+                                <ul>
+                                    <li>Food Quality
+                                        <div class="rating">
+                                            <i class="icon_star voted"></i><i class="icon_star voted"></i><i
+                                                class="icon_star voted"></i><i class="icon_star"></i><i
+                                                class="icon_star"></i>
+                                        </div>
+                                    </li>
+                                    <li>Price
+                                        <div class="rating">
+                                            <i class="icon_star voted"></i><i class="icon_star voted"></i><i
+                                                class="icon_star voted"></i><i class="icon_star voted"></i><i
+                                                class="icon_star"></i>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul>
+                                    <li>Punctuality
+                                        <div class="rating">
+                                            <i class="icon_star voted"></i><i class="icon_star voted"></i><i
+                                                class="icon_star"></i><i
+                                                class="icon_star"></i><i class="icon_star"></i>
+                                        </div>
+                                    </li>
+                                    <li>Courtesy
+                                        <div class="rating">
+                                            <i class="icon_star voted"></i><i class="icon_star voted"></i><i
+                                                class="icon_star voted"></i><i class="icon_star voted"></i><i
+                                                class="icon_star"></i>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div><!-- End row -->
+                        <hr class="styled">
+                        <a href="#" class="btn_1 add_bottom_15" data-toggle="modal" data-target="#myReview">Leave a
+                            review</a>
+                    </div><!-- End summary_review -->
+                    {% for v in valoracion %}
+                        <div class="review_strip_single">
+                            <img src="{% static 'web/img/avatar1.jpg' %}" alt="" class="img-circle">
+                            <small> - 10 March 2015 -</small>
+                            <h4>Jhon Doe</h4>
+                            <p>
+                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a lorem quis neque
+                                interdum consequat ut sed sem. Duis quis tempor nunc. Interdum et malesuada fames ac
+                                ante ipsum primis in faucibus."
+                            </p>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="rating">
+                                        <i class="icon_star voted"></i><i class="icon_star voted"></i><i
+                                            class="icon_star voted"></i><i class="icon_star voted"></i><i
+                                            class="icon_star voted"></i>
+                                    </div>
+                                    Food Quality
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="rating">
+                                        <i class="icon_star voted"></i><i class="icon_star voted"></i><i
+                                            class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i>
+                                    </div>
+                                    Price
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="rating">
+                                        <i class="icon_star voted"></i><i class="icon_star voted"></i><i
+                                            class="icon_star voted"></i><i class="icon_star voted"></i><i
+                                            class="icon_star"></i>
+                                    </div>
+                                    Punctuality
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="rating">
+                                        <i class="icon_star voted"></i><i class="icon_star voted"></i><i
+                                            class="icon_star voted"></i><i class="icon_star voted"></i><i
+                                            class="icon_star"></i>
+                                    </div>
+                                    Courtesy
+                                </div>
+                            </div><!-- End row -->
+                        </div><!-- End review strip -->
+
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="box_style_2 col-md-12">
+                    <h3 style="margin-bottom: 30px;" class="text-center">Restaurantes Recomendados</h3>
+                    {% for r in restaurante_recomendado %}
+                            <a href="{% url 'menu' r.nombre_slug %}" class="strip_list">
+                                <div class="ribbon_1">Popular</div>
+                                <div class="desc">
+                                    <div class="thumb_strip">
+                                        <img src="{% static 'web/img/thumb_restaurant.jpg' %}" alt="">
+                                    </div>
+                                    <div class="rating">
+                                        <i class="icon_star voted"></i><i class="icon_star voted"></i><i
+                                            class="icon_star voted"></i><i class="icon_star voted"></i><i
+                                            class="icon_star"></i>
+                                    </div>
+                                    <h3>{{ r.nombre }}</h3>
+                                    <div class="type">
+                                        Mexican / American
+                                    </div>
+                                    <div class="location">
+                                        135 Newtownards Road, Belfast, BT4. <span class="opening">Opens at 17:00</span>
+                                    </div>
+                                    <ul>
+                                        <li>Take away<i class="icon_check_alt2 ok"></i></li>
+                                        <li>Delivery<i class="icon_check_alt2 ok"></i></li>
+                                    </ul>
+                                </div><!-- End desc-->
+                            </a><!-- End strip_list-->
+
+                    {% endfor %}
+                </div><!-- End box_style_1 -->
+            </div>
+        </div>
+    </div>
+    </div><!-- End container -->
+
 {% endblock %}
 
 {% block extrajs %}
-<!-- SPECIFIC SCRIPTS -->
-<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCe6CLfgCR0bvMX7oxLYqYh2IbBCaASmXU&callback=initMap"></script>
-<script src="{% static 'web/js/map_single.js' %}"></script>
-<script src="{% static 'web/js/infobox.js' %}"></script>
-<script src="{% static 'web/js/jquery.sliderPro.min.js' %}"></script>
-<script type="text/javascript">
-	$( document ).ready(function( $ ) {
-		$( '#Img_carousel' ).sliderPro({
-			width: 960,
-			height: 500,
-			fade: true,
-			arrows: true,
-			buttons: false,
-			fullScreen: false,
-			smallSize: 500,
-			startSlide: 0,
-			mediumSize: 1000,
-			largeSize: 3000,
-			thumbnailArrows: true,
-			autoplay: false
-		});
-	});
+    <!-- SPECIFIC SCRIPTS -->
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCe6CLfgCR0bvMX7oxLYqYh2IbBCaASmXU&callback=initMap"></script>
+    <script src="{% static 'web/js/map_single.js' %}"></script>
+    <script src="{% static 'web/js/infobox.js' %}"></script>
+    <script src="{% static 'web/js/jquery.sliderPro.min.js' %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function ($) {
+            $('#Img_carousel').sliderPro({
+                width: 960,
+                height: 500,
+                fade: true,
+                arrows: true,
+                buttons: false,
+                fullScreen: false,
+                smallSize: 500,
+                startSlide: 0,
+                mediumSize: 1000,
+                largeSize: 3000,
+                thumbnailArrows: true,
+                autoplay: false
+            });
+        });
+    </script>
+
+    <script>
+    filterSelection("all")
+    function filterSelection(c) {
+      var x, i;
+      x = document.getElementsByClassName("filterDiv");
+      if (c == "all") c = "";
+      for (i = 0; i < x.length; i++) {
+        w3RemoveClass(x[i], "show");
+        if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show");
+      }
+    }
+
+    function w3AddClass(element, name) {
+      var i, arr1, arr2;
+      arr1 = element.className.split(" ");
+      arr2 = name.split(" ");
+      for (i = 0; i < arr2.length; i++) {
+        if (arr1.indexOf(arr2[i]) == -1) {element.className += " " + arr2[i];}
+      }
+    }
+
+    function w3RemoveClass(element, name) {
+      var i, arr1, arr2;
+      arr1 = element.className.split(" ");
+      arr2 = name.split(" ");
+      for (i = 0; i < arr2.length; i++) {
+        while (arr1.indexOf(arr2[i]) > -1) {
+          arr1.splice(arr1.indexOf(arr2[i]), 1);
+        }
+      }
+      element.className = arr1.join(" ");
+    }
+
+    // Add active class to the current button (highlight it)
+    var btnContainer = document.getElementById("myBtnContainer");
+    var btns = btnContainer.getElementsByClassName("btn");
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener("click", function(){
+        var current = document.getElementsByClassName("active");
+        current[0].className = current[0].className.replace(" active", "");
+        this.className += " active";
+      });
+    }
 </script>
-<script>
-$('#collapseMap').on('shown.bs.collapse', function(e){
-	(function(A) {
+    <script>
+        $('#collapseMap').on('shown.bs.collapse', function (e) {
+            (function (A) {
 
-	if (!Array.prototype.forEach)
-		A.forEach = A.forEach || function(action, that) {
-			for (var i = 0, l = this.length; i < l; i++)
-				if (i in this)
-					action.call(that, this[i], i, this);
-			};
+                if (!Array.prototype.forEach)
+                    A.forEach = A.forEach || function (action, that) {
+                        for (var i = 0, l = this.length; i < l; i++)
+                            if (i in this)
+                                action.call(that, this[i], i, this);
+                    };
 
-		})(Array.prototype);
+            })(Array.prototype);
 
-		var
-		mapObject,
-		markers = [],
-		markersData = {
-			'{{ restaurante.nombre }}': [
-			{
-				name: '{{ restaurante.nombre }}',
-				location_latitude: {{ restaurante.ubicacion_x }},
-				location_longitude: {{ restaurante.ubicacion_y }},
-				map_image_url: '/static/web/img/thumb_restaurant_map.png',
-				name_point: 'Mexican TacoMex',
-				type_point: 'American/Mexican',
-				description_point: '135 Newtownards Road, Belfast, BT4<br><strong>Opening time</strong>: 09am-10pm.'
-			}
-			]
-		};
-
-
-			var mapOptions = {
-				zoom: 14,
-				center: new google.maps.LatLng({{ restaurante.ubicacion_x }}, {{ restaurante.ubicacion_y }}),
-				mapTypeId: google.maps.MapTypeId.ROADMAP,
-
-				mapTypeControl: false,
-				mapTypeControlOptions: {
-					style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-					position: google.maps.ControlPosition.LEFT_CENTER
-				},
-				panControl: false,
-				panControlOptions: {
-					position: google.maps.ControlPosition.TOP_RIGHT
-				},
-				zoomControl: true,
-				zoomControlOptions: {
-					style: google.maps.ZoomControlStyle.LARGE,
-					position: google.maps.ControlPosition.TOP_RIGHT
-				},
-				scrollwheel: false,
-				scaleControl: false,
-				scaleControlOptions: {
-					position: google.maps.ControlPosition.TOP_LEFT
-				},
-				streetViewControl: true,
-				streetViewControlOptions: {
-					position: google.maps.ControlPosition.LEFT_TOP
-				},
-				styles: [{"featureType":"landscape","stylers":[{"hue":"#FFBB00"},{"saturation":43.400000000000006},{"lightness":37.599999999999994},{"gamma":1}]},{"featureType":"road.highway","stylers":[{"hue":"#FFC200"},{"saturation":-61.8},{"lightness":45.599999999999994},{"gamma":1}]},{"featureType":"road.arterial","stylers":[{"hue":"#FF0300"},{"saturation":-100},{"lightness":51.19999999999999},{"gamma":1}]},{"featureType":"road.local","stylers":[{"hue":"#FF0300"},{"saturation":-100},{"lightness":52},{"gamma":1}]},{"featureType":"water","stylers":[{"hue":"#0078FF"},{"saturation":-13.200000000000003},{"lightness":2.4000000000000057},{"gamma":1}]},{"featureType":"poi","stylers":[{"hue":"#00FF6A"},{"saturation":-1.0989010989011234},{"lightness":11.200000000000017},{"gamma":1}]}]
-			};
-			var
-			marker;
-			mapObject = new google.maps.Map(document.getElementById('map'), mapOptions);
-			for (var key in markersData)
-				markersData[key].forEach(function (item) {
-					marker = new google.maps.Marker({
-						position: new google.maps.LatLng(item.location_latitude, item.location_longitude),
-						map: mapObject,
-						icon: '/static/web/img/pins/' + 'Pizza' + '.png',
-					});
-
-					if ('undefined' === typeof markers[key])
-						markers[key] = [];
-					markers[key].push(marker);
-					google.maps.event.addListener(marker, 'click', (function () {
-      closeInfoBox();
-      getInfoBox(item).open(mapObject, this);
-      mapObject.setCenter(new google.maps.LatLng(item.location_latitude, item.location_longitude));
-     }));
-
-	});
-
-		function hideAllMarkers () {
-			for (var key in markers)
-				markers[key].forEach(function (marker) {
-					marker.setMap(null);
-				});
-		};
-
-		function closeInfoBox() {
-			$('div.infoBox').remove();
-		};
-
-		function getInfoBox(item) {
-			return new InfoBox({
-				content:
-				'<div class="marker_info" id="marker_info">' +
-				'<img src="' + item.map_image_url + '" alt=""/>' +
-				'<h3>'+ item.name_point +'</h3>' +
-				'<em>'+ item.type_point +'</em>' +
-				'<span>'+ item.description_point +'</span>' +
-				'</div>',
-				disableAutoPan: true,
-				maxWidth: 0,
-				pixelOffset: new google.maps.Size(35, -170),
-				closeBoxMargin: '5px -20px 2px 2px',
-				closeBoxURL: "http://www.google.com/intl/en_us/mapfiles/close.gif",
-				isHidden: false,
-				pane: 'floatPane',
-				enableEventPropagation: true
-			});
+            var
+                mapObject,
+                markers = [],
+                markersData = {
+                    '{{ restaurante.nombre }}': [
+                        {
+                            name: '{{ restaurante.nombre }}',
+                            location_latitude: {{ restaurante.ubicacion_x }},
+                            location_longitude: {{ restaurante.ubicacion_y }},
+                            map_image_url: '/static/web/img/thumb_restaurant_map.png',
+                            name_point: 'Mexican TacoMex',
+                            type_point: 'American/Mexican',
+                            description_point: '135 Newtownards Road, Belfast, BT4<br><strong>Opening time</strong>: 09am-10pm.'
+                        }
+                    ]
+                };
 
 
-		};
+            var mapOptions = {
+                zoom: 14,
+                center: new google.maps.LatLng({{ restaurante.ubicacion_x }}, {{ restaurante.ubicacion_y }}),
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
 
-    });
-</script>
+                mapTypeControl: false,
+                mapTypeControlOptions: {
+                    style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+                    position: google.maps.ControlPosition.LEFT_CENTER
+                },
+                panControl: false,
+                panControlOptions: {
+                    position: google.maps.ControlPosition.TOP_RIGHT
+                },
+                zoomControl: true,
+                zoomControlOptions: {
+                    style: google.maps.ZoomControlStyle.LARGE,
+                    position: google.maps.ControlPosition.TOP_RIGHT
+                },
+                scrollwheel: false,
+                scaleControl: false,
+                scaleControlOptions: {
+                    position: google.maps.ControlPosition.TOP_LEFT
+                },
+                streetViewControl: true,
+                streetViewControlOptions: {
+                    position: google.maps.ControlPosition.LEFT_TOP
+                },
+                styles: [{
+                    "featureType": "landscape",
+                    "stylers": [{"hue": "#FFBB00"}, {"saturation": 43.400000000000006}, {"lightness": 37.599999999999994}, {"gamma": 1}]
+                }, {
+                    "featureType": "road.highway",
+                    "stylers": [{"hue": "#FFC200"}, {"saturation": -61.8}, {"lightness": 45.599999999999994}, {"gamma": 1}]
+                }, {
+                    "featureType": "road.arterial",
+                    "stylers": [{"hue": "#FF0300"}, {"saturation": -100}, {"lightness": 51.19999999999999}, {"gamma": 1}]
+                }, {
+                    "featureType": "road.local",
+                    "stylers": [{"hue": "#FF0300"}, {"saturation": -100}, {"lightness": 52}, {"gamma": 1}]
+                }, {
+                    "featureType": "water",
+                    "stylers": [{"hue": "#0078FF"}, {"saturation": -13.200000000000003}, {"lightness": 2.4000000000000057}, {"gamma": 1}]
+                }, {
+                    "featureType": "poi",
+                    "stylers": [{"hue": "#00FF6A"}, {"saturation": -1.0989010989011234}, {"lightness": 11.200000000000017}, {"gamma": 1}]
+                }]
+            };
+            var
+                marker;
+            mapObject = new google.maps.Map(document.getElementById('map'), mapOptions);
+            for (var key in markersData)
+                markersData[key].forEach(function (item) {
+                    marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(item.location_latitude, item.location_longitude),
+                        map: mapObject,
+                        icon: '/static/web/img/pins/' + 'Pizza' + '.png',
+                    });
+
+                    if ('undefined' === typeof markers[key])
+                        markers[key] = [];
+                    markers[key].push(marker);
+                    google.maps.event.addListener(marker, 'click', (function () {
+                        closeInfoBox();
+                        getInfoBox(item).open(mapObject, this);
+                        mapObject.setCenter(new google.maps.LatLng(item.location_latitude, item.location_longitude));
+                    }));
+
+                });
+
+            function hideAllMarkers() {
+                for (var key in markers)
+                    markers[key].forEach(function (marker) {
+                        marker.setMap(null);
+                    });
+            };
+
+            function closeInfoBox() {
+                $('div.infoBox').remove();
+            };
+
+            function getInfoBox(item) {
+                return new InfoBox({
+                    content:
+                        '<div class="marker_info" id="marker_info">' +
+                        '<img src="' + item.map_image_url + '" alt=""/>' +
+                        '<h3>' + item.name_point + '</h3>' +
+                        '<em>' + item.type_point + '</em>' +
+                        '<span>' + item.description_point + '</span>' +
+                        '</div>',
+                    disableAutoPan: true,
+                    maxWidth: 0,
+                    pixelOffset: new google.maps.Size(35, -170),
+                    closeBoxMargin: '5px -20px 2px 2px',
+                    closeBoxURL: "http://www.google.com/intl/en_us/mapfiles/close.gif",
+                    isHidden: false,
+                    pane: 'floatPane',
+                    enableEventPropagation: true
+                });
+
+
+            };
+
+        });
+    </script>
 {% endblock %}

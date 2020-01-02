@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.views.generic import CreateView, ListView
 from django.views.decorators.csrf import csrf_exempt
 from django.template.loader import render_to_string
-from comercios.models import Restaurante, TipoCocina, Galeria, Horario, Valoracion
+from comercios.models import Restaurante, TipoCocina, Galeria, Horario, Valoracion, CategoriaProducto, Producto
 from django.db.models import Q
 from django import http
 import json
@@ -32,7 +32,7 @@ def restaurantes_mapa(restaurantes):
     for r in restaurantes:
         listado.append(r)
 
-
+        print(r)
     return listado
 
 def filtrar(diccionario):
@@ -199,11 +199,18 @@ class Guia(ListView):
 @csrf_exempt
 def cargarMas(request):
     print('CARGAR MAS')
-
+    listado_mapa = []
     try:
         restaurantes_list = request.POST.getlist('restaurantes_list[]')
+        print(restaurantes_list)
 
         restaurantes = Restaurante.objects.filter(pk__in=restaurantes_list)
+
+        for r in restaurantes:
+            listado_mapa.append(r)
+
+        print(restaurantes)
+        print('arriba los restaurantes')
 
     except:
         pass
@@ -212,24 +219,30 @@ def cargarMas(request):
 
         paginaActual = request.POST['pg']
 
-
-
         restaurantes = filtrar(request.POST)
 
         paginator = Paginator(restaurantes, 1)
         page = paginator.page(paginaActual)
 
+        siguientes_restaurantes = restaurantes_mapa(page.object_list)
 
-
-        listado_mapa = restaurantes_mapa(page.object_list)
+        for l in siguientes_restaurantes:
+            listado_mapa.append(l)
 
 
         html = render_to_string('guia/map_filtro_categorias.html', {'page': page,
                                                          'paginator': paginator,
                                                          'restaurantes':restaurantes,
+                                                         'listado_mapa':listado_mapa,
                                                          })
 
-        response_data = {'result': 'ok', 'datos': html, 'end_index': page.end_index(),
+        html2 = render_to_string('guia/map_mapa.html', {'page': page,
+                                                                    'paginator': paginator,
+                                                                    'restaurantes': restaurantes,
+                                                                    'listado_mapa': listado_mapa,
+                                                                    })
+
+        response_data = {'result': 'ok', 'datos': html,'datos2':html2, 'end_index': page.end_index(),
                          'has_next': page.has_next()}
     except Exception as e:
 
@@ -274,23 +287,21 @@ class Detail(CreateView):
     def get(self, request, *args, **kwargs):
 
         restaurante = get_object_or_None(Restaurante, nombre_slug=self.kwargs['nombre_slug'])
-        galeria = Galeria.objects.filter(restaurante__nombre_slug=self.kwargs['nombre_slug']).order_by('pk')
-        horario = Horario.objects.filter(restaurante__nombre_slug=self.kwargs['nombre_slug'])
-        valoracion = Valoracion.objects.filter(restaurante__nombre_slug=self.kwargs['nombre_slug'])
+        galeria = Galeria.objects.filter(restaurante__nombre_slug=restaurante).order_by('pk')
+        horario = Horario.objects.filter(restaurante__nombre_slug=restaurante)
+        valoracion = Valoracion.objects.filter(restaurante__nombre_slug=restaurante)
+        categorias_producto = CategoriaProducto.objects.filter(restaurante__nombre_slug=restaurante)
+        productos = Producto.objects.filter(categoria__restaurante__nombre_slug=restaurante).order_by('?')
+        restaurante_recomendado = Restaurante.objects.all()
 
-        for g in galeria:
-            print(g.nombre_slug)
-
-        for g in horario:
-            print(g)
-
-        for g in valoracion:
-            print(g)
 
         return render(request, self.template_name,{'restaurante':restaurante,
                                                    'galeria':galeria,
                                                    'horario':horario,
                                                    'valoracion':valoracion,
+                                                   'categorias_producto':categorias_producto,
+                                                   'productos':productos,
+                                                   'restaurante_recomendado':restaurante_recomendado,
                                                    })
 
 

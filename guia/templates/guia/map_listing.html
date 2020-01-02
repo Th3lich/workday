@@ -258,6 +258,7 @@
                 function (data, status) {
                  if (data.result=='ok'){
                       $('#lista_restaurantes_filtro').html(data.html);
+                      $('#map_listing').html(data.html2);
                       $('#boton_cargar_mas').show();
                  }
                 }
@@ -265,25 +266,6 @@
         }
 
 </script>
-
-<script>
-
-    $(document).ready(function() {
-
-  var restaurantes_list = [];
-
-
-     //Recorre todos los restaurantes.
-        $(".restaurantes_pk").each(function() {
-          //Si está seleccionado muestra su value
-        restaurantes_list.push($(this).prop('value'));
-
-        });
-
-});
-
-</script>
-    
 <script>
     var paginaActual = 1;
     function cargar() {
@@ -321,6 +303,7 @@
                 console.log(data.message);
                 if (data.result == "ok") {
                     $("#lista_restaurantes_filtro").append(data.datos);
+
 
                     if (!data.has_next) {
 

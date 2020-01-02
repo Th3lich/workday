@@ -43,24 +43,8 @@
 
 
 <script>
-
-    $(document).ready(function() {
-
-  var restaurantes_list = [];
-
-
-     //Recorre todos los restaurantes.
-        $(".restaurantes_pk").each(function() {
-          //Si está seleccionado muestra su value
-        restaurantes_list.push($(this).prop('value'));
-
-        });
-
-});
-
-</script>
-<script>
     (function(A) {
+
 
 	if (!Array.prototype.forEach)
 		A.forEach = A.forEach || function(action, that) {
@@ -75,7 +59,7 @@
 		mapObject,
 		markers = [],
 		markersData = {
-            {% for r in restaurantes %}
+            {% for r in listado_mapa %}
 
 			'{{ r.nombre_slug }}': [
 			{
@@ -94,8 +78,6 @@
 
 
 		};
-
-
 
 			var mapOptions = {
 				zoom: 14,
