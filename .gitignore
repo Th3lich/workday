@@ -1,7 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
 configuracion/local_settings.py
 dbsqlite
-bd.sqlite3
+db.sqlite3
 
 */migrations/0*
 descargas/*
