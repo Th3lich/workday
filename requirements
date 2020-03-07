@@ -29,3 +29,4 @@ google
 django-datetime-widget
 
 psycopg2-binary
+bootstrap3_datetime

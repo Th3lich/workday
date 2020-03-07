@@ -9,8 +9,8 @@ from datetimewidget.widgets import TimeWidget, DateWidget, DateTimeWidget
 
 from comercios.models import CategoriaProducto, Producto, Ingrediente, Horario, HorarioReparto, Cp, DiaFestivo
 
-from bootstrap_datepicker_plus import DatePickerInput
-
+# from bootstrap_datepicker_plus import DatePickerInput
+#
 from bootstrap3_datetime.widgets import DateTimePicker
 
 class ContrasenaForm(forms.Form):
