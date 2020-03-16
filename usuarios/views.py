@@ -41,7 +41,6 @@ class TrabajadoresList(ListView):
         by_id = User.objects.filter(is_staff=False).order_by('id')
         usuarios = models.DatosExtraUser.objects.all().order_by('usuario')
         form = forms.BusquedaForm(request.GET)
-        print (form.errors)
         publicidad = False
         if form.is_valid():
             try:

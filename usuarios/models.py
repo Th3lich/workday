@@ -9,7 +9,6 @@ from django.db.models.signals import post_save
 import os
 from django.template.defaultfilters import slugify
 
-from comercios.models import Restaurante
 
 PROJECT_PATH = os.path.dirname("__file__")
 
@@ -61,11 +60,4 @@ class Tokenregister(models.Model):
         return u"%s" % self.user.username
 
 
-class AdminRestaurante(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    restaurante = models.ForeignKey(Restaurante, on_delete=models.CASCADE)
-    admin = models.BooleanField(default=False)
-
-    def __str__(self):
-        return u"%s" % self.user
 

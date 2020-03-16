@@ -1,7 +1,6 @@
 from django.contrib import admin
-from usuarios.models import Tokenregister, DatosExtraUser, Direccion, AdminRestaurante
+from usuarios.models import Tokenregister, DatosExtraUser, Direccion
 
 admin.site.register(Tokenregister)
 admin.site.register(DatosExtraUser)
 admin.site.register(Direccion)
-admin.site.register(AdminRestaurante)

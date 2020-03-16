@@ -41,19 +41,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'domicilio',
-    'guia',
-    'web',
-    'blog',
     'ckeditor',
     'ckeditor_uploader',
     'bootstrapform',
     'usuarios',
-    'administracion',
-    'comercios',
     'datetimewidget',
     'bootstrap3_datetime'
-
 
 ]
 

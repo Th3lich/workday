@@ -2,13 +2,13 @@
 
 __author__ = 'brian'
 
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
-from usuarios import views_java
+from usuarios import views_api
 
-urlpatterns = [url(r'^login/$', views_java.login),
-               url(r'^logout/$', views_java.logout),
-               url(r'^get_perfil/$', views_java.get_perfil),
-               url(r'^comprobar_token/$', views_java.comprobar_token),
-               url(r'^cambiar_pass/$', views_java.cambiar_pass),
+urlpatterns = [url(r'^login/$', views_api.login),
+               url(r'^logout/$', views_api.logout),
+               url(r'^get_perfil/$', views_api.get_perfil),
+               url(r'^comprobar_token/$', views_api.comprobar_token),
+               url(r'^cambiar_pass/$', views_api.cambiar_pass),
                ]
