@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'bootstrapform',
-    'usuarios',
+    'users',
     'datetimewidget',
     'bootstrap3_datetime'
 
@@ -123,7 +123,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# crear las utilidades en un blog (negrita,color...)
+# crear las utilities en un blog (negrita,color...)
 CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
 CKEDITOR_UPLOAD_PATH = "uploads/"
 

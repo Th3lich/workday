@@ -25,7 +25,7 @@ from ckeditor_uploader import views as vistas_ckeditor
 urlpatterns = [
     url(r'^jet/', include('jet.urls', 'jet')),
     url(r'^admin/', admin.site.urls),
-    url(r'^usuarios/', include('usuarios.urls')),
+    url(r'^users/', include('users.urls')),
 
     # path('login/', LoginView.as_view(template_name='login.html'), name='login'),
     # path('logout/', LogoutView.as_view(next_page='index_8'), name='logout'),

@@ -13,26 +13,7 @@ from django.template.defaultfilters import slugify
 PROJECT_PATH = os.path.dirname("__file__")
 
 
-class Direccion(models.Model):
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-    nombre = models.CharField(max_length=500)
-    nombre_slug = models.SlugField(blank=True, editable=False)
-    ciudad = models.CharField(max_length=500)
-    calle = models.CharField(max_length=500)
-    piso_puerta = models.CharField(max_length=30)
-    cp = models.CharField(max_length=20)
-    favorita = models.BooleanField(default=False)
-    fecha = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return u"%s_%s" % (self.usuario.username, self.nombre)
-
-    def save(self, *args, **kwargs):
-        self.nombre_slug = slugify(self.nombre)
-        super(Direccion, self).save(*args, **kwargs)
-
-
-class DatosExtraUser(models.Model):
+class ExtraUserData(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     ciudad = models.CharField(max_length=500, blank=True, null=True)
     telefono = models.CharField(max_length=9)

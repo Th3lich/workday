@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 from django.core.mail import send_mail
 
-from usuarios import forms, models
-from usuarios import forms
+from users import forms, models
+from users import forms
 from django.views.generic import ListView, FormView, DeleteView,CreateView, UpdateView
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, get_object_or_404
@@ -11,7 +11,7 @@ from django.urls import reverse
 from django.utils.encoding import smart_str
 from django.contrib.auth.models import User
 from annoying.functions import get_object_or_None
-#from utilidades import enviarmail,contrasena
+#from utilities import enviarmail,contrasena
 import datetime
 from django.utils.timezone import utc
 from django.db.models import Q
@@ -24,8 +24,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 class AdministradoresList(ListView):
     model = User
-    context_object_name = 'usuarios'
-    template_name = 'usuarios/administradores_list.html'
+    context_object_name = 'users'
+    template_name = 'users/administradores_list.html'
 
     def get_queryset(self):
         by_id = User.objects.filter(is_staff=True).order_by('id')
@@ -34,12 +34,12 @@ class AdministradoresList(ListView):
 
 class TrabajadoresList(ListView):
     model = User
-    context_object_name = 'usuarios'
-    template_name = 'usuarios/trabajadores_list.html'
+    context_object_name = 'users'
+    template_name = 'users/trabajadores_list.html'
 
     def get(self, request, *args, **kwargs):
         by_id = User.objects.filter(is_staff=False).order_by('id')
-        usuarios = models.DatosExtraUser.objects.all().order_by('usuario')
+        usuarios = models.ExtraUserData.objects.all().order_by('usuario')
         form = forms.BusquedaForm(request.GET)
         publicidad = False
         if form.is_valid():
@@ -66,11 +66,11 @@ class TrabajadoresList(ListView):
             except:
                 pass
 
-        return render(request, self.template_name, {'usuarios': usuarios,
+        return render(request, self.template_name, {'users': usuarios,
                                                     'form': form})
 
 class UsuarioCreate(FormView):
-    template_name = 'usuarios/usuario_create.html'
+    template_name = 'users/usuario_create.html'
     form_class = forms.UsuarioForm
     second_form_class = UserCreationForm
 
@@ -119,7 +119,7 @@ class UsuarioCreate(FormView):
         return render(request, self.template_name, {'usuarioform': usuarioform})
 
 class UsuarioEdit(FormView):
-    template_name = 'usuarios/usuario_edit.html'
+    template_name = 'users/usuario_edit.html'
     form_class = forms.UsuarioForm
     second_form_class = UserCreationForm
 
@@ -157,7 +157,7 @@ class UsuarioEdit(FormView):
         return render(request, self.template_name, { 'usuarioform': usuarioform,'usuario':usuario})
 
 class UsuarioDelete(DeleteView):
-    template_name = 'usuarios/usuario_delete.html'
+    template_name = 'users/usuario_delete.html'
     form_class = forms.ContrasenaForm
 
     def get(self, request, *args, **kwargs):
@@ -189,7 +189,7 @@ class UsuarioDelete(DeleteView):
 class UsuarioPerfil(CreateView):
     model = User
     context_object_name = 'usuario'
-    template_name = 'usuarios/usuario_perfil.html'
+    template_name = 'users/usuario_perfil.html'
 
     def get(self, request, *args, **kwargs):
 
@@ -198,8 +198,8 @@ class UsuarioPerfil(CreateView):
 
 class UsuarioRecuperarContrasena(CreateView):
 
-    template_name = 'usuarios/recuperar_contrasena.html'
-    template_respuesta = 'usuarios/recuperar_contrasena_respuesta.html'
+    template_name = 'users/recuperar_contrasena.html'
+    template_respuesta = 'users/recuperar_contrasena_respuesta.html'
     form_class = forms.RecuperarContrasenaForm
     def get(self, request, *args, **kwargs):
 
@@ -221,7 +221,7 @@ class UsuarioRecuperarContrasena(CreateView):
                 enl =models.TokenRecuperarPass(user=usuario,token=token_pass)
                 enl.save()
 
-                enlace = u'http://aplicacion.construccionesrodriguez.es/usuarios/confirmarrecuperarpass/'+token_pass
+                enlace = u'http://aplicacion.construccionesrodriguez.es/users/confirmarrecuperarpass/'+token_pass
                 #enlace = u'http://192.168.1.12:8000/usuarios/confirmarrecuperarpass/'+token_pass
                 asunto = smart_str(u'Recuperar password')
 
@@ -238,9 +238,9 @@ class UsuarioRecuperarContrasena(CreateView):
 
 class ConfirmarMailRecuperarContrasena(CreateView):
 
-    template_name = 'usuarios/confirmar_cambiar_pass.html'
-    template_name_denegar = 'usuarios/denegar_cambiar_pass.html'
-    template_respuesta = 'usuarios/recuperar_contrasena_respuesta.html'
+    template_name = 'users/confirmar_cambiar_pass.html'
+    template_name_denegar = 'users/denegar_cambiar_pass.html'
+    template_respuesta = 'users/recuperar_contrasena_respuesta.html'
     form_class = forms.RecuperarContrasenaFormMail
 
     def get(self, request, *args, **kwargs):
@@ -283,7 +283,7 @@ class ConfirmarMailRecuperarContrasena(CreateView):
         return render(request, self.template_respuesta, {'men':men})
 
 class CambiarPass(FormView):
-    template_name = 'usuarios/cambiar_pass.html'
+    template_name = 'users/cambiar_pass.html'
     form_class = forms.CambiarContrasenaForm
 
     def get(self, request, *args, **kwargs):
