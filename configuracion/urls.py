@@ -26,11 +26,13 @@ urlpatterns = [
     url(r'^jet/', include('jet.urls', 'jet')),
     url(r'^admin/', admin.site.urls),
     url(r'^users/', include('users.urls')),
+    url(r'^', include('landing.urls')),
 
-    # path('login/', LoginView.as_view(template_name='login.html'), name='login'),
-    # path('logout/', LogoutView.as_view(next_page='index_8'), name='logout'),
+    path('login/', LoginView.as_view(template_name=''), name='login'),
 
-    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
+    path('logout/', LogoutView.as_view(next_page='index'), name='logout'),
+
+    # url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     #url(r'^upload/', include(vistas_ckeditor.upload), name='ckeditor_upload'),
     #url(r'^browse/', include(vistas_ckeditor.browse), name='ckeditor_browse'),
 
