@@ -28,7 +28,7 @@ urlpatterns = [
     url(r'^users/', include('users.urls')),
     url(r'^', include('landing.urls')),
 
-    path('login/', LoginView.as_view(template_name=''), name='login'),
+    path('login/', LoginView.as_view(template_name='login.html'), name='login'),
 
     path('logout/', LogoutView.as_view(next_page='index'), name='logout'),
 

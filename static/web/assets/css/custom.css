@@ -1,0 +1,18 @@
+
+
+
+/* Login */
+
+body.authentication-bg-pattern {
+    background-color: #6730e3;
+}
+
+.logo-nav {
+    height: 60px;
+    margin-bottom: 24px;
+}
+
+.auth-card {
+    opacity: 1;
+    background-image: none;
+}

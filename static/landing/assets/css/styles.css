@@ -96,7 +96,7 @@ small, .small {
 /* Navbar */
 
 .logo-nav {
-    height: 45px;
+    height: 50px;
 }
 
 .header nav.navbar.affix {
@@ -426,7 +426,7 @@ footer ul {
     right: 20px;
     font-size: 25px;
     color: #ffffff;
-    background-color: #2A3034;
+    background-color: #6730e3;
     z-index: 1;
     display: none;
     width: 40px;
@@ -436,10 +436,6 @@ footer ul {
     border-radius: 50%;
     -webkit-transition: .4s;
     transition: .4s;
-}
-
-.go-top:hover {
-    background-color: #6610f2;
 }
 
 .go-top img {

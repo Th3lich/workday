@@ -18,7 +18,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
         <!-- App favicon -->
-        <link rel="icon" href="{% static 'landing/assets/img/logo_little.png' %}" type="image/png" sizes="16x16">
+        <link rel="icon" href="{% static 'web/assets/extra-images/logo-little.png' %}" type="image/png" sizes="16x16">
 
         <!-- App css -->
         <link href="{% static 'web/assets/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
@@ -39,7 +39,7 @@
                 <nav class="navbar navbar-expand-lg fixed-top bg-transparent affix">
                     <div class="container">
                         <a class="navbar-brand" href="index.html">
-                            <img class="logo-nav" src="{% static 'web/assets/images/logo-light.png' %}" alt="logo" class="img-fluid">
+                            <img class="logo-nav" src="{% static 'web/assets/extra-images/logo-light.png' %}" alt="logo" class="img-fluid">
                         </a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="ti-menu"></span>
@@ -48,10 +48,10 @@
                         <div class="collapse navbar-collapse h-auto" id="navbarSupportedContent">
                             <ul class="navbar-nav ml-auto menu">
                                 <li><a href="{% url 'index' %}" class="page-scroll"> Inicio</a></li>
-                                <li><a href="{% url 'index' %}#about" class="page-scroll">Sobre Workday++</a></li>
+                                <li><a href="{% url 'index' %}#about" class="page-scroll">Sobre Workday</a></li>
                                 <li><a href="{% url 'index' %}#services" class="page-scroll">Servicios</a></li>
                                 <li><a href="{% url 'index' %}#contact" class="page-scroll">Contacto</a></li>
-                                <li><a href="" class="page-scroll">Iniciar Sesión</a></li>
+                                <li><a href="{% url 'login' %}" class="page-scroll">Iniciar Sesión</a></li>
                             </ul>
                         </div>
                     </div>
@@ -227,6 +227,7 @@
         </div>
 
         <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
         <script src="{% static 'landing/assets/js/main.js' %}"></script>
 
     </body>

@@ -32,16 +32,15 @@ class Tokenregister(models.Model):
 
 
 class ExtraUserData(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="Usuario")
     nif = models.CharField(max_length=15, blank=True, null=True)
-    direccion = models.CharField(max_length=50, blank=True, null=True)
-    poblacion = models.CharField(max_length=25, blank=True, null=True)
-    provincia = models.CharField(max_length=25, blank=True, null=True)
-    cp = models.CharField(max_length=5, blank=True, null=True)
-    telf_fijo = models.CharField(max_length=15, blank=True, null=True)
-    telf_movil = models.CharField(max_length=15, blank=True, null=True)
+    first_name = models.CharField(max_length=100, verbose_name="Nombre")
+    last_name = models.CharField(max_length=100, verbose_name="Apellidos")
+    email = models.CharField(max_length=120, verbose_name="Email")
+    address = models.CharField(max_length=120, blank=True, null=True, verbose_name="Dirección")
+    phone = models.CharField(max_length=100, blank=True, null=True, verbose_name="Teléfono")
+    photo = models.ImageField(upload_to="web/images", null=True, blank=True, verbose_name="Fotografía")
     onesignal_id = models.CharField(max_length=40, null=True, blank=True)
-    tipo = models.CharField(max_length=8, blank=False, null=False, default="django")
 
     date = models.DateTimeField(auto_now_add=True)
 
