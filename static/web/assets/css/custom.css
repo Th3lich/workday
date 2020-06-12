@@ -16,3 +16,32 @@ body.authentication-bg-pattern {
     opacity: 1;
     background-image: none;
 }
+
+
+/* Topbar */
+
+.topnav-menu {
+    margin-right: 16px;
+}
+
+.left-side-menu-dark .navbar-custom {
+    background-color: #4a81d4;
+}
+
+
+/* Profile */
+
+@media screen and (max-width: 1515px) {
+    #avatar-image {
+        width: 50px !important;
+    }
+}
+
+.table-settings td, .table-settings th {
+    border-top: none;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.card-100 {
+    height: 100%;
+}

@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^users/', include('users.urls')),
     url(r'^', include('landing.urls')),
+    url(r'^administration/', include('administration.urls')),
 
     path('login/', LoginView.as_view(template_name='login.html'), name='login'),
 

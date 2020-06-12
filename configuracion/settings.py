@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'users',
     'datetimewidget',
     'bootstrap3_datetime',
-    'landing'
+    'landing',
+    'administration'
 
 ]
 
@@ -68,6 +69,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'templates'),
                  os.path.join(BASE_DIR, 'landing/templates'),
+                 os.path.join(BASE_DIR, 'administration/templates'),
                  os.path.join(BASE_DIR, 'users/templates')]
         ,
         'APP_DIRS': True,
@@ -191,7 +193,7 @@ CKEDITOR_CONFIGS = {
 }
 
 LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/administration/dashboard/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/

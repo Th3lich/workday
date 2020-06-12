@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}- Ajustes de Cuenta{% endblock %}
+
+{% block libs_css %}
+{#    <link href="{% static 'web/assets/libs/switchery/switchery.min.css' %}" rel="stylesheet" type="text/css" />#}
+
+    <link href="{% static 'web/assets/libs/jquery-nice-select/nice-select.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'web/assets/libs/switchery/switchery.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'web/assets/libs/multiselect/multi-select.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'web/assets/libs/select2/select2.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'web/assets/libs/bootstrap-select/bootstrap-select.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'web/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+
+    <div class="content-page">
+        <div class="content">
+
+            <!-- Start Content-->
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title">Configuración de usuario</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <h4 class="header-title mb-3"><i class="fas fa-user"></i> Mi Perfil</h4>
+
+                                <div id="rootwizard">
+                                    <ul class="nav nav-pills bg-light nav-justified form-wizard-header mb-3">
+                                        <li class="nav-item" data-target-form="#accountForm">
+                                            <a href="#first" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2 active">
+                                                <i class="mdi mdi-account-circle mr-1"></i>
+                                                <span class="d-none d-sm-inline">Cuenta</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item" data-target-form="#profileForm">
+                                            <a href="#second" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
+                                                <i class="fas fa-key"></i>
+                                                <span class="d-none d-sm-inline">Cambiar contraseña</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                    <div class="tab-content mb-0 b-0">
+
+                                        <div class="tab-pane active" id="first">
+                                            <form id="contact_form" class="form-horizontal needs-validation" action="{% url 'account_settings' %}" method="post" enctype="multipart/form-data" novalidate>
+                                                {% csrf_token %}
+                                                <div class="row">
+                                                    <div class="col-12">
+
+                                                        <div class="form-group row mb-3">
+                                                            <div class="col-md-3 col-xl-2" id="profile-image">
+                                                                <img id="avatar-image" class="img-fluid rounded-circle" src="/static/media/{{ user.extrauserdata.photo.url }}" width="80">
+                                                            </div>
+                                                            <div class="col-md-9 col-lg-8 col-xl-7">
+                                                                <label class="form-label" for="id_photo">Subir foto</label>
+                                                                <input class="form-control-file" type="file" name="photo" accept="image/*" id="id_photo">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group row mb-3">
+                                                            <label class="col-md-3 col-xl-2 col-form-label" for="id_nif">NIF</label>
+                                                            <div class="col-md-9 col-lg-8 col-xl-7">
+                                                                {{ form.nif }}
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row mb-3">
+                                                            <label class="col-md-3 col-xl-2 col-form-label" for="id_first_name"> First name</label>
+                                                            <div class="col-md-9 col-lg-8 col-xl-7">
+                                                                {{ form.first_name }}
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row mb-3">
+                                                            <label class="col-md-3 col-xl-2 col-form-label" for="id_last_name"> Last name</label>
+                                                            <div class="col-md-9 col-lg-8 col-xl-7">
+                                                                {{ form.last_name }}
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row mb-3">
+                                                            <label class="col-md-3 col-xl-2 col-form-label" for="id_email"> Email</label>
+                                                            <div class="col-md-9 col-lg-8 col-xl-7">
+                                                                {{ form.email }}
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row mb-3">
+                                                            <label class="col-md-3 col-xl-2 col-form-label" for="id_address"> Dirección</label>
+                                                            <div class="col-md-9 col-lg-8 col-xl-7">
+                                                                {{ form.address }}
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row mb-3">
+                                                            <label class="col-md-3 col-xl-2 col-form-label" for="id_phone"> Teléfono</label>
+                                                            <div class="col-md-9 col-lg-8 col-xl-7">
+                                                                {{ form.phone }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 form-action">
+                                                        <button class="btn btn-primary" type="submit">Guardar Cambios</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                        <div class="tab-pane fade" id="second">
+                                            <form id="profileForm" method="post" action="#" class="form-horizontal needs-validation" novalidate>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="form-group row mb-3">
+                                                            <label class="col-md-3 col-xl-2 col-form-label" for="password3"> Contraseña</label>
+                                                            <div class="col-md-9 col-lg-8 col-xl-7">
+                                                                <input type="password" id="password3" name="password3" class="form-control" required="">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group row mb-3">
+                                                            <label class="col-md-3 col-xl-2 col-form-label" for="confirm3"> Repetir Contraseña</label>
+                                                            <div class="col-md-9 col-lg-8 col-xl-7">
+                                                                <input type="password" id="confirm3" name="confirm3" class="form-control" required="">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 form-action">
+                                                        <button class="btn btn-primary" type="submit">Cambiar contraseña</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="card card-100">
+                            <div class="card-body">
+                                <h4 class="header-title mb-3"><i class="mdi mdi-settings"></i> Ajustes adicionales</h4>
+                                <div class="row">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover mb-0 table-settings">
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">Modo Oscuro</th>
+                                                    <td style="width: 80px;">
+                                                        <div class="switchery-demo">
+                                                            <input type="checkbox" {% if request.session.darkmode %} checked {% else %}  {% endif %}  data-plugin="switchery" data-color="#2b3d51"  data-size="small"/>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+
+    <script src="{% static 'web/assets/libs/jquery-nice-select/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'web/assets/libs/switchery/switchery.min.js' %}"></script>
+    <script src="{% static 'web/assets/libs/multiselect/jquery.multi-select.js' %}"></script>
+    <script src="{% static 'web/assets/libs/select2/select2.min.js' %}"></script>
+    <script src="{% static 'web/assets/libs/jquery-mockjax/jquery.mockjax.min.js' %}"></script>
+    <script src="{% static 'web/assets/libs/autocomplete/jquery.autocomplete.min.js' %}"></script>
+    <script src="{% static 'web/assets/libs/bootstrap-select/bootstrap-select.min.js' %}"></script>
+    <script src="{% static 'web/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js' %}"></script>
+    <script src="{% static 'web/assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js' %}"></script>
+
+    <script src="{% static 'web/assets/js/pages/form-advanced.init.js' %}"></script>
+
+    <script src="{% static 'web/assets/extra-js/account_settings.js' %}"></script>
+
+{% endblock %}
