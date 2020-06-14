@@ -15,6 +15,11 @@ class Company(models.Model):
     def __str__(self):
         return u"%s" % self.name
 
+    @property
+    def total_workers(self):
+        workers = self.employee_set.all()
+        return workers
+
     class Meta:
         verbose_name = 'Empresa'
         verbose_name_plural = 'Empresas'
@@ -63,26 +68,33 @@ class Project(models.Model):
     workers = models.ManyToManyField(User, verbose_name="Trabajadores")
     estimated_time = models.TimeField(blank=True, null=True, verbose_name="Tiempo estimado")
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     @property
     def total_time(self):
         projecttime = self.projecttime_set.all()
-        total = datetime.time(0, 0)
+        total = datetime.timedelta()
         for pt in projecttime:
             total += pt.total_time
         return total
 
     @property
     def date_start(self):
-        project = self.projecttime_set.all().first()
-        return project.date_start
+        try:
+            projecttime = self.projecttime_set.all().first()
+
+            return projecttime.date_start
+        except:
+            return None
 
     @property
     def date_end(self):
-        project = self.projecttime_set.all().last()
-        return project.date_end
+        try:
+            projecttime = self.projecttime_set.all().last()
+            return projecttime.date_end
+        except:
+            return None
 
     class Meta:
         verbose_name = 'Proyeto'
@@ -95,7 +107,7 @@ class ProjectTime(models.Model):
     date_start = models.DateTimeField(default=timezone.now, verbose_name="Fecha de inicio")
     date_end = models.DateTimeField(null=True, blank=True, verbose_name="Fecha de finalización")
 
-    def __unicode__(self):
+    def __str__(self):
         return self.project.name
 
     class Meta:

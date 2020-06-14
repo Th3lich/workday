@@ -36,7 +36,6 @@ class Timer(CreateView):
 class DeleteWorkday(DeleteView):
 
     def get(self, request, *args, **kwargs):
-        print("hola")
         workday = get_object_or_None(Workday, pk=self.kwargs['pk'])
         workday.delete()
 

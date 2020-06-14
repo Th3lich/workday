@@ -2,7 +2,7 @@
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
 
-from administration import views_timer, views_dashboard, views_projects
+from administration import views_timer, views_dashboard, views_projects, views_company, views_documents
 
 
 
@@ -21,6 +21,13 @@ urlpatterns = [
     url(r'^resume_workday/$', login_required(views_timer.resume_workday), name='resume_workday'),
     url(r'^change_workday/$', login_required(views_timer.change_workday), name='change_workday'),
 
-    url(r'^projects/$', login_required(views_projects.Projects.as_view()), name='projects')
+    url(r'^projects/$', login_required(views_projects.Projects.as_view()), name='projects'),
+
+    url(r'^company_settings/(?P<pk>\d+)$', login_required(views_company.CompanySettings.as_view()), name='company_settings'),
+    url(r'^employee_create/(?P<pk>\d+)$', login_required(views_company.CreateEmployee.as_view()), name='employee_create'),
+    url(r'^project_create/$', login_required(views_company.CreateProyect.as_view()), name='project_create'),
+    url(r'^center_create/$', login_required(views_company.CreateCenter.as_view()), name='center_create'),
+
+    url(r'^documents/$', login_required(views_documents.Documents.as_view()), name='documents')
 
 ]

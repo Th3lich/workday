@@ -6,7 +6,10 @@ admin.site.register(Company)
 admin.site.register(Employee)
 admin.site.register(Center)
 admin.site.register(Project)
-admin.site.register(ProjectTime)
+
+class ProjectTimeAdmin(admin.ModelAdmin):
+    list_display = ['project', 'user']
+admin.site.register(ProjectTime, ProjectTimeAdmin)
 admin.site.register(Workday)
 admin.site.register(Pause)
 

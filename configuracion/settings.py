@@ -198,6 +198,15 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/administration/dashboard/'
 
 
+DEFAULT_FROM_EMAIL = 'Workday++ <plataforma@dreamsappscreative.es>'
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'mail.dreamsappscreative.es'
+EMAIL_HOST_USER = 'plataforma@dreamsappscreative.es'
+EMAIL_HOST_PASSWORD = '_9n2Hta3'
+EMAIL_PORT = 587
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 

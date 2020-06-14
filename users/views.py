@@ -1,10 +1,13 @@
 # -*- encoding: utf-8 -*-
 from annoying.functions import get_object_or_None
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+
+from administration.models import Company, Employee
 from users import forms
-from django.views.generic import UpdateView
+from django.views.generic import UpdateView, CreateView
 from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponseRedirect
@@ -67,6 +70,66 @@ class AccountSettings(UpdateView):
                 'form': form,
                 'user': user
             })
+
+
+class Register(CreateView):
+    template_name = 'register.html'
+
+    def get(self, request, *args, **kwargs):
+        registro_form = forms.RegisterUserForm
+
+        return render(request, self.template_name, {'form': registro_form})
+
+    def post(self, request, *args, **kwargs):
+        form = forms.RegisterUserForm(request.POST)
+
+        if form.is_valid():
+
+            nif = form.cleaned_data['nif']
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            re_password = form.cleaned_data['re_password']
+
+            if password == re_password:
+
+                user = User.objects.create(username=nif,
+                                           first_name=first_name,
+                                           last_name=last_name,
+                                           email=email,
+                                           )
+
+                user.set_password(password)
+
+                user.save()
+
+                extra_user_data = ExtraUserData.objects.create(user=user,
+                                                               nif=nif)
+
+                extra_user_data.save()
+
+                company = Company.objects.create(owner=user,
+                                                 cif="",
+                                                 name=first_name +"'s Company",
+                                                 employee_limit=10)
+
+                company.save()
+
+                employee = Employee.objects.create(user=user,
+                                                   company=company,
+                                                   rol=1)
+
+                employee.save()
+
+                return HttpResponseRedirect(reverse('dashboard_individual'))
+
+            else:
+                return render(request, self.template_name, {'form': form, 'password_error': True})
+
+        else:
+
+            return render(request, self.template_name, {'form': form})
 
 
 @csrf_exempt

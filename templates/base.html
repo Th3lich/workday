@@ -110,24 +110,37 @@
                                 <a class="dropdown-toggle nav-company mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                     <img src="/static/media/{{ user.employee.company.photo.url }}" alt="company-image" class="rounded-circle">
                                     <span class="pro-user-name ml-1">
-                                        {{ user.employee.company.name }} <i class="mdi mdi-chevron-down"></i>
+                                        {{ user.employee.company.name }} {% if request.user.employee.rol == 1 %} <i class="mdi mdi-chevron-down"></i> {% endif %}
                                     </span>
                                 </a>
-                                <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                                {% if request.user.employee.rol == 1 %}
+                                    <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
 
-                                    <a href="/users/account_settings/" class="dropdown-item notify-item">
-                                        <i class="fe-user"></i>
-                                        <span>Configuración</span>
-                                    </a>
+                                        <a href="{% url 'employee_create' user.employee.company.pk %}" class="dropdown-item notify-item">
+                                            <i class="mdi mdi-worker"></i>
+                                            <span>Agregar empleado</span>
+                                        </a>
 
-                                    <div class="dropdown-divider"></div>
+                                        <a href="{% url 'project_create' %}" class="dropdown-item notify-item">
+                                            <i class="mdi mdi-file-tree"></i>
+                                            <span>Agregar Proyecto</span>
+                                        </a>
 
-                                    <a href="/logout/" class="dropdown-item notify-item">
-                                        <i class="fe-log-out"></i>
-                                        <span>Cerrar Sesión</span>
-                                    </a>
+                                        <a href="{% url 'center_create' %}" class="dropdown-item notify-item">
+                                            <i class="fas fa-network-wired"></i>
+                                            <span>Agregar Centro de Trabajo</span>
+                                        </a>
 
-                                </div>
+                                        <div class="dropdown-divider"></div>
+
+
+                                        <a href="{% url 'company_settings' user.employee.company.pk %}" class="dropdown-item notify-item">
+                                            <i class="mdi mdi-settings"></i>
+                                            <span>Configuración</span>
+                                        </a>
+
+                                    </div>
+                                {% endif %}
                             </li>
 
                             <li>
@@ -149,7 +162,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{% url "dashboard" %}">
+                                <a href="{% url "documents" %}">
                                     <i class="mdi mdi-file-document-box-multiple"></i>
                                     <span> Documentos </span>
                                 </a>

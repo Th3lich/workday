@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}- Añadir Empleado{% endblock %}
+
+{% block content %}
+
+    <div class="content-page">
+        <div class="content">
+
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title">Agregar empleado</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card-box">
+
+                            <form id="add_employee_form" class="form-horizontal needs-validation" action="{% url 'employee_create' company.pk %}" method="post" enctype="multipart/form-data" novalidate>
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-12">
+
+                                        <div class="form-group row mb-3">
+                                            <label class="col-md-3 col-xl-2 col-form-label" for="id_email"> Email</label>
+                                            <div class="col-md-9 col-lg-8 col-xl-7">
+                                                {{ form.email }}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-12 form-action">
+                                        <button class="btn btn-primary" type="submit">Enviar</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

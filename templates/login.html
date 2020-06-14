@@ -4,7 +4,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>Workday++</title>
+        <title>Workday++ {% block title %}Login{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
         <meta content="Coderthemes" name="author" />
@@ -27,55 +27,60 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-8 col-lg-6 col-xl-5">
-                        <div class="card auth-card bg-pattern">
 
-                            <div class="card-body p-4">
-                                
-                                <div class="text-center w-75 m-auto">
-                                    <a href="{% url 'index' %}">
-                                        <span><img class="logo-nav" src="{% static 'web/assets/extra-images/logo-dark.png' %}" alt="logo"></span>
-                                    </a>
-                                </div>
+                        {% block content %}
 
-                                <form method="post" id="loginform" action="{% url 'login' %}">
-                                    {% csrf_token %}
+                            <div class="card auth-card bg-pattern">
 
-                                    {% if form.errors %}
-                                        <div class="alert alert-danger alert-dismissible bg-danger text-white border-0 fade show" role="alert">
-                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                <span aria-hidden="true">×</span>
-                                            </button>
-                                            Usuario o contraseña incorrectos
+                                <div class="card-body p-4">
+
+                                    <div class="text-center w-75 m-auto">
+                                        <a href="{% url 'index' %}">
+                                            <span><img class="logo-nav" src="{% static 'web/assets/extra-images/logo-dark.png' %}" alt="logo"></span>
+                                        </a>
+                                    </div>
+
+                                    <form method="post" id="loginform" action="{% url 'login' %}">
+                                        {% csrf_token %}
+
+                                        {% if form.errors %}
+                                            <div class="alert alert-danger alert-dismissible bg-danger text-white border-0 fade show" role="alert">
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                                Usuario o contraseña incorrectos
+                                            </div>
+                                        {% endif %}
+
+                                        <div class="form-group mb-3">
+                                            <label for="id_username">Email</label>
+                                            <input class="form-control" type="text" id="id_username" name="username" required="" placeholder="Email">
                                         </div>
-                                    {% endif %}
 
-                                    <div class="form-group mb-3">
-                                        <label for="id_username">Email</label>
-                                        <input class="form-control" type="text" id="id_username" name="username" required="" placeholder="Email">
-                                    </div>
+                                        <div class="form-group mb-3">
+                                            <label for="id_password">Contraseña</label>
+                                            <input class="form-control" type="password" required="" id="id_password" name="password" placeholder="Contraseña">
+                                        </div>
 
-                                    <div class="form-group mb-3">
-                                        <label for="id_password">Contraseña</label>
-                                        <input class="form-control" type="password" required="" id="id_password" name="password" placeholder="Contraseña">
-                                    </div>
+                                        <br/>
 
-                                    <br/>
+                                        <div class="form-group mb-0 text-center">
+                                            <button class="btn btn-primary btn-block" type="submit"> Entrar </button>
+                                        </div>
 
-                                    <div class="form-group mb-0 text-center">
-                                        <button class="btn btn-primary btn-block" type="submit"> Entrar </button>
-                                    </div>
+                                    </form>
 
-                                </form>
-
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="row mt-3">
-                            <div class="col-12 text-center">
-                                <p> <a href="pages-recoverpw.html" class="text-white-50 ml-1">¿Olvidaste tu contraseña?</a></p>
-                                <p class="text-white-50">¿No tienes una cuenta? <a href="pages-register.html" class="text-white ml-1"><b>Registrarse</b></a></p>
+                            <div class="row mt-3">
+                                <div class="col-12 text-center">
+                                    <p> <a href="pages-recoverpw.html" class="text-white-50 ml-1">¿Olvidaste tu contraseña?</a></p>
+                                    <p class="text-white-50">¿No tienes una cuenta? <a href="pages-register.html" class="text-white ml-1"><b>Registrarse</b></a></p>
+                                </div>
                             </div>
-                        </div>
+
+                        {% endblock %}
 
                 </div>
             </div>
