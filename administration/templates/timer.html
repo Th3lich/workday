@@ -1,0 +1,370 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}- Fichar{% endblock %}
+
+{% block libs_css %}
+
+    <link href="{% static 'web/assets/libs/datatables/dataTables.bootstrap4.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'web/assets/libs/datatables/responsive.bootstrap4.css' %}" rel="stylesheet" type="text/css" />
+
+    <link href="{% static 'web/assets/libs/jquery-nice-select/nice-select.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'web/assets/libs/select2/select2.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'web/assets/libs/bootstrap-select/bootstrap-select.min.css' %}" rel="stylesheet" type="text/css" />
+
+
+{% endblock %}
+
+{% block extra_css %}
+
+    <link href="{% static 'web/assets/extra-css/timer.css' %}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="content-page">
+        <div class="content">
+
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <div class="page-title-right">
+                                <h1>00:00</h1>
+                            </div>
+                            <h4 class="page-title"><i class="mdi mdi-account-clock"></i> Control de horario</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card-box">
+                            <div class="timer-actions justify-content-between">
+                                <div class="timer-selects">
+                                    <div>
+                                        <label for="select-center">Centro de Trabajo</label>
+                                        {% if not current_workday %}
+                                            <select id="select-center" class="form-control" data-toggle="select2">
+                                                {% for center in centers %}
+                                                    <option value="{{ center.pk }}">{{ center.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        {% else %}
+                                            <select id="select-center" class="form-control" data-toggle="select2" disabled>
+                                                {% for center in centers %}
+                                                    <option value="{{ center.pk }}">{{ center.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        {% endif %}
+                                    </div>
+                                    <div>
+                                        <label for="select-project">Proyecto</label>
+                                        <select id="select-project" class="form-control" data-toggle="select2">
+                                            <option value="-1">----------</option>
+                                            {% for project in projects %}
+                                                <option value="{{ project.pk }}">{{ project.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="timer-action-buttons">
+                                    {% if not current_workday %}
+
+                                        {% if workdays|length == 0 %}
+
+                                            <button id="btn-start" type="button" class="btn btn-primary waves-effect waves-light">Iniciar</button>
+
+                                            <button style="display: none;" id="btn-resume" type="button" class="btn btn-primary waves-effect waves-light">Reanudar</button>
+                                            <button style="display: none;" id="btn-pause" type="button" class="btn btn-outline-secondary waves-effect">Pausa</button>
+                                            <button style="display: none;" id="btn-change" type="button" class="btn btn-primary waves-effect waves-light">Cambiar</button>
+                                            <button style="display: none;" id="btn-end" type="button" class="btn btn-outline-secondary waves-effect">Parar</button>
+
+                                        {% else %}
+
+                                            <button id="btn-start" type="button" class="btn btn-primary waves-effect waves-light">Iniciar</button>
+
+                                            <button style="display: none;" id="btn-resume" type="button" class="btn btn-outline-secondary waves-effect">Reanudar</button>
+                                            <button style="display: none;" id="btn-pause" type="button" class="btn btn-outline-warning waves-effect waves-light">Pausa</button>
+                                            <button style="display: none;" id="btn-change" type="button" class="btn btn-primary waves-effect waves-light">Cambiar</button>
+                                            <button style="display: none;" id="btn-end" type="button" class="btn btn-outline-secondary waves-effect">Parar</button>
+
+                                        {% endif %}
+
+                                    {% else %}
+
+                                        {% if not current_workday.paused %}
+                                            <button style="display: none;" id="btn-start" type="button" class="btn btn-primary waves-effect waves-light">Iniciar</button>
+
+                                            <button style="display: none;" id="btn-resume" type="button" class="btn btn-primary waves-effect waves-light">Reanudar</button>
+                                            <button id="btn-pause" type="button" class="btn btn-outline-secondary waves-effect">Pausa</button>
+                                            <button id="btn-change" type="button" class="btn btn-primary waves-effect waves-light">Cambiar</button>
+                                            <button id="btn-end" type="button" class="btn btn-outline-secondary waves-effect">Parar</button>
+
+                                        {% else %}
+
+                                            <button id="btn-resume" type="button" class="btn btn-primary waves-effect waves-light">Reanudar</button>
+                                            <button style="display: none;" id="btn-pause" type="button" class="btn btn-outline-secondary waves-effect">Pausa</button>
+                                            <button style="display: none;" id="btn-change" type="button" class="btn btn-primary waves-effect waves-light">Cambiar</button>
+                                            <button id="btn-end" type="button" class="btn btn-outline-secondary waves-effect">Parar</button>
+
+                                        {% endif %}
+
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table class="table table-timer" id="tickets-table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th style="width: 200px;">Fecha de inicio</th>
+                                        <th style="width: 200px;">Fecha de finalización</th>
+                                        <th style="width: 175px;">Tiempo total</th>
+                                        <th>Proyecto</th>
+                                        <th style="width: 150px;" class="hidden-sm">Acción</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    {% if workdays|length == 0 %}
+
+                                        <tr><td class="table-empty" colspan="11">No se han encontrado registros.</td></tr>
+
+                                    {% else %}
+
+                                        {% for workday in workdays %}
+
+                                            <tr>
+                                                <td>{{ workday.date_start }}</td>
+                                                <td>{{ workday.date_end|default_if_none:"" }}</td>
+                                                <td>{{ workday.total_time }}</td>
+                                                <td>{{ workday.date_start }}</td>
+                                                <td>
+                                                    <div class="btn-group dropdown">
+                                                        <a href="javascript: void(0);" class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            <a class="dropdown-item" href="#"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Editar</a>
+                                                            <a class="dropdown-item" href="#"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Eliminar</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        {% endfor %}
+
+                                    {% endif %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+
+    {# Javascript libraries for Tables #}
+    <script src="{% static 'web/assets/libs/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'web/assets/libs/datatables/dataTables.bootstrap4.js' %}"></script>
+    <script src="{% static 'web/assets/libs/datatables/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'web/assets/libs/datatables/responsive.bootstrap4.min.js' %}"></script>
+
+    {# Javascript libraries for Selects #}
+    <script src="{% static 'web/assets/libs/jquery-nice-select/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'web/assets/libs/select2/select2.min.js' %}"></script>
+    <script src="{% static 'web/assets/libs/jquery-mockjax/jquery.mockjax.min.js' %}"></script>
+    <script src="{% static 'web/assets/libs/bootstrap-select/bootstrap-select.min.js' %}"></script>
+    <script src="{% static 'web/assets/extra-js/timer-form-advanced.init.js' %}"></script>
+
+    {# Javascript of Timer #}
+
+    <script>
+
+        $(function () {
+
+            /* Functions to check location and send data to server */
+
+            function locationSupported() {
+                if (navigator.geolocation) {
+                    return true;
+                } else {
+                    alert("Geolocation is not supported by this browser.");
+                    return false;
+                }
+            }
+
+
+            function sendStart(position) {
+
+                disabledButtons(true);
+
+                var center_pk = document.getElementById("select-center").value;
+
+                var params1 = {
+                    "pk": center_pk
+                }
+
+                $.post("{% url 'get_center_location' %}", params1, function (data, status) {
+                    if (data.result == "error") {
+                        alert("Hubo algún error en el servidor.");
+                    }else if(data.result == "ok") {
+
+                        try {
+                            var lat_diff = position.coords.latitude - data.lat;
+                            var lng_diff = position.coords.longitude - data.lng;
+
+                            var temp = "ND";
+                            if (Math.abs(lat_diff) > 0.0005 || Math.abs(lng_diff) > 0.0005) {
+                                temp = prompt("¿Porqué estas fuera de la oficina?");
+                            }
+                            if (temp == null) {
+                                disabledButtons(false);
+                                return;
+                            }
+                        } catch (error) {
+                            temp = "";
+                            disabledButtons(false);
+                        }
+
+                        var project_pk = document.getElementById("select-project").value;
+
+                        var params = {
+                            "csrfmiddlewaretoken": "{{ csrf_token }}",
+                            "center_pk": center_pk,
+                            "project_pk": project_pk,
+                            "lat": position.coords.latitude,
+                            "lng": position.coords.longitude,
+                            "comment": temp
+                        };
+
+                        $.post("{% url 'start_workday' %}", params, function (data, status) {
+                            if (data.result == "error") {
+                                console.log(data)
+                                alert("Hubo algún error en el servidor.");
+                            }else if(data.result == "ok") {
+
+                                addWorkdayRow(data);
+
+                                $("#btn-start").hide();
+                                $("#btn-end").show();
+                                $("#btn-pause").show();
+                                $("#btn-change").show();
+                                $("#btn-resume").show();
+
+                                document.getElementById("select-center").disabled = true;
+                            }
+
+                            disabledButtons(false);
+                            location.reload();
+                        });
+                    }
+
+                });
+
+            }
+
+            function sendExit() {
+
+            }
+
+            function sendPause() {
+
+            }
+
+            function sendResume() {
+
+            }
+
+            function sendChange() {
+
+            }
+
+
+            /* Functions to handle events */
+
+
+            document.getElementById("btn-start").addEventListener("click", function () {
+                if(locationSupported()) {
+                    navigator.geolocation.getCurrentPosition(sendStart);
+                    document.getElementById("btn-start").disabled = true
+                }
+            });
+
+            document.getElementById("btn-end").addEventListener("click", function () {
+                if(locationSupported()) {
+                    navigator.geolocation.getCurrentPosition(sendExit);
+                }
+            });
+
+            document.getElementById("btn-pause").addEventListener("click", function () {
+                if(locationSupported()) {
+                    navigator.geolocation.getCurrentPosition(sendPause);
+                }
+            });
+
+            document.getElementById("btn-resume").addEventListener("click", function () {
+                if(locationSupported()) {
+                    navigator.geolocation.getCurrentPosition(sendResume);
+                }
+            });
+
+            document.getElementById("btn-change").addEventListener("click", function () {
+                if(locationSupported()) {
+                    navigator.geolocation.getCurrentPosition(sendChange);
+                }
+            });
+
+
+            /* Functions to modify the view */
+
+            function disabledButtons(disabled) {
+                document.getElementById("btn-start").disabled = disabled;
+                document.getElementById("btn-end").disabled = disabled;
+                document.getElementById("btn-pause").disabled = disabled;
+                document.getElementById("btn-resume").disabled = disabled;
+                document.getElementById("btn-change").disabled = disabled;
+            }
+
+            function addWorkdayRow(data) {
+                var row =  '<tr>'+
+                        '<td>' +data.date_start +'</td>'+
+                        '<td></td>'+
+                        '<td>00:00</td>'+
+                        '<td>' +data.project +'</td>'+
+                        '<td>'+
+                            '<div class="btn-group dropdown">'+
+                                '<a href="javascript: void(0);" class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>'+
+                                '<div class="dropdown-menu dropdown-menu-right">'+
+                                    '<a class="dropdown-item" href="#"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Editar</a>'+
+                                    '<a class="dropdown-item" href="#"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Eliminar</a>'+
+                                '</div>'+
+                            '</div>'+
+                        '</td>'+
+                    '</tr>';
+
+                $(".table-timer").children("tbody").append(row);
+
+            }
+
+
+        });
+
+    </script>
+
+
+{% endblock %}

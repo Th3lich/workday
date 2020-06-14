@@ -1,14 +1,11 @@
 # -*- encoding: utf-8 -*-
-from django.core.mail import send_mail
 
-from users import forms, models
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from users import forms
-from django.views.generic import ListView, FormView, DeleteView,CreateView, UpdateView
-from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render, get_object_or_404
-import django.http as http
+from django.views.generic import UpdateView
+from django.shortcuts import render
 from django.urls import reverse
-from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 
 
@@ -67,6 +64,28 @@ class AccountSettings(UpdateView):
                 'form': form,
                 'user': user
             })
+
+
+@csrf_exempt
+def change_theme(request):
+
+    try:
+
+        checked = request.POST["checked"]
+
+        if checked == 1:
+            request.session['darkmode'] = True
+        else:
+            request.session['darkmode'] = False
+
+
+        response_data = {'result': 'ok', 'checked': checked}
+
+    except Exception as e:
+        # print(e)
+        response_data = {'result': 'error', 'mensaje': str(e)}
+
+    return JsonResponse(response_data)
 
 
 

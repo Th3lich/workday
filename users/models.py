@@ -36,7 +36,7 @@ class ExtraUserData(models.Model):
     nif = models.CharField(max_length=15)
     address = models.CharField(max_length=120, blank=True, null=True, verbose_name="Dirección")
     phone = models.CharField(max_length=100, blank=True, null=True, verbose_name="Teléfono")
-    photo = models.ImageField(upload_to="web/users", default="media/web/users/default_user.png", verbose_name="Fotografía")
+    photo = models.ImageField(upload_to="web/users", default="web/users/default_user.png", verbose_name="Fotografía")
     onesignal_id = models.CharField(max_length=40, null=True, blank=True)
 
     date = models.DateTimeField(auto_now_add=True)

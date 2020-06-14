@@ -11,7 +11,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
         <!-- App favicon -->
-        <link rel="shortcut icon" href="{% static 'web/assets/extra-images/logo-little.png' %}">
+        <link rel="shortcut icon" href="{% static 'web/assets/extra-images/logo_little.png' %}">
 
         <!-- Plugins css -->
 {#        <link href="{% static 'web/assets/libs/flatpickr/flatpickr.min.css' %}" rel="stylesheet" type="text/css" />#}
@@ -73,12 +73,12 @@
 
                 {# Logo #}
                 <div class="logo-box">
-                    <a href="base.html" class="logo text-center">
+                    <a href="{% url 'dashboard' %}" class="logo text-center">
                         <span class="logo-lg">
                             <img src="{% static 'web/assets/extra-images/logo-light.png' %}" alt="" height="40">
                         </span>
                         <span class="logo-sm">
-                            <img src="{% static 'web/assets/extra-images/logo-little.png' %}" alt="" height="24">
+                            <img src="{% static 'web/assets/extra-images/logo_little-light.png' %}" alt="" height="24">
                         </span>
                     </a>
                 </div>
@@ -106,29 +106,52 @@
 
                         <ul class="metismenu" id="side-menu">
 
-                            <div class="user-box text-center">
-                                <img src="{% static 'web/assets/images/users/user-1.jpg' %}" alt="user-img" title="Mat Helme" class="rounded-circle avatar-md">
-                                <div class="dropdown">
-                                    <a href="javascript: void(0);" class="text-dark dropdown-toggle h5 mt-2 mb-1 d-block" data-toggle="dropdown" aria-expanded="false">Geneva Kennedy</a>
-                                    <div class="dropdown-menu user-pro-dropdown" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(5px, 16px, 0px);">
+                            <li class="dropdown notification-list">
+                                <a class="dropdown-toggle nav-company mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                    <img src="/static/media/{{ user.employee.company.photo.url }}" alt="company-image" class="rounded-circle">
+                                    <span class="pro-user-name ml-1">
+                                        {{ user.employee.company.name }} <i class="mdi mdi-chevron-down"></i>
+                                    </span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
 
-                                        <!-- item-->
-                                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                            <i class="fe-user mr-1"></i>
-                                            <span>Mi empresa</span>
-                                        </a>
+                                    <a href="/users/account_settings/" class="dropdown-item notify-item">
+                                        <i class="fe-user"></i>
+                                        <span>Configuración</span>
+                                    </a>
 
-                                    </div>
+                                    <div class="dropdown-divider"></div>
+
+                                    <a href="/logout/" class="dropdown-item notify-item">
+                                        <i class="fe-log-out"></i>
+                                        <span>Cerrar Sesión</span>
+                                    </a>
+
                                 </div>
-                                <p class="text-muted">Admin Head</p>
-                            </div>
-
-{#                            <li class="menu-title">Navigation</li>#}
+                            </li>
 
                             <li>
-                                <a href="javascript: void(0);">
-                                    <i class="fe-airplay"></i>
+                                <a href="{% url "dashboard" %}">
+                                    <i class="ti-dashboard"></i>
                                     <span> Dashboard </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url "timer" %}">
+                                    <i class="mdi mdi-account-clock"></i>
+                                    <span> Fichar </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url "dashboard" %}">
+                                    <i class="mdi mdi-file-tree"></i>
+                                    <span> Proyectos </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url "dashboard" %}">
+                                    <i class="mdi mdi-file-document-box-multiple"></i>
+                                    <span> Documentos </span>
                                 </a>
                             </li>
 

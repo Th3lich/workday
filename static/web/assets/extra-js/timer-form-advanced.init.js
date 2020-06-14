@@ -1,3 +1,7 @@
+/**
+ * Created by Javi on 13/06/2020.
+ */
+
 !function (t) {
     "use strict";
     var a = function () {
@@ -45,7 +49,7 @@
             t(e).TouchSpin(n)
         })
     }, a.prototype.init = function () {
-        this.initSelect2(), this.initMaxLength(), this.initCustomSelect(), this.initSwitchery(), this.initMultiSelect(), this.initTouchspin()
+        this.initSelect2(), this.initCustomSelect(), this.initSwitchery(), this.initMultiSelect(), this.initTouchspin()
     }, t.FormAdvanced = new a, t.FormAdvanced.Constructor = a
 }(window.jQuery), function (a) {
     "use strict";
@@ -60,14 +64,6 @@
     }), e = $.map(["Atlanta Hawks", "Boston Celtics", "Charlotte Bobcats", "Chicago Bulls", "Cleveland Cavaliers", "Dallas Mavericks", "Denver Nuggets", "Detroit Pistons", "Golden State Warriors", "Houston Rockets", "Indiana Pacers", "LA Clippers", "LA Lakers", "Memphis Grizzlies", "Miami Heat", "Milwaukee Bucks", "Minnesota Timberwolves", "New Jersey Nets", "New Orleans Hornets", "New York Knicks", "Oklahoma City Thunder", "Orlando Magic", "Philadelphia Sixers", "Phoenix Suns", "Portland Trail Blazers", "Sacramento Kings", "San Antonio Spurs", "Toronto Raptors", "Utah Jazz", "Washington Wizards"], function (a) {
         return {value: a, data: {category: "NBA"}}
     }), n = a.concat(e);
-    $("#autocomplete").devbridgeAutocomplete({
-        lookup: n, minChars: 1, onSelect: function (a) {
-            $("#selection").html("You selected: " + a.value + ", " + a.data.category)
-        }, showNoSuggestionNotice: !0, noSuggestionNotice: "Sorry, no matching results", groupBy: "category"
-    }), $("#autocomplete-custom-append").autocomplete({
-        lookup: o,
-        appendTo: "#suggestions-container"
-    }), $("#autocomplete-dynamic").autocomplete({lookup: o})
 });
 var countries = {
     AD: "Andorra",

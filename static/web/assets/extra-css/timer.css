@@ -1,0 +1,102 @@
+
+/* Table Timer */
+
+.table-timer {
+    border-collapse: separate;
+    border: 1px solid #d8dde6;
+    background: white;
+    width: 100%;
+    font-size: 14px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+    border-spacing: 0;
+}
+
+
+table.table-timer th, table.table-timer td {
+    padding: 20px;
+    border-bottom: 1px solid #d8dde6;
+    vertical-align: inherit;
+}
+
+table.table-timer th {
+    font-size: 16px;
+}
+
+table.table-timer td {
+    padding: 12px;
+}
+
+table.table-timer th, table.table-timer td {
+    padding: 20px;
+    border-bottom: 1px solid #d8dde6;
+}
+
+.table-timer .table-empty {
+    text-align: center;
+}
+
+
+/* Actions */
+
+.timer-actions, .timer-selects, .timer-action-buttons {
+    display: flex;
+}
+
+.timer-action-buttons {
+    align-items: center;
+    justify-content: center;
+    padding: 8px 0px;
+}
+
+.timer-action-buttons button {
+    margin: auto 2px;
+}
+
+.timer-selects > div {
+    display: flex;
+    flex-direction: column;
+    padding: 2px 8px;
+}
+
+.timer-selects span {
+    width: 200px;
+}
+
+@media (max-width: 720px) {
+    .timer-actions {
+        flex-direction: column;
+    }
+
+    .timer-action-buttons {
+        padding: 32px 0px 10px;
+    }
+}
+
+@media (max-width: 960px) {
+    .timer-selects {
+        flex-direction: column;
+    }
+
+    .timer-selects > div {
+        padding: 5px 8px;
+    }
+}
+
+
+
+/* Play button */
+
+#btn-change {
+    padding: 10px 16px;
+    font-size: 15px;
+    line-height: 1.4285715;
+}
+
+#btn-pause, #btn-end {
+    padding: 7px 12px;
+    font-size: 14px;
+    line-height: 1.5384616;
+}
