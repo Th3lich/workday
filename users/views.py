@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
-
+from annoying.functions import get_object_or_None
+from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from users import forms
@@ -7,6 +8,8 @@ from django.views.generic import UpdateView
 from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+
+from users.models import ExtraUserData
 
 
 class AccountSettings(UpdateView):
@@ -73,10 +76,17 @@ def change_theme(request):
 
         checked = request.POST["checked"]
 
-        if checked == 1:
-            request.session['darkmode'] = True
+        print(checked)
+
+        extra_user_data = get_object_or_None(ExtraUserData, user__pk=request.user.pk)
+
+        if int(checked) == 1:
+            extra_user_data.darkmode = True
+
         else:
-            request.session['darkmode'] = False
+            extra_user_data.darkmode = False
+
+        extra_user_data.save()
 
 
         response_data = {'result': 'ok', 'checked': checked}

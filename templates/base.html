@@ -31,7 +31,7 @@
     </head>
 {#    class="left-side-menu-dark" #}
 
-    {% if request.session.darkmode %}
+    {% if request.user.extrauserdata.darkmode %}
         <body class="left-side-menu-dark">
     {% else %}
         <body>
@@ -143,7 +143,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{% url "dashboard" %}">
+                                <a href="{% url "projects" %}">
                                     <i class="mdi mdi-file-tree"></i>
                                     <span> Proyectos </span>
                                 </a>

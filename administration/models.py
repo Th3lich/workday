@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from django.db import models
 import datetime
 
+from django.utils import timezone
+
 
 class Company(models.Model):
     name = models.CharField(max_length=50, verbose_name="Nombre")
@@ -64,6 +66,24 @@ class Project(models.Model):
     def __unicode__(self):
         return self.name
 
+    @property
+    def total_time(self):
+        projecttime = self.projecttime_set.all()
+        total = datetime.time(0, 0)
+        for pt in projecttime:
+            total += pt.total_time
+        return total
+
+    @property
+    def date_start(self):
+        project = self.projecttime_set.all().first()
+        return project.date_start
+
+    @property
+    def date_end(self):
+        project = self.projecttime_set.all().last()
+        return project.date_end
+
     class Meta:
         verbose_name = 'Proyeto'
         verbose_name_plural = 'Proyectos'
@@ -72,7 +92,7 @@ class Project(models.Model):
 class ProjectTime(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Usuario")
     project = models.ForeignKey(Project, on_delete=models.CASCADE, verbose_name="Proyecto")
-    date_start = models.DateTimeField(default=datetime.datetime.now, verbose_name="Fecha de inicio")
+    date_start = models.DateTimeField(default=timezone.now, verbose_name="Fecha de inicio")
     date_end = models.DateTimeField(null=True, blank=True, verbose_name="Fecha de finalización")
 
     def __unicode__(self):
@@ -89,6 +109,7 @@ class ProjectTime(models.Model):
             time = self.date_end - self.date_start
         else:
             time = datetime.datetime.now() - self.date_start
+
         return time
 
 
@@ -97,7 +118,7 @@ class Workday(models.Model):
     center = models.ForeignKey(Center, on_delete=models.CASCADE, verbose_name="Centro")
     comment_start = models.CharField(max_length=800, blank=True, null=True, verbose_name="Comentario de inicio")
     comment_end = models.CharField(max_length=800, blank=True, null=True, verbose_name="Comentario de finalización")
-    date_start = models.DateTimeField(default=datetime.datetime.now, verbose_name="Fecha de inicio")
+    date_start = models.DateTimeField(default=timezone.now, verbose_name="Fecha de inicio")
     date_end = models.DateTimeField(null=True, blank=True, verbose_name="Fecha de finalización")
     lat_start = models.DecimalField(max_digits=10, decimal_places=8, null=True, blank=True, verbose_name="Latitud de inicio")
     lng_start = models.DecimalField(max_digits=11, decimal_places=8, null=True, blank=True, verbose_name="Longitud de inicio")
@@ -127,15 +148,18 @@ class Workday(models.Model):
         if self.date_end:
             time = self.date_end - self.date_start
         else:
-            print (datetime.datetime.now())
+            print ( timezone.now())
             print(self.date_start)
-            # time = datetime.datetime.now(datetime.timezone.utc) - self.date_start
+            time = timezone.now() - self.date_start
 
         pauses = self.get_pauses
         for pause in pauses:
             if pause.date_end:
                 result = pause.date_end - pause.date_start
             else:
+                result = 0
+                print(datetime.datetime.now())
+                print(self.date_start)
                 result = datetime.datetime.now() - pause.date_start
             time = time - result
 
@@ -145,10 +169,9 @@ class Workday(models.Model):
 
 class Pause(models.Model):
     workday = models.ForeignKey(Workday, on_delete=models.CASCADE, verbose_name="Jornada")
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, verbose_name="Proyecto", null=True, blank=True)
     comment_start = models.CharField(max_length=50, default="ND", verbose_name="Comentario de inicio")
     comment_end = models.CharField(max_length=50, default="ND", verbose_name="Comentario de finalización")
-    date_start = models.DateTimeField(default=datetime.datetime.now, verbose_name="Fecha de inicio")
+    date_start = models.DateTimeField(default=timezone.now, verbose_name="Fecha de inicio")
     date_end = models.DateTimeField(null=True, blank=True, verbose_name="Fecha de finalización")
     lat_start = models.DecimalField(max_digits=10, decimal_places=8, null=True, blank=True, verbose_name="Latitud de inicio")
     lng_start = models.DecimalField(max_digits=11, decimal_places=8, null=True, blank=True, verbose_name="Longitud de inicio")

@@ -161,7 +161,7 @@
                                                     <th scope="row">Modo Oscuro</th>
                                                     <td style="width: 80px;">
                                                         <div id="dark-mode" class="switchery-demo">
-                                                            <input type="checkbox" {% if request.session.darkmode %} checked {% else %}  {% endif %}  data-plugin="switchery" data-color="#2b3d51"  data-size="small"/>
+                                                            <input type="checkbox" {% if request.user.extrauserdata.darkmode %} checked {% endif %}  data-plugin="switchery" data-color="#2b3d51"  data-size="small"/>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -218,15 +218,11 @@
 
                     function (data, status) {
                         if (data.result == 'ok') {
-                            alert(data.result);
-                        }
-                        console.log(data.result + "ewset");
-                        console.log(data);
-
-                        if($(this).find("input").prop("checked") == true) {
-                            $("body").toggleClass("left-side-menu-dark");
-                         }else {
-                            $("body").toggleClass("left-side-menu-dark");
+                            if ($(this).find("input").prop("checked") == true) {
+                                $("body").toggleClass("left-side-menu-dark");
+                            } else {
+                                $("body").toggleClass("left-side-menu-dark");
+                            }
                         }
                     }
                 )

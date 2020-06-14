@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+    {% block title %}- Proyectos{% endblock %}
+
+{% block content %}
+
+
+    <div class="content-page">
+        <div class="content">
+
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title"><i class="mdi mdi-file-tree"></i> Mis Proyectos</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                {% for project in projects %}
+
+                    <div class="col-xl-4">
+                        <div class="card-box project-box">
+
+                            <h4 class="mt-0"><a href="" class="text-dark">{{ project.name }}</a></h4>
+                            <div class="badge bg-soft-success text-success mb-3">Finished</div>
+
+                            <div class="avatar-group mb-3">
+                                {% for worker in project.workers.all %}
+                                    <a href="" class="avatar-group-item" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ worker.first_name }}">
+                                        <img src="/static/media/{{ worker.extrauserdata.photo.url }}" class="rounded-circle avatar-sm" alt="{{ worker.first_name }}" />
+                                    </a>
+                                {% endfor %}
+                            </div>
+
+{#                            <p class="text-muted font-13 mb-3 sp-line-2">{{ project.total_time }}</p>#}
+{#                            <p class="text-muted font-13 mb-3 sp-line-2">{{ project.date_start }}</p>#}
+{#                            <p class="text-muted font-13 mb-3 sp-line-2">{{ project.date_end }}</p>#}
+
+                        </div>
+                    </div>
+
+                {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+{% endblock %}
