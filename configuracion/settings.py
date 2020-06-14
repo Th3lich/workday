@@ -29,7 +29,9 @@ SECRET_KEY = '_eg)$l@t9%y1uz&1a7e)$)-s*vxlcw430xo@4ndxy&4p(%5092'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'workday.dreamsappscreative.es'
+]
 
 
 # Application definition
