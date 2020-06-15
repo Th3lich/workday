@@ -204,7 +204,7 @@ CKEDITOR_CONFIGS = {
 }
 
 LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/administration/dashboard/'
+LOGIN_REDIRECT_URL = '/administration/timer/'
 
 
 DEFAULT_FROM_EMAIL = 'Workday++ <plataforma@dreamsappscreative.es>'
