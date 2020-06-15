@@ -47,7 +47,7 @@ class Center(models.Model):
     lat = models.DecimalField(max_digits=10, decimal_places=8, null=True, blank=True, verbose_name="Latitud")
     lng = models.DecimalField(max_digits=11, decimal_places=8, null=True, blank=True, verbose_name="Longitud")
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     @property
@@ -143,7 +143,7 @@ class Workday(models.Model):
         verbose_name = 'Jornada'
         verbose_name_plural = 'Jornadas'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.user.username
 
     @property
@@ -190,7 +190,7 @@ class Pause(models.Model):
     lat_end = models.DecimalField(max_digits=10, decimal_places=8, null=True, blank=True, verbose_name="Latitud de finalización")
     lng_end = models.DecimalField(max_digits=11, decimal_places=8, null=True, blank=True, verbose_name="Longitud de finalización")
 
-    def __unicode__(self):
+    def __str__(self):
         return self.workday.user.username
 
     @property

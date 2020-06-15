@@ -1,5 +1,6 @@
 import threading
 
+from django.template.loader import get_template
 from annoying.functions import get_object_or_None
 from django.core.mail import send_mail
 from django.shortcuts import render
@@ -74,13 +75,15 @@ class CreateEmployee(CreateView):
         recipient = 'javilpx2.jl@gmail.com'
 
         if form.is_valid():
-            asunto = "Has sido invitado a la %s en Workday++" %company.name
-            mensaje = "El usuario: " + form['email'].value() + "\n"
+            subject = "Has sido invitado por %s a formar parte de Workday++" %company.name
+            url = "http://127.0.0.1:8000/users/register-employee/" +str(company.pk)
+            template = '<table class="main" width="100%" cellpadding="0" cellspacing="0" itemprop="action" itemscope itemtype="http://schema.org/ConfirmAction" style="font-family: Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; border-radius: 3px; margin: 0; border: none;" > <tr style="font-family: Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"> <td class="content-wrap" style="font-family: Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0;padding: 30px;border: 3px solid #6610f2;border-radius: 7px; background-color: #fff;" valign="top"> <meta itemprop="name" content="Confirm Email" style="font-family: Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"/> <table width="100%" cellpadding="0" cellspacing="0" style="font-family: Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"> <tr style="font-family: Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"> <td class="content-block" style="font-family: Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top"> Te han invitado a unirte a la cuenta de Workday++ de tu equipo. </td> </tr> <tr style="font-family: Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"> <td class="content-block" style="font-family: Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top"> Workday++ es el espacio de trabajo que potenciará tu jornada laboral y te ayudará a administrar el tiempo de tus proyectos. </td> </tr> <tr style="font-family: Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"> <td class="content-block" itemprop="handler" itemscope itemtype="http://schema.org/HttpActionHandler" style="font-family: Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top"> <a href="' +url +'" class="btn-primary" itemprop="url" style="font-family: Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; color: #FFF; text-decoration: none; line-height: 2em; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: capitalize; background-color: #6658dd; margin: 0; border-color: #6658dd; border-style: solid; border-width: 8px 16px;"> Aceptar invitación </a> </td> </tr> </table> </td> </tr> </table>'
+            email_message = "El usuario: " + form['email'].value() + "\n"
             t = threading.Thread(target=send_mail, args=(
-                asunto, mensaje, settings.DEFAULT_FROM_EMAIL, [recipient], False, None, None, None, mensaje))
+                subject, template, settings.DEFAULT_FROM_EMAIL, [recipient], False, None, None, None, template))
             t.start()
             result = "success"
-            message = "Mensaje enviado correctamente"
+            message = "Se ha enviado la invitación correctamente"
 
 
         return render(request, self.template_name, {

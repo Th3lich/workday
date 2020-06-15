@@ -27,7 +27,7 @@ class Tokenregister(models.Model):
     token = models.CharField(max_length=80)
     date = models.DateTimeField(auto_now_add=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return u"%s" % self.user.username
 
 
@@ -42,5 +42,5 @@ class ExtraUserData(models.Model):
 
     date = models.DateTimeField(auto_now_add=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return u"%s" % self.user.username

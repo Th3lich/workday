@@ -30,7 +30,8 @@ SECRET_KEY = '_eg)$l@t9%y1uz&1a7e)$)-s*vxlcw430xo@4ndxy&4p(%5092'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'workday.dreamsappscreative.es'
+    'workday.dreamsappscreative.es',
+    '127.0.0.1'
 ]
 
 
@@ -52,7 +53,8 @@ INSTALLED_APPS = [
     'datetimewidget',
     'bootstrap3_datetime',
     'landing',
-    'administration'
+    'administration',
+    'django_extensions',
 
 ]
 
@@ -137,6 +139,11 @@ CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.j
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
 CKEDITOR_IMAGE_BACKEND = "pillow"
+
+GRAPH_MODELS = {
+  'all_applications': True,
+  'group_models': True,
+}
 
 CKEDITOR_CONFIGS = {
     'default': {

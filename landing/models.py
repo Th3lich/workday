@@ -17,7 +17,7 @@ class HeroSection(models.Model):
 
 class AboutUs(models.Model):
     title = models.CharField(max_length=150, verbose_name="Título")
-    description = models.CharField(max_length=500, null=True, blank=True, verbose_name="Descripción")
+    description = models.TextField(null=True, blank=True, verbose_name="Descripción")
 
     def __str__(self):
         return u"%s" % self.title

@@ -132,6 +132,61 @@ class Register(CreateView):
             return render(request, self.template_name, {'form': form})
 
 
+class RegisterEmployee(CreateView):
+    template_name = 'register.html'
+
+    def get(self, request, *args, **kwargs):
+        registro_form = forms.RegisterUserForm
+
+        return render(request, self.template_name, {'form': registro_form})
+
+    def post(self, request, *args, **kwargs):
+        form = forms.RegisterUserForm(request.POST)
+
+        if form.is_valid():
+
+            nif = form.cleaned_data['nif']
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            re_password = form.cleaned_data['re_password']
+
+            if password == re_password:
+
+                user = User.objects.create(username=nif,
+                                           first_name=first_name,
+                                           last_name=last_name,
+                                           email=email,
+                                           )
+
+                user.set_password(password)
+
+                user.save()
+
+                extra_user_data = ExtraUserData.objects.create(user=user,
+                                                               nif=nif)
+
+                extra_user_data.save()
+
+                company = get_object_or_None(Company, pk=self.kwargs['pk'], owner=request.user.pk)
+
+                employee = Employee.objects.create(user=user,
+                                                   company=company,
+                                                   rol=0)
+
+                employee.save()
+
+                return HttpResponseRedirect(reverse('dashboard_individual'))
+
+            else:
+                return render(request, self.template_name, {'form': form, 'password_error': True})
+
+        else:
+
+            return render(request, self.template_name, {'form': form})
+
+
 @csrf_exempt
 def change_theme(request):
 
