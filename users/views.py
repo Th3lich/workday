@@ -122,7 +122,7 @@ class Register(CreateView):
 
                 employee.save()
 
-                return HttpResponseRedirect(reverse('dashboard_individual'))
+                return HttpResponseRedirect(reverse('login'))
 
             else:
                 return render(request, self.template_name, {'form': form, 'password_error': True})
@@ -177,7 +177,7 @@ class RegisterEmployee(CreateView):
 
                 employee.save()
 
-                return HttpResponseRedirect(reverse('dashboard_individual'))
+                return HttpResponseRedirect(reverse('login'))
 
             else:
                 return render(request, self.template_name, {'form': form, 'password_error': True})
