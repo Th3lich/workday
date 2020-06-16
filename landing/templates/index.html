@@ -83,7 +83,7 @@
                         </div>
                         <div class="col-md-6 col-sm-6 col-lg-5">
                             <div class="img-wrap">
-                                <img src="static/media/{{ hero_section.image.url }}" alt="app image" class="img-fluid">
+                                <img src="{% static 'media/'  %}{{ hero_section.image.url }}" alt="app image" class="img-fluid">
                             </div>
                         </div>
                     </div>
@@ -200,6 +200,56 @@
                 </div>
             </section>
             {# ----- Clients section end ----- #}
+
+            {# ----- Contact ----- #}
+
+            <section id="contact" class="contact-us-section ptb-100">
+                <div class="container">
+                    <div class="row justify-content-around">
+                        <div class="col-12 pb-3 message-box d-none">
+                            <div class="alert alert-danger"></div>
+                        </div>
+                        <div class="col-md-12 col-lg-8 mb-5 mb-md-5 mb-sm-5 mb-lg-0">
+                            <div class="contact-us-form gray-light-bg rounded p-5">
+                                <h4>Formulario de contacto</h4>
+                                <form action="{% url 'index' %}" method="POST" id="contact" class="contact-us-form" novalidate="true">
+                                    {% csrf_token %}
+                                    <div class="form-row">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                {{ form.name }}
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                {{ form.email }}
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                {{ form.subject }}
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                {{ form.message }}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 mt-3">
+                                            <button type="submit" class="btn btn-brand-02 disabled" id="btnContactUs" style="pointer-events: all; cursor: pointer;">
+                                                Enviar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {# ----- Contact end ----- #}
 
         {% endblock %}
 
