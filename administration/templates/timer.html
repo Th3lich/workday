@@ -260,6 +260,15 @@
 
             function sendStart(position) {
 
+                clearInterval(chronometerCall);
+                document.getElementById("chronometer").innerHTML = '00:00:00';
+
+                hours = '00';
+                minutes = '00';
+                seconds = '00';
+
+                chronometerCall = setInterval(chronometer, 1000);
+
                 disabledButtons(true);
 
                 var center_pk = document.getElementById("select-center").value;
@@ -546,15 +555,6 @@
             document.getElementById("btn-start").addEventListener("click", function () {
                 if(locationSupported()) {
                     navigator.geolocation.getCurrentPosition(sendStart);
-
-                    clearInterval(chronometerCall);
-                    document.getElementById("chronometer").innerHTML = '00:00:00';
-
-                    hours = '00';
-                    minutes = '00';
-                    seconds = '00';
-
-                    chronometerCall = setInterval(chronometer, 1000);
                 }
             });
 
