@@ -66,6 +66,7 @@ class Center(models.Model):
 class Project(models.Model):
     name = models.CharField(max_length=50, verbose_name="Nombre")
     workers = models.ManyToManyField(User, verbose_name="Trabajadores")
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, verbose_name="Empresa")
     estimated_time = models.TimeField(blank=True, null=True, verbose_name="Tiempo estimado")
 
     def __str__(self):
@@ -77,6 +78,7 @@ class Project(models.Model):
         total = datetime.timedelta()
         for pt in projecttime:
             total += pt.total_time
+        total = ':'.join(str(total).split(':')[:2])
         return total
 
     @property
@@ -92,7 +94,12 @@ class Project(models.Model):
     def date_end(self):
         try:
             projecttime = self.projecttime_set.all().last()
-            return projecttime.date_end
+
+            if projecttime.date_end is not None:
+                return projecttime.date_end
+            else:
+                return ""
+
         except:
             return None
 

@@ -19,7 +19,7 @@ class Timer(CreateView):
         centers = request.user.center_set.all()
         projects = request.user.project_set.all()
 
-        workdays = Workday.objects.filter(user=request.user).order_by('-pk')[:10]
+        workdays = Workday.objects.filter(user=request.user).order_by('-pk')[:12]
         current_workday = get_object_or_None(Workday, user=request.user, date_start__isnull=False, date_end__isnull=True)
         current_project_time = get_object_or_None(ProjectTime, user=request.user, date_start__isnull=False, date_end__isnull=True)
 
@@ -143,7 +143,7 @@ def end_workday(request):
             current_workday.date_end = current_time
             current_workday.save()
 
-            response_data = {'result': 'ok', 'date_end': date(current_workday.date_end,'Y-m-d H:i') }
+            response_data = {'result': 'ok', 'date_end': date(current_workday.date_end,'Y-m-d H:i'), 'total': current_workday.total_time }
 
         else:
             response_data = {'result': 'error', 'message': 'No hay jornada activa'}

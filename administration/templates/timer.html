@@ -32,7 +32,11 @@
                     <div class="col-12">
                         <div class="page-title-box">
                             <div class="page-title-right">
-                                <h1 id="chronometer">00:00:00</h1>
+                                {% if not current_workday %}
+                                    <h1 id="chronometer">00:00:00</h1>
+                                {% else %}
+                                    <h1 id="chronometer">current_workday.total_time</h1>
+                                {% endif %}
                             </div>
                             <h4 class="page-title"><i class="mdi mdi-account-clock"></i> Control de horario</h4>
                         </div>
@@ -211,14 +215,14 @@
 
             // Chronometer code
 
-            {% if current_workday %}
-
-            {% endif %}
-
             var hours = '00',
-            minutes = '00',
-            seconds = '00',
-            chronometerCall;
+                minutes = '00',
+                seconds = '00',
+                chronometerCall;
+
+
+
+
 
             function chronometer() {
 
@@ -277,8 +281,8 @@
                             var lng_diff = position.coords.longitude - data.lng;
 
                             var temp = "ND";
-                            if (Math.abs(lat_diff) > 0.002 || Math.abs(lng_diff) > 0.002) {
-                                temp = prompt("¿Porqué estas fuera de la oficina?");
+                            if (Math.abs(lat_diff) > 0.1 || Math.abs(lng_diff) > 0.1) {
+                                temp = prompt("¿Porqué estás fuera de tu centro de trabajo?");
                             }
                             if (temp == null) {
                                 disabledButtons(false);
@@ -345,8 +349,8 @@
                             var lng_diff = position.coords.longitude - data.lng;
 
                             var temp = "ND";
-                            if (Math.abs(lat_diff) > 0.002 || Math.abs(lng_diff) > 0.002) {
-                                temp = prompt("¿Porqué estas fuera de la oficina?");
+                            if (Math.abs(lat_diff) > 0.1 || Math.abs(lng_diff) > 0.1) {
+                                temp = prompt("¿Porqué estás fuera de tu centro de trabajo?");
                             }
                             if (temp == null) {
                                 disabledButtons(false);
@@ -406,13 +410,7 @@
                     }else if(data.result == "ok") {
 
                         try {
-                            var lat_diff = position.coords.latitude - data.lat;
-                            var lng_diff = position.coords.longitude - data.lng;
-
-                            var temp = "ND";
-                            if (Math.abs(lat_diff) > 0.002 || Math.abs(lng_diff) > 0.002) {
-                                temp = prompt("¿Para qué es la pausa?");
-                            }
+                            temp = prompt("¿Para qué es la pausa?");
                             if (temp == null) {
                                 disabledButtons(false);
                                 return;
@@ -473,8 +471,8 @@
                             var lng_diff = position.coords.longitude - data.lng;
 
                             var temp = "ND";
-                            if (Math.abs(lat_diff) > 0.002 || Math.abs(lng_diff) > 0.002) {
-                                temp = prompt("¿Para qué es la pausa?");
+                            if (Math.abs(lat_diff) > 0.01 || Math.abs(lng_diff) > 0.01) {
+                                temp = prompt("¿Porqué estás fuera de tu centro de trabajo?");
                             }
                             if (temp == null) {
                                 disabledButtons(false);
@@ -601,7 +599,6 @@
             });
 
             document.getElementById("btn-change-project").addEventListener("click", function() {
-                console.log("hola")
                 sendChangeProject();
             });
 
@@ -633,7 +630,7 @@
 
             function editFirstWorkdayRow(data) {
                 $(".table-timer").children("tbody").children("tr").first().children("td").eq(1).text(data.date_end);
-                $(".table-timer").children("tbody").children("tr").first().children("td").eq(2).text('0:00');
+                $(".table-timer").children("tbody").children("tr").first().children("td").eq(2).text(data.total);
             }
 
 

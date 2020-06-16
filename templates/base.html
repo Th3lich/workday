@@ -121,14 +121,14 @@
                                             <span>Agregar empleado</span>
                                         </a>
 
-                                        <a href="{% url 'project_create' %}" class="dropdown-item notify-item">
+                                        <a href="{% url 'company_projects' user.employee.company.pk %}" class="dropdown-item notify-item">
                                             <i class="mdi mdi-file-tree"></i>
-                                            <span>Agregar Proyecto</span>
+                                            <span>Proyectos empresa</span>
                                         </a>
 
                                         <a href="{% url 'center_create' %}" class="dropdown-item notify-item">
                                             <i class="fas fa-network-wired"></i>
-                                            <span>Agregar Centro de Trabajo</span>
+                                            <span>Añadir Centro</span>
                                         </a>
 
                                         <div class="dropdown-divider"></div>

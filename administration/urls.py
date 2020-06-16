@@ -25,7 +25,10 @@ urlpatterns = [
 
     url(r'^company_settings/(?P<pk>\d+)$', login_required(views_company.CompanySettings.as_view()), name='company_settings'),
     url(r'^employee_create/(?P<pk>\d+)$', login_required(views_company.CreateEmployee.as_view()), name='employee_create'),
+    url(r'^company_projects/(?P<pk>\d+)$', login_required(views_projects.CompanyProjects.as_view()), name='company_projects'),
     url(r'^project_create/$', login_required(views_company.CreateProyect.as_view()), name='project_create'),
+    url(r'^delete_project/(?P<pk>\d+)$', login_required(views_projects.DeleteProject.as_view()), name='delete_project'),
+    url(r'^add_employee_project/<int:user_pk>/<int:project_pk>$', login_required(views_projects.AddEmployeeProject.as_view()), name='add_employee_project'),
     url(r'^center_create/$', login_required(views_company.CreateCenter.as_view()), name='center_create'),
 
     url(r'^documents/$', login_required(views_documents.Documents.as_view()), name='documents')

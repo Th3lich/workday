@@ -26,7 +26,6 @@
                         <div class="card-box project-box">
 
                             <h4 class="mt-0"><a href="" class="text-dark">{{ project.name }}</a></h4>
-                            <div class="badge bg-soft-success text-success mb-3">Finished</div>
 
                             <div class="avatar-group mb-3">
                                 {% for worker in project.workers.all %}
@@ -36,9 +35,14 @@
                                 {% endfor %}
                             </div>
 
-                            <p class="text-muted font-13 mb-3 sp-line-2"><b>Tiempo dedicado: </b>{{ project.total_time }}</p>
-                            <p class="text-muted font-13 mb-3 sp-line-2">{{ project.date_start }}</p>
-                            <p class="text-muted font-13 mb-3 sp-line-2">{{ project.date_end }}</p>
+                            <p class="text-muted font-13 mb-3 sp-line-2">
+                                {% if project.estimated_time %}
+                                    <b>Tiempo estimado: </b>{{ project.estimated_time }} horas
+                                {% endif %}
+                                <b>Tiempo dedicado: </b>{{ project.total_time }} horas
+                            </p>
+                            <p class="text-muted font-13 mb-3 sp-line-2"><b>Fecha de inicio: </b>{{ project.date_start|date:'Y-m-d H:i' }}</p>
+                            <p class="text-muted font-13 mb-3 sp-line-2"><b>Última vez: </b>{{ project.date_end|date:'Y-m-d H:i' }}</p>
 
                         </div>
                     </div>
@@ -52,6 +56,5 @@
         </div>
 
     </div>
-
 
 {% endblock %}

@@ -111,6 +111,7 @@ class CreateProyect(CreateView):
         if form.is_valid():
             project = Project.objects.create(name=form.cleaned_data['name'],
                                              estimated_time=form.cleaned_data['estimated_time'],
+                                             company=request.user.company
                                              )
             project.workers.add(request.user)
             project.save()

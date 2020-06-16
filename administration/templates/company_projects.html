@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}- Proyectos{% endblock %}
+
+{% block content %}
+
+    <div class="content-page">
+        <div class="content">
+
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <h4 class="page-title"><i class="mdi mdi-file-tree"></i> Proyectos de {{ request.user.company.name }}</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row mb-2">
+                                    <div class="col-sm-12">
+                                        <div class="text-sm-right">
+                                            <a href="{% url 'project_create' %}" class="btn btn-success waves-effect waves-light mb-2" data-animation="fadein"><i class="mdi mdi-plus-circle mr-1"></i> Crear proyecto</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table class="table table-centered table-hover mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 200px;">Nombre</th>
+                                                <th style="width: 200px;">Tiempo Estimado</th>
+                                                <th>Trabajadores</th>
+                                                <th style="width: 75px;">Acción</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            {% if projects|length == 0 %}
+
+                                                <tr><td class="table-empty" colspan="11">No se han encontrado registros.</td></tr>
+
+                                            {% else %}
+
+                                                {% for project in projects %}
+                                                    <tr>
+                                                        <td>
+                                                            {{ project.name }}
+                                                        </td>
+                                                        <td>
+                                                            {{ project.estimated_time }}
+                                                        </td>
+                                                        <td>
+                                                            {% for worker in project.workers.all %}
+                                                                <a href="" class="avatar-group-item" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ worker.first_name }}">
+                                                                    <img src="/static/media/{{ worker.extrauserdata.photo.url }}" class="rounded-circle avatar-sm" alt="{{ worker.first_name }}" />
+                                                                </a>
+                                                            {% endfor %}
+{#                                                            <a class="action-icon add-worker"> <i class="mdi mdi-account-plus"></i></a>#}
+{#                                                            <input type="hidden" value="{{ project.pk }}">#}
+                                                        </td>
+                                                        <td>
+                                                            <a href="{% url 'delete_project' project.pk %}" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+
+                                            {% endif %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% include "modal_choose_employee.html" with workers=company.total_workers default_param=default_param %}
+
+
+{% endblock %}
+
+{% block extra_js %}
+
+    <script>
+
+        var project_pk = -1;
+
+        $(".add-worker").on("click", function () {
+            document.getElementById("modal-choose-employee").style.display = "block";
+            project_pk = $(this).parent().children("input").eq(0).val();
+        });
+
+        $(".close-modal").on("click", function() {
+            document.getElementById("modal-choose-employee").style.display = "none";
+        });
+
+        document.getElementById("btn-add-worker").addEventListener("click", function (event) {
+            event.preventDefault();
+            window.location.replace($(this).attr("href") +"add_employee_project/" +document.getElementById("select-worker").value +"/" +project_pk);
+        });
+
+    </script>
+
+{% endblock %}
