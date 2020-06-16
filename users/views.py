@@ -133,7 +133,7 @@ class Register(CreateView):
 
 
 class RegisterEmployee(CreateView):
-    template_name = 'register.html'
+    template_name = 'register_employee.html'
 
     def get(self, request, *args, **kwargs):
         registro_form = forms.RegisterUserForm
