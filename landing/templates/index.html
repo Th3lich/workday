@@ -64,7 +64,7 @@
         {% endblock %}
         {# ----- Navigation end ----- #}
 
-        {% block content %}
+
             {# ----- Hero section ----- #}
             <section class="ptb-100 bg-image overflow-hidden" image-overlay="10">
                 <div class="hero-bottom-shape-two" style="background: url( {% static 'landing/assets/img/hero-bottom-shape-2.svg' %})no-repeat bottom center"></div>
@@ -91,6 +91,8 @@
             </section>
             {# ----- Hero section end ----- #}
 
+            {% block content %}
+
             {# ----- About Us section end ----- #}
             <div id="about" class="ptb-100">
                 <div class="container">
@@ -102,7 +104,7 @@
                             </div>
                         </div>
                         {% for service in services %}
-                            <div class="col-md-6 col-lg-4">
+                            <div id="services" class="col-md-6 col-lg-4">
                                 <div class="card border-0 single-promo-card single-service single-promo-hover p-2 mt-4 shadow">
                                     <div class="card-body">
                                         <div class="pb-2 text-center">

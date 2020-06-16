@@ -10,3 +10,11 @@ class Home(CreateView):
     def get(self, request, *args, **kwargs):
 
         return render(request, self.template_name, {})
+
+
+class PrivacyPolicy(CreateView):
+    template_name = 'privacy-policy.html'
+
+    def get(self, request, *args, **kwargs):
+
+        return render(request, self.template_name, {})
