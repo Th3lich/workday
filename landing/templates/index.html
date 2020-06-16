@@ -42,7 +42,7 @@
             <header class="header">
                 <nav class="navbar navbar-expand-lg fixed-top bg-transparent affix">
                     <div class="container">
-                        <a class="navbar-brand" href="index.html">
+                        <a class="navbar-brand" href="{% url 'index' %}">
                             <img class="logo-nav" src="{% static 'web/assets/extra-images/logo-light.png' %}" alt="logo" class="img-fluid">
                         </a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -267,7 +267,7 @@
                         <div class="col-md-6 col-lg-5">
                             <div class="terms-policy-wrap text-lg-right text-md-right text-left">
                                 <ul class="list-inline">
-                                    <li class="list-inline-item"><a class="small-text" href="#">Política de privacidad</a></li>
+                                    <li class="list-inline-item"><a class="small-text" href="{% url 'privacy_policy' %}">Política de privacidad</a></li>
                                 </ul>
                             </div>
                         </div>
