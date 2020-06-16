@@ -41,7 +41,7 @@ class Employee(models.Model):
 
 class Center(models.Model):
     name = models.CharField(max_length=50, verbose_name="Nombre")
-    address = models.CharField(max_length=80, verbose_name="Dirección")
+    address = models.CharField(max_length=80, verbose_name="Dirección", null=True, blank=True)
     workers = models.ManyToManyField(User, verbose_name="Trabajadores")
     company = models.ForeignKey(Company, on_delete=models.CASCADE, verbose_name="Empresa")
     lat = models.DecimalField(max_digits=10, decimal_places=8, null=True, blank=True, verbose_name="Latitud")
@@ -160,8 +160,6 @@ class Workday(models.Model):
         if self.date_end:
             time = self.date_end - self.date_start
         else:
-            print ( timezone.now())
-            print(self.date_start)
             time = timezone.now() - self.date_start
 
         pauses = self.get_pauses
@@ -170,9 +168,7 @@ class Workday(models.Model):
                 result = pause.date_end - pause.date_start
             else:
                 result = 0
-                print(datetime.datetime.now())
-                print(self.date_start)
-                result = datetime.datetime.now() - pause.date_start
+                result = timezone.now() - pause.date_start
             time = time - result
 
         time = ':'.join(str(time).split(':')[:2])

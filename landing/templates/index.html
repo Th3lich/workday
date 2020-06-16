@@ -1,5 +1,6 @@
 {% load static %}
 {% load tags_landing %}
+{% load django_simple_cookie_consent_tags %}
 
 {% get_hero_section as hero_section %}
 {% get_about_us as about_us %}
@@ -24,6 +25,10 @@
         <link href="{% static 'web/assets/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
         <link href="{% static 'web/assets/css/icons.min.css' %}" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="{% static 'landing/assets/css/styles.css' %}">
+
+        <link rel="stylesheet" href="{% static 'django_simple_cookie_consent' %}css/cookieconsent.min.css">
+        <script src="{% static 'django_simple_cookie_consent' %}cookieconsent.js"></script>
+        {% display_cookie_consent %}
 
         {% block extra_css %}
         {% endblock %}

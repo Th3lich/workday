@@ -18,10 +18,18 @@ class AddEmployeeForm(forms.Form):
                              required=True)
 
 
+class CreateProjectForm(forms.Form):
+    name = forms.CharField(max_length=50,
+                           widget=forms.TextInput(attrs={'placeholder': 'Nombre', 'class': 'form-control'}),
+                           required=True)
+    estimated_time = forms.TimeField(widget=forms.TimeInput(format='%H:%M', attrs={'placeholder': '00:00', 'class': 'form-control'}), required=False)
+
+
 class CreateCenterForm(forms.Form):
     name = forms.CharField(max_length=50,
                            widget=forms.TextInput(attrs={'placeholder': 'Nombre', 'class': 'form-control'}),
                            required=True)
-    addresss = forms.CharField(max_length=80,
-                           widget=forms.TextInput(attrs={'placeholder': 'Dirección', 'class': 'form-control'}),
-                           required=True)
+    lat = forms.DecimalField(max_digits=10, widget=forms.TextInput(attrs={'placeholder': 'Latitud', 'class': 'form-control'}), required=True)
+    lng = forms.DecimalField(max_digits=11,
+                             widget=forms.TextInput(attrs={'placeholder': 'Longitud', 'class': 'form-control'}),
+                             required=True)

@@ -21,12 +21,12 @@ class Timer(CreateView):
 
         workdays = Workday.objects.filter(user=request.user).order_by('-pk')[:10]
         current_workday = get_object_or_None(Workday, user=request.user, date_start__isnull=False, date_end__isnull=True)
-        current_project = get_object_or_None(ProjectTime, user=request.user, date_start__isnull=False, date_end__isnull=True)
+        current_project_time = get_object_or_None(ProjectTime, user=request.user, date_start__isnull=False, date_end__isnull=True)
 
 
         return render(request, self.template_name, {
             'centers': centers,
-            'current_project': current_project,
+            'current_project_time': current_project_time,
             'projects': projects,
             'workdays': workdays,
             'current_workday': current_workday,
@@ -113,7 +113,7 @@ def end_workday(request):
         lng = request.POST['lng']
         comment = request.POST['comment']
 
-        current_time = datetime.datetime.now()
+        current_time = timezone.now()
         current_workday = get_object_or_None(Workday, center__pk=int(center_pk),
                                              user=request.user, date_start__isnull=False, date_end__isnull=True)
         project_time = get_object_or_None(ProjectTime, user=request.user,
@@ -176,7 +176,7 @@ def pause_workday(request):
             if pause is None:
 
                 if project_time is not None:
-                    project_time.date_end = datetime.datetime.now()
+                    project_time.date_end = timezone.now()
                     project_time.save()
 
                 pause = Pause.objects.create(workday=current_workday,
@@ -221,7 +221,7 @@ def resume_workday(request):
                 pause.lat_end = lat
                 pause.lng_end = lng
                 pause.comment_end = comment
-                pause.date_end = datetime.datetime.now()
+                pause.date_end = timezone.now()
                 pause.save()
 
                 current_workday.paused = False
@@ -246,11 +246,25 @@ def resume_workday(request):
 
 
 @csrf_exempt
-def change_workday(request):
+def change_project(request):
 
     try:
+        project_pk = request.POST['project_pk']
+
+        project_time = get_object_or_None(ProjectTime, user=request.user,
+                                          date_start__isnull=False, date_end__isnull=True)
+
+        if project_time is not None:
+            project_time.date_end = timezone.now()
+            project_time.save()
+
+        if int(project_pk) != -1:
+            project_time = ProjectTime.objects.create(user=request.user,
+                                                      project=Project.objects.get(pk=project_pk))
 
         response_data = {'result': 'ok'}
+
+
 
     except Exception as e:
         # print(e)

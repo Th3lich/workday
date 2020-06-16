@@ -19,7 +19,7 @@ urlpatterns = [
     url(r'^end_workday/$', login_required(views_timer.end_workday), name='end_workday'),
     url(r'^pause_workday/$', login_required(views_timer.pause_workday), name='pause_workday'),
     url(r'^resume_workday/$', login_required(views_timer.resume_workday), name='resume_workday'),
-    url(r'^change_workday/$', login_required(views_timer.change_workday), name='change_workday'),
+    url(r'^change_project/$', login_required(views_timer.change_project), name='change_project'),
 
     url(r'^projects/$', login_required(views_projects.Projects.as_view()), name='projects'),
 

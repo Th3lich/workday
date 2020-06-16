@@ -8,7 +8,7 @@ from django.views.generic import CreateView
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from administration import forms
-from administration.models import Company
+from administration.models import Company, Project, Center
 from configuracion import settings
 
 
@@ -95,18 +95,64 @@ class CreateEmployee(CreateView):
 
 
 class CreateProyect(CreateView):
-    template_name = 'company_settings.html'
+    template_name = 'create_project.html'
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, {
+        form = forms.CreateProjectForm()
 
+        return render(request, self.template_name, {
+            'form': form,
+        })
+
+    def post(self, request, *args, **kwargs):
+        result = "error"
+        message = "Ha habido un fallo, vuelve a intentarlo"
+        form = forms.CreateProjectForm(request.POST)
+        if form.is_valid():
+            project = Project.objects.create(name=form.cleaned_data['name'],
+                                             estimated_time=form.cleaned_data['estimated_time'],
+                                             )
+            project.workers.add(request.user)
+            project.save()
+            result = "success"
+
+
+        return render(request, self.template_name, {
+            'form': form,
+            'result': result,
+            'message': message
         })
 
 
+
 class CreateCenter(CreateView):
-    template_name = 'company_settings.html'
+    template_name = 'create_center.html'
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, {
+        form = forms.CreateCenterForm()
 
+        return render(request, self.template_name, {
+            'form': form,
+        })
+
+    def post(self, request, *args, **kwargs):
+        result = "error"
+        message = "Ha habido un fallo, vuelve a intentarlo"
+        form = forms.CreateCenterForm(request.POST)
+        if form.is_valid():
+            center = Center.objects.create(name=form.cleaned_data['name'],
+                                           lat=form.cleaned_data['lat'],
+                                           lng=form.cleaned_data['lng'],
+                                           company=request.user.company
+                                             )
+            center.workers.add(request.user)
+            center.save()
+            result = "success"
+            message = "Se ha creado un centro exitosamente"
+
+
+        return render(request, self.template_name, {
+            'form': form,
+            'result': result,
+            'message': message
         })

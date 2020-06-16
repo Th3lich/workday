@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'landing',
     'administration',
     'django_extensions',
+    'django_simple_cookie_consent'
 
 ]
 

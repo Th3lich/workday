@@ -63,10 +63,10 @@
                                             </select>
                                         {% endif %}
                                     </div>
-                                    <div>
+                                    <div id="projects-container">
                                         <label for="select-project">Proyecto</label>
 
-                                        {% if not current_project %}
+                                        {% if not current_project_time %}
                                             <select id="select-project" class="form-control" data-toggle="select2">
                                                 <option value="-1">----------</option>
                                                 {% for project in projects %}
@@ -75,9 +75,9 @@
                                             </select>
                                         {% else %}
                                             <select id="select-project" class="form-control" data-toggle="select2" disabled>
-                                                <option value="{{ project.pk }}">{{ project.name }}</option>
+                                                <option value="{{ current_project_time.project.pk }}">{{ current_project_time.project.name }}</option>
                                                 {% for project in projects %}
-                                                    {% if current_project.project.pk != project.pk %}
+                                                    {% if current_project_time.project.pk != project.pk %}
                                                         <option value="{{ project.pk }}">{{ project.name }}</option>
                                                     {% endif %}
                                                 {% endfor %}
@@ -183,6 +183,8 @@
 
         </div>
     </div>
+
+    {% include "modal_change_project.html" with projects=projects %}
 
 {% endblock %}
 
@@ -518,8 +520,28 @@
                 });
             }
 
-            function sendChange(position) {
+            function sendChangeProject() {
+                disabledButtons(true);
+                console.log("hola2")
+                var project_pk = document.getElementById("select-project-2").value;
 
+                var params = {
+                    "csrfmiddlewaretoken": "{{ csrf_token }}",
+                    "project_pk": project_pk,
+                };
+
+                $.post("{% url 'change_project' %}", params, function (data, status) {
+                    if (data.result == "error") {
+                        alert(data.message);
+                    }else if(data.result == "ok") {
+                        document.getElementById("projects-container").innerHTML = '<label for="select-center">Centro de Trabajo</label>' + document.getElementById("projects-change").innerHTML;
+                        $("#projects-container #select-project-2").attr("id", "select-project");
+                        document.getElementById("select-project").disabled = true;
+                    }
+
+                    document.getElementById("modal-change-project").style.display = "none";
+                    disabledButtons(false);
+                });
             }
 
 
@@ -571,9 +593,16 @@
             });
 
             document.getElementById("btn-change").addEventListener("click", function () {
-                if(locationSupported()) {
-                    navigator.geolocation.getCurrentPosition(sendChange);
-                }
+                document.getElementById("modal-change-project").style.display = "block";
+            });
+
+            $(".close-modal").on("click", function() {
+                document.getElementById("modal-change-project").style.display = "none";
+            });
+
+            document.getElementById("btn-change-project").addEventListener("click", function() {
+                console.log("hola")
+                sendChangeProject();
             });
 
 
