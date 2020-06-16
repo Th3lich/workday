@@ -221,9 +221,6 @@
                 chronometerCall;
 
 
-
-
-
             function chronometer() {
 
                 seconds++;
@@ -371,7 +368,7 @@
 
                         $.post("{% url 'end_workday' %}", params, function (data, status) {
                             if (data.result == "error") {
-                                console.log(data)
+                                console.log(data);
                                 alert(data.message);
                             }else if(data.result == "ok") {
 

@@ -116,6 +116,7 @@ class CreateProyect(CreateView):
             project.workers.add(request.user)
             project.save()
             result = "success"
+            message = "El proyecto se ha creado correctamente"
 
 
         return render(request, self.template_name, {
